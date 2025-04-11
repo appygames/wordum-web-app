@@ -1,0 +1,51 @@
+.popup-title {
+  color: black;
+}
+.left-icons {
+  display: flex;
+  gap: 10px;
+}
+.selected-level {
+  background-color: rgb(73, 251, 73) !important;
+}
+
+.popup-content h2 {
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.popup-content button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.popup-content button:not(.start-button) {
+  background-color: #004d66;
+  color: white;
+}
+
+.start-button {
+  background-color: #b3aaaa;
+  color: white;
+}
+
+.start-button:hover {
+  background-color: #a89f9f;
+}
+
+.start-button:disabled {
+  background-color: #726d6d;
+}
+
+@media screen and (min-width: 768px) {
+  .mobile-nav {
+    display: none;
+  }
+}
