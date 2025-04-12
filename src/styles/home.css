@@ -1,0 +1,49 @@
+@import "/styles/globals.css";
+
+
+.home {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  text-align: center;
+  background-color:#7DF9FF;
+} 
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 9rem;
+}
+
+.menu-buttons a {
+  text-decoration: none;
+}
+
+.menu-buttons button {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background:#004C6B;
+  color: white;
+  cursor: pointer;
+  /* transition: all 0.3s ease-in-out; */
+  font-weight: bold;
+}
+
+.menu-buttons button:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+}
+
+.menu-buttons button:active {
+  transform: scale(0.98);
+}  
+
