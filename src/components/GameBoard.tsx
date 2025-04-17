@@ -15,23 +15,20 @@ import {
   setSelectedLetter,
   placeLetterInGrid,
 } from "@/features/game/gameSlice";
-
+import { evaluateGuess } from "@/features/feedback/feedbackSlice";
 
 export default function GameBoard() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const level = searchParams.get("level");
   const Keyboard = [
-    ["A", "W", "G", "R", "R", "S", "V"],
-    ["D", "L", "B", "N", "D", "G", "I"],
-    ["S", "F", "A", "F", "V", "S"],
+    ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+    ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
+    ["Z", "X", "C", "V", "B", "N", "M"],
   ];
 
   const dispatch = useDispatch();
   const grid = useSelector((state: RootState) => state.game.grid);
-  const selectedLetter = useSelector(
-    (state: RootState) => state.game.selectedLetter
-  );
   const feedback = useSelector((state: RootState) => state.feedback.feedback);
 
   useEffect(() => {
@@ -39,31 +36,30 @@ export default function GameBoard() {
       router.push("/game");
     }
   }, [level, router]);
-
- 
   const [showModal, setShowModal] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-  const [selectedKeyPosition, setSelectedKeyPosition] = useState<{ row: number; col: number } | null>(null);
-
+  const [selectedKeyPosition, setSelectedKeyPosition] = useState<{
+    row: number;
+    col: number;
+  } | null>(null);
 
   const handleKeyClick = (char: string, row: number, col: number) => {
     dispatch(setSelectedLetter(char));
     setSelectedKeyPosition({ row, col });
   };
-  
 
   const handleCircleClick = (row: number, col: number) => {
     dispatch(placeLetterInGrid({ row, col }));
   };
 
-  // useEffect(() => {
-  //   // Automatically evaluate rows that are fully filled
-  //   grid.forEach((row, rowIndex) => {
-  //     if (row.every((cell) => cell !== "") && !feedback[rowIndex]) {
-  //       dispatch(evaluateGuess(row.join("")));
-  //     }
-  //   });
-  // }, [grid, feedback, dispatch]);
+  useEffect(() => {
+    // Automatically evaluate rows that are fully filled
+    grid.forEach((row, rowIndex) => {
+      if (row.every((cell) => cell !== "") && !feedback[rowIndex]) {
+        dispatch(evaluateGuess(row.join("")));
+      }
+    });
+  }, [grid, feedback, dispatch]);
 
   return (
     <div className="gameboard-container">

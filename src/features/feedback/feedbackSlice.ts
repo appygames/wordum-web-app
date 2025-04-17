@@ -8,7 +8,7 @@ interface FeedbackState {
 }
 
 const initialState: FeedbackState = {
-  targetWord: "",
+  targetWord: "APPLE",
   feedback: [],
 };
 
@@ -24,7 +24,6 @@ const feedbackSlice = createSlice({
       const guess = action.payload.toUpperCase().split("");
       const target = state.targetWord.split("");
       const feedbackRow: LetterFeedback[] = Array(guess.length).fill("gray");
-
       const usedIndices = new Set<number>();
 
       // First pass - check green (correct letter, correct position)
@@ -56,5 +55,6 @@ const feedbackSlice = createSlice({
   },
 });
 
-export const { setTargetWord, evaluateGuess, resetFeedback } = feedbackSlice.actions;
+export const { setTargetWord, evaluateGuess, resetFeedback } =
+  feedbackSlice.actions;
 export default feedbackSlice.reducer;
