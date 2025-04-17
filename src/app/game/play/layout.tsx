@@ -8,9 +8,7 @@ export default function RootLayout({
 
   return (
   <>
-       
         <main className="main-content">{children}</main>
-      
   </> 
   );
 }
