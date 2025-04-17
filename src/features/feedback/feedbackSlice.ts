@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type LetterFeedback = "green" | "yellow" | "gray";
+export type LetterFeedback = "green" | "yellow" | "red";
 
 interface FeedbackState {
-  targetWord: string;
-  feedback: LetterFeedback[][];
+  targetWords: string[]; // updated from targetWord to targetWords
+  feedback: LetterFeedback[][]; // 2D feedback array (row -> feedback per letter)
 }
 
 const initialState: FeedbackState = {
-  targetWord: "APPLE",
+  targetWords: ["APPLE", "GRAPE", "MANGO", "BERRY"], // or empty initially
   feedback: [],
 };
 
@@ -16,30 +16,37 @@ const feedbackSlice = createSlice({
   name: "feedback",
   initialState,
   reducers: {
-    setTargetWord: (state, action: PayloadAction<string>) => {
-      state.targetWord = action.payload.toUpperCase();
-      state.feedback = []; // Reset feedback when new word is set
+    setTargetWords: (state, action: PayloadAction<string[]>) => {
+      state.targetWords = action.payload.map((word) => word.toUpperCase());
+      state.feedback = [];
     },
-    evaluateGuess: (state, action: PayloadAction<string>) => {
-      const guess = action.payload.toUpperCase().split("");
-      const target = state.targetWord.split("");
-      const feedbackRow: LetterFeedback[] = Array(guess.length).fill("gray");
+
+    evaluateGuess: (
+      state,
+      action: PayloadAction<{ guess: string; rowIndex: number }>
+    ) => {
+      const { guess, rowIndex } = action.payload;
+      const upperGuess = guess.toUpperCase().split("");
+      const target = state.targetWords[rowIndex]?.split("") ?? [];
+      const feedbackRow: LetterFeedback[] = Array(upperGuess.length).fill(
+        "red"
+      );
       const usedIndices = new Set<number>();
 
-      // First pass - check green (correct letter, correct position)
-      for (let i = 0; i < guess.length; i++) {
-        if (guess[i] === target[i]) {
+      // First pass: green
+      for (let i = 0; i < upperGuess.length; i++) {
+        if (upperGuess[i] === target[i]) {
           feedbackRow[i] = "green";
           usedIndices.add(i);
         }
       }
 
-      // Second pass - check yellow (correct letter, wrong position)
-      for (let i = 0; i < guess.length; i++) {
+      // Second pass: yellow
+      for (let i = 0; i < upperGuess.length; i++) {
         if (feedbackRow[i] === "green") continue;
 
         for (let j = 0; j < target.length; j++) {
-          if (!usedIndices.has(j) && guess[i] === target[j]) {
+          if (!usedIndices.has(j) && upperGuess[i] === target[j]) {
             feedbackRow[i] = "yellow";
             usedIndices.add(j);
             break;
@@ -47,14 +54,15 @@ const feedbackSlice = createSlice({
         }
       }
 
-      state.feedback.push(feedbackRow);
+      state.feedback[rowIndex] = feedbackRow;
     },
+
     resetFeedback: (state) => {
       state.feedback = [];
     },
   },
 });
 
-export const { setTargetWord, evaluateGuess, resetFeedback } =
+export const { setTargetWords, evaluateGuess, resetFeedback } =
   feedbackSlice.actions;
 export default feedbackSlice.reducer;

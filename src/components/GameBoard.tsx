@@ -56,7 +56,7 @@ export default function GameBoard() {
     // Automatically evaluate rows that are fully filled
     grid.forEach((row, rowIndex) => {
       if (row.every((cell) => cell !== "") && !feedback[rowIndex]) {
-        dispatch(evaluateGuess(row.join("")));
+        dispatch(evaluateGuess({ guess: row.join(""), rowIndex }));
       }
     });
   }, [grid, feedback, dispatch]);
@@ -108,7 +108,7 @@ export default function GameBoard() {
                 const feedbackColor = feedback[rowIndex]?.[colIndex] as
                   | "green"
                   | "yellow"
-                  | "gray"
+                  | "red"
                   | undefined;
                 return (
                   <div
