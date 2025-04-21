@@ -14,6 +14,7 @@ import { RootState } from "../store";
 import {
   setSelectedLetter,
   placeLetterInGrid,
+  setDifficulty,
 } from "@/features/game/gameSlice";
 import { evaluateGuess } from "@/features/feedback/feedbackSlice";
 
@@ -35,7 +36,8 @@ export default function GameBoard() {
     if (!level) {
       router.push("/game");
     }
-  }, [level, router]);
+    dispatch(setDifficulty(level));
+  }, [level, router, dispatch]);
   const [showModal, setShowModal] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [selectedKeyPosition, setSelectedKeyPosition] = useState<{
