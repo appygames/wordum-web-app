@@ -1,9 +1,13 @@
-import Link from "next/link";
 import { FaHome, FaRedo } from "react-icons/fa";
 import "../styles/common.css";
 import { RxCross1 } from "react-icons/rx";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { resetFeedback } from "@/features/feedback/feedbackSlice";
 
 const GameWon = ({ onClose }: { onClose: () => void }) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   return (
     <div className="popup-overlay">
       <div className="popup-content">
@@ -19,12 +23,24 @@ const GameWon = ({ onClose }: { onClose: () => void }) => {
           </div>
           <div className="empty-div"></div>
           <div className="button-row">
-            <Link href="/game" className="icons-link">
+            <div
+              onClick={() => {
+                dispatch(resetFeedback());
+                router.push("/game");
+              }}
+              className="icons-link"
+            >
               <FaRedo className="icon" />
-            </Link>
-            <Link href="/" className="icons-link">
+            </div>
+            <div
+              onClick={() => {
+                dispatch(resetFeedback());
+                router.push("/");
+              }}
+              className="icons-link"
+            >
               <FaHome className="icon" />
-            </Link>
+            </div>
           </div>
         </div>
       </div>
