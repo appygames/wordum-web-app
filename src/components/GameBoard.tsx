@@ -15,9 +15,11 @@ import {
   setSelectedLetter,
   placeLetterInGrid,
   setDifficulty,
+  Difficulty,
 } from "@/features/game/gameSlice";
 import {
   evaluateGuess,
+  resetFeedback,
   setTargetWords,
 } from "@/features/feedback/feedbackSlice";
 import { targetWords } from "@/utils/utils";
@@ -35,17 +37,19 @@ export default function GameBoard() {
 
   const dispatch = useDispatch();
   const grid = useSelector((state: RootState) => state.game.grid);
+  const gameStatus = useSelector(
+    (state: RootState) => state.feedback.gameStatus
+  );
   const feedback = useSelector((state: RootState) => state.feedback.feedback);
 
   useEffect(() => {
     if (!level) {
       router.push("/game");
     }
-    dispatch(setDifficulty(level));
-    dispatch(setTargetWords(targetWords[level]));
+    dispatch(setDifficulty(level as Difficulty));
+    dispatch(setTargetWords(targetWords[level as Difficulty]));
   }, [level, router, dispatch]);
   const [showModal, setShowModal] = useState(false);
-  const [gameOver, setGameOver] = useState(false);
   const [selectedKeyPosition, setSelectedKeyPosition] = useState<{
     row: number;
     col: number;
@@ -136,7 +140,7 @@ export default function GameBoard() {
         <div className="keyboard">
           {Keyboard.map((row, rowIndex) => (
             <div className="key-row" key={rowIndex}>
-              {row.map((char, colIndex) => (
+              {row?.map((char, colIndex) => (
                 <button
                   className={`key ${
                     selectedKeyPosition?.row === rowIndex &&
@@ -156,8 +160,12 @@ export default function GameBoard() {
       </div>
 
       {showModal && <Resume onClose={() => setShowModal(false)} />}
-      {gameOver && <GameOver onClose={() => setGameOver(false)} />}
-      {gameOver && <GameWon onClose={() => setGameOver(false)} />}
+      {gameStatus === "lost" && (
+        <GameOver onClose={() => dispatch(resetFeedback())} />
+      )}
+      {gameStatus === "won" && (
+        <GameWon onClose={() => dispatch(resetFeedback())} />
+      )}
     </div>
   );
 }

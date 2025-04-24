@@ -1,14 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type LetterFeedback = "green" | "yellow" | "red";
-
+export type GameStatus = "playing" | "won" | "lost";
 interface FeedbackState {
   targetWords: string[];
+  gameStatus: GameStatus;
+  correctGuesses: number;
   feedback: LetterFeedback[][];
 }
 
 const initialState: FeedbackState = {
   targetWords: [],
+  gameStatus: "playing",
+  correctGuesses: 0,
   feedback: [],
 };
 
@@ -55,10 +59,25 @@ const feedbackSlice = createSlice({
       }
 
       state.feedback[rowIndex] = feedbackRow;
+      // ✅ Check if current guess is correct
+      const isCorrect = feedbackRow.every((f) => f === "green");
+
+      if (isCorrect) {
+        // User got the word right
+        state.correctGuesses = (state.correctGuesses || 0) + 1;
+      }
+
+      // ✅ Win condition: all words guessed correctly
+      if ((state.correctGuesses || 0) === state.targetWords.length) {
+        state.gameStatus = "won";
+        return;
+      }
     },
 
     resetFeedback: (state) => {
       state.feedback = [];
+      state.gameStatus = "playing";
+      state.correctGuesses = 0;
     },
   },
 });

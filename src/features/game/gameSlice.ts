@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type Difficulty = "easy" | "medium" | "hard" | "expert";
+export type Difficulty = "easy" | "medium" | "hard" | "expert";
 
 interface GameState {
   grid: string[][];
