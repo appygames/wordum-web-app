@@ -16,16 +16,21 @@ import {
   placeLetterInGrid,
   setDifficulty,
 } from "@/features/game/gameSlice";
-import { evaluateGuess } from "@/features/feedback/feedbackSlice";
+import {
+  evaluateGuess,
+  setTargetWords,
+} from "@/features/feedback/feedbackSlice";
+import { targetWords } from "@/utils/utils";
 
 export default function GameBoard() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const level = searchParams.get("level");
   const Keyboard = [
-    ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
-    ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-    ["Z", "X", "C", "V", "B", "N", "M"],
+    ["A", "W", "G", "R", "R", "S", "V"],
+    ["D", "L", "B", "N", "D", "G", "I"],
+    ["S", "F", "A", "F", "V", "S"],
+    ,
   ];
 
   const dispatch = useDispatch();
@@ -37,6 +42,7 @@ export default function GameBoard() {
       router.push("/game");
     }
     dispatch(setDifficulty(level));
+    dispatch(setTargetWords(targetWords[level]));
   }, [level, router, dispatch]);
   const [showModal, setShowModal] = useState(false);
   const [gameOver, setGameOver] = useState(false);

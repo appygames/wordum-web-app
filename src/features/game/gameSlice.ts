@@ -11,7 +11,7 @@ interface GameState {
 
 const getInitialGrid = (difficulty: Difficulty): string[][] => {
   const size = difficulty === "easy" || difficulty === "medium" ? 4 : 5;
-  return Array.from({ length: size }, () => Array(size).fill(""));
+  return Array.from({ length: 4 }, () => Array(size).fill(""));
 };
 
 const initialState: GameState = {
@@ -31,11 +31,10 @@ const gameSlice = createSlice({
       state.selectedLetter = null;
       state.revealedWords = [];
 
-      // Reveal logic
       if (action.payload === "easy") {
-        state.revealedWords = ["ALL"]; // pseudo indicator for full reveal
+        state.revealedWords = ["ALL"];
       } else if (action.payload === "hard") {
-        state.revealedWords = ["WORD1"]; // reveal one word
+        state.revealedWords = ["WORD1"];
       }
     },
     setSelectedLetter: (state, action: PayloadAction<string>) => {

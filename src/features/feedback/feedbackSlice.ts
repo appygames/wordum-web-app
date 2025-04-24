@@ -3,12 +3,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export type LetterFeedback = "green" | "yellow" | "red";
 
 interface FeedbackState {
-  targetWords: string[]; // updated from targetWord to targetWords
-  feedback: LetterFeedback[][]; // 2D feedback array (row -> feedback per letter)
+  targetWords: string[];
+  feedback: LetterFeedback[][];
 }
 
 const initialState: FeedbackState = {
-  targetWords: ["APPLE", "GRAPE", "MANGO", "BERRY"], // or empty initially
+  targetWords: [],
   feedback: [],
 };
 
