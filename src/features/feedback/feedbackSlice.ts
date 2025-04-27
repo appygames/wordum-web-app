@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type LetterFeedback = "green" | "yellow" | "red";
+export type LetterFeedback = "green" | "yellow" | "red" | "";
 export type GameStatus = "playing" | "won" | "lost";
 interface FeedbackState {
   targetWords: string[];
@@ -24,7 +24,7 @@ const feedbackSlice = createSlice({
   reducers: {
     setTargetWords: (state, action: PayloadAction<string[]>) => {
       state.targetWords = action.payload.map((word) => word.toUpperCase());
-      state.feedback = [];
+      state.feedback = Array(action.payload.length).fill([]);
 
       const allChars = action.payload.flatMap((word) => word.split(""));
 
@@ -84,6 +84,20 @@ const feedbackSlice = createSlice({
         return;
       }
     },
+    evaluateLetter: (state, action) => {
+      const { letter, rowIndex, colIndex } = action.payload;
+
+      const correctLetter = state.targetWords[rowIndex][colIndex];
+      const correctRow = state.targetWords[rowIndex];
+
+      if (letter === correctLetter) {
+        state.feedback[rowIndex][colIndex] = "green"; // green
+      } else if (correctRow.includes(letter)) {
+        state.feedback[rowIndex][colIndex] = "yellow"; // yellow
+      } else {
+        state.feedback[rowIndex][colIndex] = "red"; // red
+      }
+    },
 
     resetFeedback: (state) => {
       state.feedback = [];
@@ -93,6 +107,6 @@ const feedbackSlice = createSlice({
   },
 });
 
-export const { setTargetWords, evaluateGuess, resetFeedback } =
+export const { setTargetWords, evaluateGuess, evaluateLetter, resetFeedback } =
   feedbackSlice.actions;
 export default feedbackSlice.reducer;

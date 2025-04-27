@@ -19,6 +19,7 @@ import {
 } from "@/features/game/gameSlice";
 import {
   evaluateGuess,
+  evaluateLetter,
   setTargetWords,
 } from "@/features/feedback/feedbackSlice";
 import { targetWords } from "@/utils/utils";
@@ -30,7 +31,11 @@ export default function GameBoard() {
 
   const dispatch = useDispatch();
   const grid = useSelector((state: RootState) => state.game.grid);
+  const [currentChar, setCurrentChar] = useState<number | null>(null);
   const keyboard = useSelector((state: RootState) => state.feedback.keyboard);
+  const selectedLetter = useSelector(
+    (state: RootState) => state.game.selectedLetter
+  );
   const gameStatus = useSelector(
     (state: RootState) => state.feedback.gameStatus
   );
@@ -45,13 +50,21 @@ export default function GameBoard() {
   }, [level, router, dispatch]);
   const [showModal, setShowModal] = useState(false);
 
-  const handleKeyClick = (char: string) => {
+  const handleKeyClick = (char: string, index: number) => {
+    setCurrentChar(index);
     dispatch(setSelectedLetter(char));
   };
 
   const handleCircleClick = (row: number, col: number) => {
+    if (!selectedLetter) return;
+
     dispatch(placeLetterInGrid({ row, col }));
+
+    dispatch(
+      evaluateLetter({ letter: selectedLetter, rowIndex: row, colIndex: col })
+    );
   };
+
   const letterUsage: Record<string, number> = {};
   grid.flat().forEach((letter) => {
     if (letter) {
@@ -146,8 +159,10 @@ export default function GameBoard() {
               return (
                 <button
                   key={index}
-                  className={`key ${shouldDisable ? "used" : ""}`}
-                  onClick={() => handleKeyClick(char)}
+                  className={`key ${shouldDisable ? "used" : ""} ${
+                    index === currentChar && "selected"
+                  }`}
+                  onClick={() => handleKeyClick(char, index)}
                   disabled={shouldDisable}
                 >
                   {char}
