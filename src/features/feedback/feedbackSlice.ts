@@ -7,6 +7,7 @@ interface FeedbackState {
   gameStatus: GameStatus;
   correctGuesses: number;
   feedback: LetterFeedback[][];
+  keyboard: string[];
 }
 
 const initialState: FeedbackState = {
@@ -14,6 +15,7 @@ const initialState: FeedbackState = {
   gameStatus: "playing",
   correctGuesses: 0,
   feedback: [],
+  keyboard: [],
 };
 
 const feedbackSlice = createSlice({
@@ -23,6 +25,15 @@ const feedbackSlice = createSlice({
     setTargetWords: (state, action: PayloadAction<string[]>) => {
       state.targetWords = action.payload.map((word) => word.toUpperCase());
       state.feedback = [];
+
+      const allChars = action.payload.flatMap((word) => word.split(""));
+
+      for (let i = allChars.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allChars[i], allChars[j]] = [allChars[j], allChars[i]];
+      }
+
+      state.keyboard = allChars;
     },
 
     evaluateGuess: (

@@ -2,12 +2,23 @@ import Link from "next/link";
 import { FaHome, FaRedo } from "react-icons/fa";
 import "../styles/common.css";
 import { RxCross1 } from "react-icons/rx";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { resetFeedback } from "@/features/feedback/feedbackSlice";
 
-const GameOver = ({ onClose }: { onClose: () => void }) => {
+const GameOver = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   return (
     <div className="popup-overlay">
       <div className="popup-content">
-        <RxCross1 className="close-icon" onClick={onClose} />
+        <RxCross1
+          className="close-icon"
+          onClick={() => {
+            dispatch(resetFeedback());
+            router.push("/");
+          }}
+        />
         <div className="gameover-container">
           <div className="modal-box">
             <h2 className="gameover-title">GAME OVER</h2>

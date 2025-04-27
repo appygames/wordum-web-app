@@ -129,16 +129,22 @@
 }
 
 /* Keyboard */
-.keyboard {
+.keyboard-container {
   width: 100%;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 18px 0;
   gap: 12px;
-  align-items: center;
   background-color: #01dbdb;
 }
-
+.keyboard {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 400px;
+  gap: 12px;
+}
 .key-row {
   display: flex;
   flex-wrap: wrap;
@@ -161,6 +167,12 @@
 .key.selected {
   color: yellow;
   background-color: #357286;
+}
+
+.key.used {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
 }
 
 @media screen and (min-width: 768px) {

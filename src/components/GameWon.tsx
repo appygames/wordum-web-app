@@ -5,13 +5,19 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { resetFeedback } from "@/features/feedback/feedbackSlice";
 
-const GameWon = ({ onClose }: { onClose: () => void }) => {
+const GameWon = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   return (
     <div className="popup-overlay">
       <div className="popup-content">
-        <RxCross1 className="close-icon" onClick={onClose} />
+        <RxCross1
+          className="close-icon"
+          onClick={() => {
+            dispatch(resetFeedback());
+            router.push("/");
+          }}
+        />
         <div className="gameover-container">
           <div className="modal-box">
             <h2 className="modal-title gamewon-title">YOU WIN</h2>
