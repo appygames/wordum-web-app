@@ -19,7 +19,7 @@ import {
   revealLettersInGrid,
 } from "@/features/game/gameSlice";
 import {
-  evaluateGuess,
+  checkGameWon,
   evaluateLetter,
   setTargetWords,
 } from "@/features/feedback/feedbackSlice";
@@ -67,6 +67,7 @@ export default function GameBoard() {
     dispatch(
       evaluateLetter({ letter: selectedLetter, rowIndex: row, colIndex: col })
     );
+    dispatch(checkGameWon());
   };
 
   const letterUsage: Record<string, number> = {};
@@ -75,17 +76,6 @@ export default function GameBoard() {
       letterUsage[letter] = (letterUsage[letter] || 0) + 1;
     }
   });
-
-  // Step 2: Keep track of how many times each letter is rendered
-  const renderedLetterCount: Record<string, number> = {};
-  useEffect(() => {
-    // Automatically evaluate rows that are fully filled
-    grid.forEach((row, rowIndex) => {
-      if (row.every((cell) => cell !== "") && !feedback[rowIndex]) {
-        dispatch(evaluateGuess({ guess: row.join(""), rowIndex }));
-      }
-    });
-  }, [grid, feedback, dispatch]);
 
   return (
     <div className="gameboard-container">
@@ -157,11 +147,25 @@ export default function GameBoard() {
         <div className="keyboard-container">
           <div className="keyboard">
             {keyboard.map((char, index) => {
-              const usedCount = letterUsage[char] || 0;
-              const currentCount = renderedLetterCount[char] || 0;
-              const shouldDisable = currentCount < usedCount;
+              let greenCount = 0;
+              grid.forEach((row, rowIndex) => {
+                row.forEach((cell, colIndex) => {
+                  if (
+                    cell === char &&
+                    feedback[rowIndex]?.[colIndex] === "green"
+                  ) {
+                    greenCount++;
+                  }
+                });
+              });
 
-              renderedLetterCount[char] = currentCount + 1;
+              // Track how many previous same chars already rendered before this button
+              const prevSameCharCount = keyboard
+                .slice(0, index)
+                .filter((c) => c === char).length;
+
+              // Disable button only if there are enough greens already placed
+              const shouldDisable = prevSameCharCount < greenCount;
 
               return (
                 <button
