@@ -16,6 +16,7 @@ import {
   placeLetterInGrid,
   setDifficulty,
   Difficulty,
+  revealLettersInGrid,
 } from "@/features/game/gameSlice";
 import {
   evaluateGuess,
@@ -47,6 +48,9 @@ export default function GameBoard() {
     }
     dispatch(setDifficulty(level as Difficulty));
     dispatch(setTargetWords(targetWords[level as Difficulty]));
+    if (level === "easy" || level === "hard") {
+      dispatch(revealLettersInGrid(targetWords[level as Difficulty]));
+    }
   }, [level, router, dispatch]);
   const [showModal, setShowModal] = useState(false);
 
@@ -136,7 +140,10 @@ export default function GameBoard() {
                   <div
                     className={`circle ${feedbackColor || ""}`}
                     key={colIndex}
-                    onClick={() => handleCircleClick(rowIndex, colIndex)}
+                    onClick={() => {
+                      if (feedbackColor === "green") return;
+                      handleCircleClick(rowIndex, colIndex);
+                    }}
                   >
                     {letter}
                   </div>

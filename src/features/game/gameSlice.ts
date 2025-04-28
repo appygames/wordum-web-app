@@ -6,7 +6,6 @@ interface GameState {
   grid: string[][];
   selectedLetter: string | null;
   difficulty: Difficulty;
-  revealedWords: string[];
 }
 
 const getInitialGrid = (difficulty: Difficulty): string[][] => {
@@ -18,7 +17,6 @@ const initialState: GameState = {
   difficulty: "easy",
   grid: getInitialGrid("easy"),
   selectedLetter: null,
-  revealedWords: [], // Stores revealed words if any
 };
 
 const gameSlice = createSlice({
@@ -29,13 +27,6 @@ const gameSlice = createSlice({
       state.difficulty = action.payload;
       state.grid = getInitialGrid(action.payload);
       state.selectedLetter = null;
-      state.revealedWords = [];
-
-      if (action.payload === "easy") {
-        state.revealedWords = ["ALL"];
-      } else if (action.payload === "hard") {
-        state.revealedWords = ["WORD1"];
-      }
     },
     setSelectedLetter: (state, action: PayloadAction<string>) => {
       state.selectedLetter = action.payload;
@@ -55,10 +46,30 @@ const gameSlice = createSlice({
         state.selectedLetter = null;
       }
     },
+    revealLettersInGrid: (state, action: PayloadAction<string[]>) => {
+      const targetWords = action.payload;
+      const rows = state.grid.length;
+
+      for (let i = 0; i < rows; i++) {
+        const word = targetWords[i] || "";
+        if (word.length === 0) continue;
+
+        const randomCol = Math.floor(Math.random() * word.length);
+        const letter = word[randomCol];
+
+        if (state.grid[i] && state.grid[i].length > randomCol) {
+          state.grid[i][randomCol] = letter;
+        }
+      }
+    },
   },
 });
 
-export const { setDifficulty, setSelectedLetter, placeLetterInGrid } =
-  gameSlice.actions;
+export const {
+  setDifficulty,
+  setSelectedLetter,
+  placeLetterInGrid,
+  revealLettersInGrid,
+} = gameSlice.actions;
 
 export default gameSlice.reducer;
