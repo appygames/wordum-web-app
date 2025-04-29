@@ -16,11 +16,12 @@ import {
   placeLetterInGrid,
   setDifficulty,
   Difficulty,
+  revealLettersInGrid,
   checkGameWon,
   evaluateLetter,
   setTargetWords,
-  revealLettersInGrid,
 } from "@/features/game/gameSlice";
+
 import { targetWords } from "@/utils/utils";
 
 export default function GameBoard() {
@@ -32,10 +33,13 @@ export default function GameBoard() {
   const grid = useSelector((state: RootState) => state.game.grid);
   const [currentChar, setCurrentChar] = useState<number | null>(null);
   const keyboard = useSelector((state: RootState) => state.game.keyboard);
+  const attempts = useSelector((state: RootState) => state.game.attempts);
   const selectedLetter = useSelector(
     (state: RootState) => state.game.selectedLetter
   );
-  const gameStatus = useSelector((state: RootState) => state.game.gameStatus);
+  const gameStatus = useSelector(
+    (state: RootState) => state.game.gameStatus
+  );
   const feedback = useSelector((state: RootState) => state.game.feedback);
 
   useEffect(() => {
@@ -96,7 +100,7 @@ export default function GameBoard() {
             <FaLightbulb />
             <FaLightbulb />
           </div>
-          <span className="attempts">3/3 attempts</span>
+          <span className="attempts">{attempts}/3 attempts</span>
         </div>
         <div className="right-icons">
           <FaVolumeUp
