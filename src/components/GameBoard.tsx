@@ -16,13 +16,11 @@ import {
   placeLetterInGrid,
   setDifficulty,
   Difficulty,
-  revealLettersInGrid,
-} from "@/features/game/gameSlice";
-import {
   checkGameWon,
   evaluateLetter,
   setTargetWords,
-} from "@/features/feedback/feedbackSlice";
+  revealLettersInGrid,
+} from "@/features/game/gameSlice";
 import { targetWords } from "@/utils/utils";
 
 export default function GameBoard() {
@@ -33,14 +31,12 @@ export default function GameBoard() {
   const dispatch = useDispatch();
   const grid = useSelector((state: RootState) => state.game.grid);
   const [currentChar, setCurrentChar] = useState<number | null>(null);
-  const keyboard = useSelector((state: RootState) => state.feedback.keyboard);
+  const keyboard = useSelector((state: RootState) => state.game.keyboard);
   const selectedLetter = useSelector(
     (state: RootState) => state.game.selectedLetter
   );
-  const gameStatus = useSelector(
-    (state: RootState) => state.feedback.gameStatus
-  );
-  const feedback = useSelector((state: RootState) => state.feedback.feedback);
+  const gameStatus = useSelector((state: RootState) => state.game.gameStatus);
+  const feedback = useSelector((state: RootState) => state.game.feedback);
 
   useEffect(() => {
     if (!level) {

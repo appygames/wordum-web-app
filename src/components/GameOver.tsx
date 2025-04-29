@@ -4,7 +4,7 @@ import "../styles/common.css";
 import { RxCross1 } from "react-icons/rx";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { resetFeedback } from "@/features/feedback/feedbackSlice";
+import { resetFeedback } from "@/features/game/gameSlice";
 
 const GameOver = () => {
   const router = useRouter();
