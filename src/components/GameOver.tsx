@@ -25,9 +25,15 @@ const GameOver = () => {
             <p className="gameover-subtitle">You are out of attempts</p>
           </div>
           <div className="button-row">
-            <Link href="/game" className="icons-link">
+            <span
+              onClick={() => {
+                dispatch(resetFeedback());
+                router.push("/game");
+              }}
+              className="icons-link"
+            >
               <FaRedo className="icon" />
-            </Link>
+            </span>
             <Link href="/" className="icons-link">
               <FaHome className="icon" />
             </Link>
