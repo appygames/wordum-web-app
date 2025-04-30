@@ -13,6 +13,7 @@ interface GameState {
   attempts: number;
   feedback: LetterFeedback[][];
   keyboard: string[];
+  coins: number;
 }
 
 const getInitialGrid = (difficulty: Difficulty): string[][] => {
@@ -29,6 +30,7 @@ const initialState: GameState = {
   attempts: 3,
   feedback: [],
   keyboard: [],
+  coins: 0,
 };
 
 const gameSlice = createSlice({
@@ -119,6 +121,7 @@ const gameSlice = createSlice({
 
       if (allGreen) {
         state.gameStatus = "won";
+        state.coins += 10;
       }
     },
 

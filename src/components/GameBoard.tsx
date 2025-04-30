@@ -34,12 +34,11 @@ export default function GameBoard() {
   const [currentChar, setCurrentChar] = useState<number | null>(null);
   const keyboard = useSelector((state: RootState) => state.game.keyboard);
   const attempts = useSelector((state: RootState) => state.game.attempts);
+  const coins = useSelector((state: RootState) => state.game.coins);
   const selectedLetter = useSelector(
     (state: RootState) => state.game.selectedLetter
   );
-  const gameStatus = useSelector(
-    (state: RootState) => state.game.gameStatus
-  );
+  const gameStatus = useSelector((state: RootState) => state.game.gameStatus);
   const feedback = useSelector((state: RootState) => state.game.feedback);
 
   useEffect(() => {
@@ -111,7 +110,7 @@ export default function GameBoard() {
             className="game-icon"
             style={{ cursor: "pointer", color: "#000" }}
           />
-          <div className="coin">218</div>
+          <div className="coin">{coins}</div>
         </div>
       </div>
 
