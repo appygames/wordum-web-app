@@ -98,9 +98,10 @@ const gameSlice = createSlice({
 
       if (letter === correctLetter) {
         state.feedback[rowIndex][colIndex] = "green";
+        state.selectedLetter = null;
       } else if (correctRow.includes(letter)) {
         state.feedback[rowIndex][colIndex] = "yellow";
-        state.attempts -= 1;
+        // state.attempts -= 1;
       } else {
         state.feedback[rowIndex][colIndex] = "red";
         state.attempts -= 1;
@@ -124,7 +125,15 @@ const gameSlice = createSlice({
         state.coins += 10;
       }
     },
+    removeLetterFromGrid: (state, action) => {
+      const { row, col } = action.payload;
+      // const letter = state.grid[row][col];
+      state.grid[row][col] = "";
 
+      if (state.feedback[row]) {
+        state.feedback[row][col] = "";
+      }
+    },
     resetFeedback: (state) => {
       state.feedback = [];
       state.gameStatus = "playing";
@@ -142,6 +151,7 @@ export const {
   evaluateLetter,
   checkGameWon,
   resetFeedback,
+  removeLetterFromGrid,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

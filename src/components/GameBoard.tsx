@@ -20,6 +20,7 @@ import {
   checkGameWon,
   evaluateLetter,
   setTargetWords,
+  removeLetterFromGrid,
 } from "@/features/game/gameSlice";
 
 import { targetWords } from "@/utils/utils";
@@ -134,6 +135,9 @@ export default function GameBoard() {
                       if (feedbackColor === "green") return;
                       handleCircleClick(rowIndex, colIndex);
                     }}
+                    onDoubleClick={() => {
+                      dispatch(removeLetterFromGrid({ row: rowIndex, col: colIndex }));
+                    }}
                   >
                     {letter}
                   </div>
@@ -152,10 +156,11 @@ export default function GameBoard() {
                 row.forEach((cell, colIndex) => {
                   if (
                     cell === char &&
-                    feedback[rowIndex]?.[colIndex] === "green"
+                    ["green", "yellow", "red"].includes(feedback[rowIndex]?.[colIndex])
                   ) {
                     greenCount++;
                   }
+
                 });
               });
 
