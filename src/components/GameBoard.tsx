@@ -95,9 +95,10 @@ export default function GameBoard() {
         </div>
         <div className="hints-container">
           <div className="icons-group">
-            <FaLightbulb />
-            <FaLightbulb />
-            <FaLightbulb />
+            {/*show bulbs based on attempts */}
+            {[...Array(attempts)].map((_, index) => (
+              <FaLightbulb key={index} />
+            ))}
           </div>
           <span className="attempts">{attempts}/3 attempts</span>
         </div>
@@ -169,9 +170,8 @@ export default function GameBoard() {
               return (
                 <button
                   key={index}
-                  className={`key ${shouldDisable ? "used" : ""} ${
-                    index === currentChar && "selected"
-                  }`}
+                  className={`key ${shouldDisable ? "used" : ""} ${index === currentChar && "selected"
+                    }`}
                   onClick={() => handleKeyClick(char, index)}
                   disabled={shouldDisable}
                 >
