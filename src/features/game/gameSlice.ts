@@ -6,12 +6,13 @@ export type LetterFeedback = "green" | "yellow" | "red" | "";
 export type GameStatus = "playing" | "won" | "lost";
 interface GameState {
   grid: string[][];
-  selectedLetter: string | null;
+  selectedLetter: { char: string; index: number } | null;
   difficulty: Difficulty;
   targetWords: string[];
   gameStatus: GameStatus;
   attempts: number;
   feedback: LetterFeedback[][];
+  disabledButtons: number[];
   keyboard: string[];
   coins: number;
 }
@@ -29,6 +30,7 @@ const initialState: GameState = {
   gameStatus: "playing",
   attempts: 3,
   feedback: [],
+  disabledButtons: [],
   keyboard: [],
   coins: 0,
 };
@@ -42,7 +44,10 @@ const gameSlice = createSlice({
       state.grid = getInitialGrid(action.payload);
       state.selectedLetter = null;
     },
-    setSelectedLetter: (state, action: PayloadAction<string>) => {
+    setSelectedLetter: (
+      state,
+      action: PayloadAction<{ char: string; index: number }>
+    ) => {
       state.selectedLetter = action.payload;
     },
     placeLetterInGrid: (
@@ -56,7 +61,8 @@ const gameSlice = createSlice({
         !state.grid[row][col] &&
         state.selectedLetter
       ) {
-        state.grid[row][col] = state.selectedLetter;
+        state.grid[row][col] = state.selectedLetter.char;
+        state.disabledButtons.push(state.selectedLetter.index);
         state.selectedLetter = null;
       }
     },

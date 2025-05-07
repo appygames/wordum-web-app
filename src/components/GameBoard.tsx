@@ -34,6 +34,7 @@ export default function GameBoard() {
   const grid = useSelector((state: RootState) => state.game.grid);
   const [currentChar, setCurrentChar] = useState<number | null>(null);
   const keyboard = useSelector((state: RootState) => state.game.keyboard);
+  const disabledButtons = useSelector((state: RootState) => state.game.disabledButtons);
   const attempts = useSelector((state: RootState) => state.game.attempts);
   const coins = useSelector((state: RootState) => state.game.coins);
   const selectedLetter = useSelector(
@@ -56,7 +57,7 @@ export default function GameBoard() {
 
   const handleKeyClick = (char: string, index: number) => {
     setCurrentChar(index);
-    dispatch(setSelectedLetter(char));
+    dispatch(setSelectedLetter({ char, index }));
   };
 
   const handleCircleClick = (row: number, col: number) => {
@@ -151,27 +152,7 @@ export default function GameBoard() {
         <div className="keyboard-container">
           <div className="keyboard">
             {keyboard.map((char, index) => {
-              let greenCount = 0;
-              grid.forEach((row, rowIndex) => {
-                row.forEach((cell, colIndex) => {
-                  if (
-                    cell === char &&
-                    ["green", "yellow", "red"].includes(feedback[rowIndex]?.[colIndex])
-                  ) {
-                    greenCount++;
-                  }
-
-                });
-              });
-
-              // Track how many previous same chars already rendered before this button
-              const prevSameCharCount = keyboard
-                .slice(0, index)
-                .filter((c) => c === char).length;
-
-              // Disable button only if there are enough greens already placed
-              const shouldDisable = prevSameCharCount < greenCount;
-
+              const shouldDisable = disabledButtons.includes(index);
               return (
                 <button
                   key={index}
