@@ -12,6 +12,7 @@ interface GameState {
   gameStatus: GameStatus;
   attempts: number;
   feedback: LetterFeedback[][];
+  placedLettersIndex: (number | null)[][];
   disabledButtons: number[];
   keyboard: string[];
   coins: number;
@@ -21,6 +22,10 @@ const getInitialGrid = (difficulty: Difficulty): string[][] => {
   const size = difficulty === "easy" || difficulty === "medium" ? 4 : 5;
   return Array.from({ length: 4 }, () => Array(size).fill(""));
 };
+const getInitialPlacedIndexes = (difficulty: Difficulty): number[][] =>
+  Array.from({ length: 4 }, () =>
+    Array(difficulty === "easy" || difficulty === "medium" ? 4 : 5).fill(null)
+  );
 
 const initialState: GameState = {
   difficulty: "easy",
@@ -30,6 +35,7 @@ const initialState: GameState = {
   gameStatus: "playing",
   attempts: 3,
   feedback: [],
+  placedLettersIndex: getInitialPlacedIndexes("easy"),
   disabledButtons: [],
   keyboard: [],
   coins: 0,
@@ -42,6 +48,7 @@ const gameSlice = createSlice({
     setDifficulty: (state, action: PayloadAction<Difficulty>) => {
       state.difficulty = action.payload;
       state.grid = getInitialGrid(action.payload);
+      state.placedLettersIndex = getInitialPlacedIndexes(action.payload);
       state.selectedLetter = null;
     },
     setSelectedLetter: (
@@ -63,6 +70,7 @@ const gameSlice = createSlice({
       ) {
         state.grid[row][col] = state.selectedLetter.char;
         state.disabledButtons.push(state.selectedLetter.index);
+        state.placedLettersIndex[row][col] = state.selectedLetter.index;
         state.selectedLetter = null;
       }
     },
@@ -81,6 +89,7 @@ const gameSlice = createSlice({
           state.grid[i][randomCol] = letter;
           state.feedback[i][randomCol] = "green";
           state.disabledButtons.push(state.keyboard.indexOf(letter));
+          state.placedLettersIndex[i][randomCol] = state.keyboard.indexOf(letter);
         }
       }
     },
@@ -134,13 +143,23 @@ const gameSlice = createSlice({
     },
     removeLetterFromGrid: (state, action) => {
       const { row, col } = action.payload;
-      // const letter = state.grid[row][col];
-      state.grid[row][col] = "";
 
+      const placedIndex = state.placedLettersIndex[row]?.[col];
+      if (placedIndex !== null && placedIndex !== undefined) {
+        state.disabledButtons = state.disabledButtons.filter(
+          (index) => index !== placedIndex
+        );
+      }
+
+      state.grid[row][col] = "";
       if (state.feedback[row]) {
         state.feedback[row][col] = "";
       }
+
+      state.placedLettersIndex[row][col] = null;
+      state.selectedLetter = null;
     },
+
     resetFeedback: (state) => {
       state.feedback = [];
       state.gameStatus = "playing";
