@@ -89,7 +89,8 @@ const gameSlice = createSlice({
           state.grid[i][randomCol] = letter;
           state.feedback[i][randomCol] = "green";
           state.disabledButtons.push(state.keyboard.indexOf(letter));
-          state.placedLettersIndex[i][randomCol] = state.keyboard.indexOf(letter);
+          state.placedLettersIndex[i][randomCol] =
+            state.keyboard.indexOf(letter);
         }
       }
     },
@@ -110,17 +111,32 @@ const gameSlice = createSlice({
     evaluateLetter: (state, action) => {
       const { letter, rowIndex, colIndex } = action.payload;
       const correctLetter = state.targetWords[rowIndex][colIndex];
-      const correctRow = state.targetWords[rowIndex];
+      const correctWord = state.targetWords[rowIndex];
 
       if (letter === correctLetter) {
         state.feedback[rowIndex][colIndex] = "green";
         state.selectedLetter = null;
-      } else if (correctRow.includes(letter)) {
-        state.feedback[rowIndex][colIndex] = "yellow";
-        // state.attempts -= 1;
       } else {
-        state.feedback[rowIndex][colIndex] = "red";
-        state.attempts -= 1;
+        const totalOccurrences = [...correctWord].filter(
+          (char) => char === letter
+        ).length;
+
+        const alreadyPlacedCount = (state.feedback[rowIndex] || []).filter(
+          (fb, idx) =>
+            (fb === "green" || fb === "yellow") &&
+            state.grid[rowIndex][idx] === letter
+        ).length;
+
+        if (
+          correctWord.includes(letter) &&
+          alreadyPlacedCount < totalOccurrences
+        ) {
+          state.feedback[rowIndex][colIndex] = "yellow";
+        } else {
+          state.feedback[rowIndex][colIndex] = "red";
+          state.attempts -= 1;
+        }
+        state.selectedLetter = null;
       }
 
       if (state.attempts === 0) {
@@ -152,9 +168,7 @@ const gameSlice = createSlice({
       }
 
       state.grid[row][col] = "";
-      if (state.feedback[row]) {
-        state.feedback[row][col] = "";
-      }
+      state.feedback[row][col] = "";
 
       state.placedLettersIndex[row][col] = null;
       state.selectedLetter = null;
@@ -162,8 +176,14 @@ const gameSlice = createSlice({
 
     resetFeedback: (state) => {
       state.feedback = [];
-      state.gameStatus = "playing";
       state.attempts = 3;
+      state.gameStatus = "playing";
+      state.selectedLetter = null;
+      state.placedLettersIndex = getInitialPlacedIndexes(state.difficulty);
+      state.grid = getInitialGrid(state.difficulty);
+      state.disabledButtons = [];
+      state.keyboard = [];
+      state.targetWords = [];
     },
   },
 });
