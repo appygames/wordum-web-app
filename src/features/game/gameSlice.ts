@@ -80,6 +80,7 @@ const gameSlice = createSlice({
         if (state.grid[i] && state.grid[i].length > randomCol) {
           state.grid[i][randomCol] = letter;
           state.feedback[i][randomCol] = "green";
+          state.disabledButtons.push(state.keyboard.indexOf(letter));
         }
       }
     },
