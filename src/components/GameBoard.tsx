@@ -98,8 +98,11 @@ export default function GameBoard() {
         <div className="hints-container">
           <div className="icons-group">
             {/*show bulbs based on attempts */}
-            {[...Array(attempts)].map((_, index) => (
-              <FaLightbulb key={index} />
+            {[...Array(3)].map((_, index) => (
+              <FaLightbulb
+                key={index}
+                style={{ color: index < attempts ? "FFD700" : "gray" }}
+              />
             ))}
           </div>
           <span className="attempts">{attempts}/3 attempts</span>
