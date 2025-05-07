@@ -77,23 +77,44 @@ const gameSlice = createSlice({
     revealLettersInGrid: (state, action: PayloadAction<string[]>) => {
       const targetWords = action.payload;
       const rows = state.grid.length;
+      const revealedLetters = new Set();
 
       for (let i = 0; i < rows; i++) {
         const word = targetWords[i] || "";
         if (word.length === 0) continue;
 
-        const randomCol = Math.floor(Math.random() * word.length);
-        const letter = word[randomCol];
+        let attempts = 0;
+        let randomCol = Math.floor(Math.random() * word.length);
+        let letter = word[randomCol];
+
+        // Try to get a unique letter for each row
+        while (revealedLetters.has(letter) && attempts < word.length) {
+          randomCol = Math.floor(Math.random() * word.length);
+          letter = word[randomCol];
+          attempts++;
+        }
+
+        revealedLetters.add(letter);
 
         if (state.grid[i] && state.grid[i].length > randomCol) {
           state.grid[i][randomCol] = letter;
+
+          if (!state.feedback[i]) {
+            state.feedback[i] = Array(state.grid[i].length).fill("");
+          }
+
           state.feedback[i][randomCol] = "green";
-          state.disabledButtons.push(state.keyboard.indexOf(letter));
-          state.placedLettersIndex[i][randomCol] =
-            state.keyboard.indexOf(letter);
+
+          const keyIndex = state.keyboard.indexOf(letter);
+          if (keyIndex !== -1 && !state.disabledButtons.includes(keyIndex)) {
+            state.disabledButtons.push(keyIndex);
+          }
+
+          state.placedLettersIndex[i][randomCol] = keyIndex;
         }
       }
     },
+
     setTargetWords: (state, action: PayloadAction<string[]>) => {
       state.targetWords = action.payload.map((word) => word.toUpperCase());
       state.feedback = Array(action.payload.length)
