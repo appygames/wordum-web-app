@@ -21,6 +21,7 @@ import {
   evaluateLetter,
   setTargetWords,
   removeLetterFromGrid,
+  resetFeedback,
 } from "@/features/game/gameSlice";
 
 import { targetWords } from "@/utils/utils";
@@ -44,6 +45,7 @@ export default function GameBoard() {
   const feedback = useSelector((state: RootState) => state.game.feedback);
 
   useEffect(() => {
+    dispatch(resetFeedback());
     if (!level) {
       router.push("/game");
     }
