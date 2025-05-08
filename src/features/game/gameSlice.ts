@@ -78,6 +78,7 @@ const gameSlice = createSlice({
       ) {
         state.grid[row][col] = state.selectedLetter.char;
         state.placedLettersIndex[row][col] = state.selectedLetter.index;
+        state.disabledButtons.push(state.selectedLetter.index);
       }
     },
     revealLettersInGrid: (state, action: PayloadAction<string[]>) => {
@@ -162,7 +163,6 @@ const gameSlice = createSlice({
           state.feedback[rowIndex][colIndex] = "red";
           state.attempts -= 1;
         }
-        state.disabledButtons.push(selectedLetter.index);
         state.selectedLetter = null;
       }
 
