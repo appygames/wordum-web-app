@@ -65,13 +65,10 @@ const gameSlice = createSlice({
       if (
         row < state.grid.length &&
         col < state.grid[0].length &&
-        !state.grid[row][col] &&
         state.selectedLetter
       ) {
         state.grid[row][col] = state.selectedLetter.char;
-        state.disabledButtons.push(state.selectedLetter.index);
         state.placedLettersIndex[row][col] = state.selectedLetter.index;
-        state.selectedLetter = null;
       }
     },
     revealLettersInGrid: (state, action: PayloadAction<string[]>) => {
@@ -130,27 +127,26 @@ const gameSlice = createSlice({
     },
 
     evaluateLetter: (state, action) => {
-      const { letter, rowIndex, colIndex } = action.payload;
+      const { selectedLetter, rowIndex, colIndex } = action.payload;
       const correctLetter = state.targetWords[rowIndex][colIndex];
       const correctWord = state.targetWords[rowIndex];
 
-      state.grid[rowIndex][colIndex] = letter;
-      if (letter === correctLetter) {
+      if (selectedLetter.char === correctLetter) {
         state.feedback[rowIndex][colIndex] = "green";
-        state.selectedLetter = null;
+        state.disabledButtons.push(selectedLetter.index);
       } else {
         const totalOccurrences = [...correctWord].filter(
-          (char) => char === letter
+          (char) => char === selectedLetter.char
         ).length;
 
         const alreadyPlacedCount = (state.feedback[rowIndex] || []).filter(
           (fb, idx) =>
             (fb === "green" || fb === "yellow") &&
-            state.grid[rowIndex][idx] === letter
+            state.grid[rowIndex][idx] === selectedLetter.char
         ).length;
 
         if (
-          correctWord.includes(letter) &&
+          correctWord.includes(selectedLetter.char) &&
           alreadyPlacedCount < totalOccurrences
         ) {
           state.feedback[rowIndex][colIndex] = "yellow";

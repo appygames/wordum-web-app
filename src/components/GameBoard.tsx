@@ -68,7 +68,7 @@ export default function GameBoard() {
     dispatch(placeLetterInGrid({ row, col }));
 
     dispatch(
-      evaluateLetter({ letter: selectedLetter.char, rowIndex: row, colIndex: col })
+      evaluateLetter({ selectedLetter: selectedLetter, rowIndex: row, colIndex: col })
     );
     dispatch(checkGameWon());
   };
