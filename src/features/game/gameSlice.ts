@@ -134,6 +134,7 @@ const gameSlice = createSlice({
       const correctLetter = state.targetWords[rowIndex][colIndex];
       const correctWord = state.targetWords[rowIndex];
 
+      state.grid[rowIndex][colIndex] = letter;
       if (letter === correctLetter) {
         state.feedback[rowIndex][colIndex] = "green";
         state.selectedLetter = null;
