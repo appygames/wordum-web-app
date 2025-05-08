@@ -62,6 +62,15 @@ const gameSlice = createSlice({
       action: PayloadAction<{ row: number; col: number }>
     ) => {
       const { row, col } = action.payload;
+      if (state.placedLettersIndex[row][col] !== null) {
+        const placedIndex = state.placedLettersIndex[row]?.[col];
+        if (placedIndex !== null && placedIndex !== undefined) {
+          state.disabledButtons = state.disabledButtons.filter(
+            (index) => index !== placedIndex
+          );
+        }
+      }
+
       if (
         row < state.grid.length &&
         col < state.grid[0].length &&
@@ -133,7 +142,6 @@ const gameSlice = createSlice({
 
       if (selectedLetter.char === correctLetter) {
         state.feedback[rowIndex][colIndex] = "green";
-        state.disabledButtons.push(selectedLetter.index);
       } else {
         const totalOccurrences = [...correctWord].filter(
           (char) => char === selectedLetter.char
@@ -154,6 +162,7 @@ const gameSlice = createSlice({
           state.feedback[rowIndex][colIndex] = "red";
           state.attempts -= 1;
         }
+        state.disabledButtons.push(selectedLetter.index);
         state.selectedLetter = null;
       }
 
