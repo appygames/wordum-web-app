@@ -35,7 +35,9 @@ export default function GameBoard() {
   const grid = useSelector((state: RootState) => state.game.grid);
   const [currentChar, setCurrentChar] = useState<number | null>(null);
   const keyboard = useSelector((state: RootState) => state.game.keyboard);
-  const disabledButtons = useSelector((state: RootState) => state.game.disabledButtons);
+  const disabledButtons = useSelector(
+    (state: RootState) => state.game.disabledButtons
+  );
   const attempts = useSelector((state: RootState) => state.game.attempts);
   const coins = useSelector((state: RootState) => state.game.coins);
   const selectedLetter = useSelector(
@@ -43,7 +45,6 @@ export default function GameBoard() {
   );
   const gameStatus = useSelector((state: RootState) => state.game.gameStatus);
   const feedback = useSelector((state: RootState) => state.game.feedback);
-
   useEffect(() => {
     dispatch(resetFeedback());
     if (!level) {
@@ -68,7 +69,11 @@ export default function GameBoard() {
     dispatch(placeLetterInGrid({ row, col }));
 
     dispatch(
-      evaluateLetter({ selectedLetter: selectedLetter, rowIndex: row, colIndex: col })
+      evaluateLetter({
+        selectedLetter: selectedLetter,
+        rowIndex: row,
+        colIndex: col,
+      })
     );
     dispatch(checkGameWon());
   };
@@ -142,7 +147,9 @@ export default function GameBoard() {
                       handleCircleClick(rowIndex, colIndex);
                     }}
                     onDoubleClick={() => {
-                      dispatch(removeLetterFromGrid({ row: rowIndex, col: colIndex }));
+                      dispatch(
+                        removeLetterFromGrid({ row: rowIndex, col: colIndex })
+                      );
                     }}
                   >
                     {letter}
@@ -161,8 +168,9 @@ export default function GameBoard() {
               return (
                 <button
                   key={index}
-                  className={`key ${shouldDisable ? "used" : ""} ${index === currentChar && "selected"
-                    }`}
+                  className={`key ${shouldDisable ? "used" : ""} ${
+                    index === currentChar && "selected"
+                  }`}
                   onClick={() => handleKeyClick(char, index)}
                   disabled={shouldDisable}
                 >
