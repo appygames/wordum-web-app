@@ -1,29 +1,30 @@
 import Link from "next/link";
-import "../styles/header.css";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaRegUserCircle } from "react-icons/fa";
 
 export default function Header() {
   return (
-    <header className="header">
-      <img src="/Logo/Logo.svg" alt="Example Image" className="logo" />
+    <header className="relative py-3 px-5 w-full h-28 flex items-center justify-between bg-[#004c6b]">
+      <img
+        src="/Logo/Logo.svg"
+        alt="Example Image"
+        className="hidden md:inline absolute top-6 left-7 h-16 w-auto"
+      />
 
-      <nav className="nav">
-        <Link className="nav-link" href="/">
+      <nav className="hidden md:flex max-w-2xl m-auto gap-12">
+        <Link className="text-xl font-bold hover:underline" href="/">
           HOME
         </Link>
-        <Link className="nav-link" href="/game-info">
+        <Link className="text-xl font-bold hover:underline" href="/game-info">
           GAME INFO
         </Link>
-        <Link className="nav-link" href="/about">
+        <Link className="text-xl font-bold hover:underline" href="/about">
           ABOUT
         </Link>
       </nav>
-      <nav className="mobile-nav">
+      <nav className="flex w-full items-center justify-between md:hidden">
         <FaRegUserCircle size={32} color="black" />
-        <div>
-          <IoSettingsOutline size={32} color="black" />
-        </div>
+        <IoSettingsOutline size={32} color="black" />
       </nav>
     </header>
   );

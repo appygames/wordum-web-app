@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <div className="main-content">
+    <div className="flex flex-col items-center justify-between bg-[#7df9ff] min-h-screen max-h-screen overflow-hidden">
       <Header />
       <div className="home">
         <div className="menu-buttons">
