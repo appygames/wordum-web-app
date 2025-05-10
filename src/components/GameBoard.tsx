@@ -3,7 +3,6 @@ import { FaLightbulb, FaVolumeUp } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { FaArrowRotateLeft } from "react-icons/fa6";
 import { BsBrightnessHighFill } from "react-icons/bs";
-import "../styles/gameboard.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Resume from "./Resume";
