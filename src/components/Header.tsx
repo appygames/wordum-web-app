@@ -4,7 +4,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 
 export default function Header() {
   return (
-    <header className="relative py-3 px-5 w-full h-28 flex items-center justify-between md:bg-[#004c6b]">
+    <header className="relative py-3 px-5 w-full h-28 flex items-center justify-between bg-[#75fdfd] md:bg-[#004c6b]">
       <img
         src="/Logo/Logo.svg"
         alt="Example Image"
