@@ -3,7 +3,7 @@ import { FaLightbulb, FaVolumeUp } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { FaArrowRotateLeft } from "react-icons/fa6";
 import { BsBrightnessHighFill } from "react-icons/bs";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Resume from "./Resume";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,13 +20,11 @@ import {
   resetFeedback,
 } from "@/features/game/gameSlice";
 
-import { targetWords } from "@/utils/utils";
+import { cn, targetWords } from "@/utils/utils";
 import GameModal from "./GameModal";
 
-export default function GameBoard() {
+export default function GameBoard({ level }: { level: Difficulty }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const level = searchParams.get("level");
 
   const dispatch = useDispatch();
   const grid = useSelector((state: RootState) => state.game.grid);
@@ -42,17 +40,7 @@ export default function GameBoard() {
   );
   const gameStatus = useSelector((state: RootState) => state.game.gameStatus);
   const feedback = useSelector((state: RootState) => state.game.feedback);
-  useEffect(() => {
-    dispatch(resetFeedback());
-    if (!level) {
-      router.push("/game");
-    }
-    dispatch(setDifficulty(level as Difficulty));
-    dispatch(setTargetWords(targetWords[level as Difficulty]));
-    if (level === "easy" || level === "hard") {
-      dispatch(revealLettersInGrid(targetWords[level as Difficulty]));
-    }
-  }, [level, router, dispatch]);
+
   const [showModal, setShowModal] = useState(false);
 
   const handleKeyClick = (char: string, index: number) => {
@@ -79,6 +67,17 @@ export default function GameBoard() {
       letterUsage[letter] = (letterUsage[letter] || 0) + 1;
     }
   });
+
+  useEffect(() => {
+    if (!level) return;
+
+    dispatch(resetFeedback());
+    dispatch(setDifficulty(level as Difficulty));
+    dispatch(setTargetWords(targetWords[level as Difficulty]));
+    if (level === "easy" || level === "hard") {
+      dispatch(revealLettersInGrid(targetWords[level as Difficulty]));
+    }
+  }, [level, dispatch]);
 
   return (
     <div className="min-w-screen min-h-screen p-0 flex flex-col justify-between items-center bg-[#7DF9FF]">
@@ -153,10 +152,12 @@ export default function GameBoard() {
                   default:
                     color = "";
                 }
-                console.log(feedbackColor, letter);
                 return (
                   <div
-                    className={`size-11 md:size-16 bg-cyan-800 rounded-full flex items-center justify-center text-white cursor-pointer text-xl md:text-3xl md:font-semibold ${color}`}
+                    className={cn(
+                      "size-11 md:size-16 bg-cyan-800 rounded-full flex items-center justify-center text-white cursor-pointer text-xl md:text-3xl md:font-semibold",
+                      color
+                    )}
                     key={colIndex}
                     onClick={() => {
                       if (feedbackColor === "green") return;
@@ -184,11 +185,12 @@ export default function GameBoard() {
               return (
                 <button
                   key={index}
-                  className={`min-h-10 min-w-10 py-1.5 px-1 md:px-3 bg-cyan-900 text-white rounded-sm md:font-bold text-xl md:text-3xl cursor-pointer ${
-                    shouldDisable
-                      ? "bg-gray-400 text-gray-500 cursor-not-allowed"
-                      : ""
-                  } ${index === currentChar && "text-cyan-200"}`}
+                  className={cn(
+                    "min-h-10 min-w-10 py-1.5 px-1 md:px-3 bg-cyan-900 text-white rounded-sm md:font-bold text-xl md:text-3xl cursor-pointer",
+                    shouldDisable &&
+                      "bg-gray-400 text-gray-500 cursor-not-allowed",
+                    index === currentChar && "bg-cyan-300 "
+                  )}
                   onClick={() => handleKeyClick(char, index)}
                   disabled={shouldDisable}
                 >

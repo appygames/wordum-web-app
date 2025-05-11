@@ -99,7 +99,8 @@ const gameSlice = createSlice({
     },
 
     setTargetWords: (state, action: PayloadAction<string[]>) => {
-      state.targetWords = action.payload.map((word) => word.toUpperCase());
+      if (!action.payload) return;
+      state.targetWords = action.payload?.map((word) => word.toUpperCase());
       state.feedback = Array(action.payload.length)
         .fill(null)
         .map(() => []);
