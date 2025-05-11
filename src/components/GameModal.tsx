@@ -35,8 +35,11 @@ const GameModal = ({
   return (
     open && (
       <div className="fixed top-0 left-0 w-full h-full bg-[#80FFFF] flex flex-col items-center justify-center">
-        <div className="w-80 relative m-auto flex flex-col items-center">
-          <RxCross1 className="absolute top-4 right-4" onClick={handleClose} />
+        <div className="w-80 m-auto flex flex-col items-center">
+          <RxCross1
+            className="absolute top-8 right-20 size-8 text-black"
+            onClick={handleClose}
+          />
           <div className="flex flex-col items-center justify-center gap-5">
             <div className="bg-[#003d66] w-[300px] md:min-w-fit rounded-lg p-3 gap-2.5 text-center shadow-lg">
               <h2 className="text-2xl md:text-4xl font-bold text-center">
