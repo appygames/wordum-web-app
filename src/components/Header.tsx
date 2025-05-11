@@ -11,7 +11,7 @@ export default function Header() {
         className="hidden md:inline absolute top-6 left-7 h-16 w-auto"
       />
 
-      <nav className="hidden md:flex max-w-2xl m-auto gap-12">
+      <nav className="hidden md:flex max-w-2xl m-auto gap-12 text-white">
         <Link className="text-xl font-bold hover:underline" href="/">
           HOME
         </Link>

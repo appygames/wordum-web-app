@@ -109,7 +109,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
               />
             ))}
           </div>
-          <span className="md:text-2xl bg-[#004c66] py-1 px-2 rounded-sm font-semibold md:font-bold">
+          <span className="md:text-2xl text-white bg-[#004c66] py-1 px-2 rounded-sm font-semibold md:font-bold">
             {attempts}/3 attempts
           </span>
         </div>
@@ -130,7 +130,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
         <div className="flex flex-col gap-2.5 items-center mb-10">
           {grid.map((row: string[], rowIndex: number) => (
             <div
-              className="flex py-2 px-6 rounded-lg gap-3 bg-[#01C1C1]"
+              className="flex py-2 px-6 rounded-lg gap-3 bg-gradient-to-r from-[#01DBDB] to-[#01C1C1]"
               key={rowIndex}
             >
               {row.map((letter: string, colIndex: number) => {
@@ -142,10 +142,10 @@ export default function GameBoard({ level }: { level: Difficulty }) {
                 let color = "";
                 switch (feedbackColor) {
                   case "green":
-                    color = "bg-green-500";
+                    color = "bg-green-400";
                     break;
                   case "yellow":
-                    color = "bg-yellow-500";
+                    color = "bg-yellow-300";
                     break;
                   case "red":
                     color = "bg-red-500";
@@ -179,7 +179,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
         </div>
 
         {/* Keyboard */}
-        <div className="w-full flex justify-center items-center py-5 gap-3 bg-cyan-700">
+        <div className="w-full flex justify-center items-center py-5 gap-3 bg-[#01DBDB]">
           <div className="flex justify-center items-center flex-wrap max-w-[400px] gap-3">
             {keyboard.map((char, index) => {
               const shouldDisable = disabledButtons.includes(index);
@@ -189,7 +189,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
                   className={cn(
                     "min-h-10 min-w-10 py-1.5 px-1 md:px-3 bg-cyan-900 text-white rounded-sm md:font-bold text-xl md:text-3xl cursor-pointer",
                     shouldDisable &&
-                      "bg-gray-400 text-gray-500 cursor-not-allowed",
+                      "bg-gray-400 cursor-not-allowed",
                     index === currentChar && "bg-cyan-300 "
                   )}
                   onClick={() => handleKeyClick(char, index)}
