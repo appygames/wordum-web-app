@@ -14,11 +14,11 @@ export default function DownloadApp() {
           </h2>
           <div className="flex flex-col md:flex-row gap-4">
             <button className="flex items-center gap-2 bg-white rounded-md py-3 px-5 font-bold shadow-lg transition-all duration-300 hover:scale-105 text-[#1e88e5]">
-              <img src="icons/PlayStore.svg" alt="playstore" className="h-9" />{" "}
+              <img src="/icons/PlayStore.svg" alt="playstore" className="h-9" />{" "}
               Play Store
             </button>
             <button className="flex items-center gap-2 bg-white rounded-md py-3 px-5 font-bold shadow-lg transition-all duration-300 hover:scale-105 text-black">
-              <img src="icons/AppStore.svg" alt="appstore" className="h-9" />{" "}
+              <img src="/icons/AppStore.svg" alt="appstore" className="h-9" />{" "}
               App Store
             </button>
           </div>
