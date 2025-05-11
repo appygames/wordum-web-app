@@ -6,8 +6,6 @@ import { BsBrightnessHighFill } from "react-icons/bs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Resume from "./Resume";
-import GameOver from "./GameOver";
-import GameWon from "./GameWon";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import {
@@ -24,6 +22,7 @@ import {
 } from "@/features/game/gameSlice";
 
 import { targetWords } from "@/utils/utils";
+import GameModal from "./GameModal";
 
 export default function GameBoard() {
   const router = useRouter();
@@ -190,8 +189,18 @@ export default function GameBoard() {
       </div>
 
       {showModal && <Resume onClose={() => setShowModal(false)} />}
-      {gameStatus === "lost" && <GameOver />}
-      {gameStatus === "won" && <GameWon />}
+      <GameModal
+        open={gameStatus == "lost"}
+        title="Game Over"
+        subtitle="You lost the game"
+        type="over"
+      />
+      <GameModal
+        open={gameStatus == "won"}
+        title="You Won"
+        subtitle="You won the game"
+        type="win"
+      />
     </div>
   );
 }
