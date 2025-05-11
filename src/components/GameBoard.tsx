@@ -207,13 +207,13 @@ export default function GameBoard({ level }: { level: Difficulty }) {
       <GameModal
         open={gameStatus == "lost"}
         title="Game Over"
-        subtitle="You lost the game"
+        subtitle="You're out of attempts"
         type="over"
       />
       <GameModal
         open={gameStatus == "won"}
         title="You Won"
-        subtitle="You won the game"
+        subtitle="You successfully found all four words Coins earned"
         type="win"
       />
     </div>
