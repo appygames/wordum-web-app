@@ -58,6 +58,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
         colIndex: col,
       })
     );
+    setCurrentChar(null);
     dispatch(checkGameWon());
   };
 

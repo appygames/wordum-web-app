@@ -178,8 +178,10 @@ const gameSlice = createSlice({
           row.every((cell) => cell === "green")
         );
       });
-
-      if (allGreen) {
+      const allFilled = state.grid
+        .flatMap((item) => item)
+        .every((cell) => cell !== "");
+      if (allGreen && allFilled) {
         state.gameStatus = "won";
         state.coins += 10;
       }
