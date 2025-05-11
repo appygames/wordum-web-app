@@ -57,30 +57,6 @@ const gameSlice = createSlice({
     ) => {
       state.selectedLetter = action.payload;
     },
-    placeLetterInGrid: (
-      state,
-      action: PayloadAction<{ row: number; col: number }>
-    ) => {
-      const { row, col } = action.payload;
-      if (state.placedLettersIndex[row][col] !== null) {
-        const placedIndex = state.placedLettersIndex[row]?.[col];
-        if (placedIndex !== null && placedIndex !== undefined) {
-          state.disabledButtons = state.disabledButtons.filter(
-            (index) => index !== placedIndex
-          );
-        }
-      }
-
-      if (
-        row < state.grid.length &&
-        col < state.grid[0].length &&
-        state.selectedLetter
-      ) {
-        state.grid[row][col] = state.selectedLetter.char;
-        state.placedLettersIndex[row][col] = state.selectedLetter.index;
-        state.disabledButtons.push(state.selectedLetter.index);
-      }
-    },
     revealLettersInGrid: (state, action: PayloadAction<string[]>) => {
       const targetWords = action.payload;
       const rows = state.grid.length;
@@ -138,6 +114,29 @@ const gameSlice = createSlice({
 
     evaluateLetter: (state, action) => {
       const { selectedLetter, rowIndex, colIndex } = action.payload;
+
+      // Return early if invalid input or out-of-bound indices
+      if (
+        !selectedLetter ||
+        rowIndex >= state.grid.length ||
+        colIndex >= state.grid[0].length
+      ) {
+        return;
+      }
+
+      // Handle undoing previous letter at this position
+      const prevIndex = state.placedLettersIndex[rowIndex]?.[colIndex];
+      if (prevIndex !== null && prevIndex !== undefined) {
+        state.disabledButtons = state.disabledButtons.filter(
+          (index) => index !== prevIndex
+        );
+      }
+
+      // Place the new letter
+      state.grid[rowIndex][colIndex] = selectedLetter.char;
+      state.placedLettersIndex[rowIndex][colIndex] = selectedLetter.index;
+      state.disabledButtons.push(selectedLetter.index);
+
       const correctLetter = state.targetWords[rowIndex][colIndex];
       const correctWord = state.targetWords[rowIndex];
 
@@ -166,7 +165,7 @@ const gameSlice = createSlice({
         state.selectedLetter = null;
       }
 
-      if (state.attempts === 0) {
+      if (state.attempts <= 0) {
         state.gameStatus = "lost";
       }
     },
@@ -218,7 +217,6 @@ const gameSlice = createSlice({
 export const {
   setDifficulty,
   setSelectedLetter,
-  placeLetterInGrid,
   revealLettersInGrid,
   setTargetWords,
   evaluateLetter,

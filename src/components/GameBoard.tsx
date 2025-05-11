@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import {
   setSelectedLetter,
-  placeLetterInGrid,
   setDifficulty,
   Difficulty,
   revealLettersInGrid,
@@ -63,8 +62,6 @@ export default function GameBoard() {
 
   const handleCircleClick = (row: number, col: number) => {
     if (!selectedLetter) return;
-
-    dispatch(placeLetterInGrid({ row, col }));
 
     dispatch(
       evaluateLetter({
@@ -142,9 +139,24 @@ export default function GameBoard() {
                   | "yellow"
                   | "red"
                   | undefined;
+                let color = "";
+                switch (feedbackColor) {
+                  case "green":
+                    color = "bg-green-500";
+                    break;
+                  case "yellow":
+                    color = "bg-yellow-500";
+                    break;
+                  case "red":
+                    color = "bg-red-500";
+                    break;
+                  default:
+                    color = "";
+                }
+                console.log(feedbackColor, letter);
                 return (
                   <div
-                    className={`size-11 md:size-16 bg-cyan-800 rounded-full flex items-center justify-center text-white cursor-pointer text-xl md:text-3xl md:font-semibold bg-${feedbackColor}-400`}
+                    className={`size-11 md:size-16 bg-cyan-800 rounded-full flex items-center justify-center text-white cursor-pointer text-xl md:text-3xl md:font-semibold ${color}`}
                     key={colIndex}
                     onClick={() => {
                       if (feedbackColor === "green") return;
