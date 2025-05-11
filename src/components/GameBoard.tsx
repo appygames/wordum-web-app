@@ -190,7 +190,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
                     "min-h-10 min-w-10 py-1.5 px-1 md:px-3 bg-cyan-900 text-white rounded-sm md:font-bold text-xl md:text-3xl cursor-pointer",
                     shouldDisable &&
                       "bg-gray-400 cursor-not-allowed",
-                    index === currentChar && "bg-cyan-300 "
+                    index === currentChar && "bg-gray-400 "
                   )}
                   onClick={() => handleKeyClick(char, index)}
                   disabled={shouldDisable}
