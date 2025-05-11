@@ -1,3 +1,8 @@
+"use client";
+import { cn } from "@/utils/utils";
+import { useState } from "react";
+import { RxCross1 } from "react-icons/rx";
+
 const HowToPlay = ({
   open,
   onClose,
@@ -5,59 +10,162 @@ const HowToPlay = ({
   open: boolean;
   onClose: () => void;
 }) => {
+  const [step, setStep] = useState(1);
   return (
     open && (
       <div>
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black opacity-50"></div>
-        <div className="bg-[#023047] w-[335px] z-60 text-white max-w-md rounded-xl shadow-lg fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#80FFFF]"></div>
+        <div className="bg-[#023047] w-[335px] md:w-[80%] md:px-16 md:py-10 z-60 text-white rounded-xl shadow-lg fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
           <button
             onClick={onClose}
-            className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-[#041E31] rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold"
+            className="absolute md:hidden -top-12 left-1/2 transform -translate-x-1/2 bg-[#041E31] rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold"
           >
             ×
           </button>
-
-          <div className="text-sm flex flex-col gap-3">
-            <h2 className="text-2xl px-5 font-semibold">
-              Wordum offers different levels!
-            </h2>
-            <ul className="list-disc list-outside ml-4 text-left">
-              <li className="text-[15px]">
-                <b>Easy:</b> 4-letter words with one letter revealed.
-              </li>
-              <li className="text-[15px]">
-                <b>Medium:</b> 5-letter words with one letter revealed.
-              </li>
-              <li className="text-[15px]">
-                <b>Hard:</b> 5-letter words with no letters revealed.
-              </li>
-              <li className="text-[15px]">
-                <b>Expert:</b> More challenging words with minimal hints.
-              </li>
-            </ul>
-
-            <h2 className="text-2xl font-semibold mt-6">
-              Custom Word Challenges
-            </h2>
-            <ul className="list-disc list-outside ml-4 text-left">
-              <li className="text-[15px]">
-                Players can create their own set of four words and share them
-                with other users.
-              </li>
-              <li className="text-[15px]">Challenge Rules:.</li>
-              <ul className="list-disc list-outside ml-4 text-left">
-                <li className="text-[15px]">
-                  Custom words remain available for 24 hours.
+          <RxCross1
+            className="absolute top-6 right-10 font-bold size-8"
+            onClick={onClose}
+          />
+          {step === 1 && (
+            <div className="text-sm flex flex-col gap-3 md:gap-9 h-[80vh]">
+              <h2 className="text-2xl md:text-4xl md:text-left text-center px-5 font-semibold">
+                Wordum offers different levels!
+              </h2>
+              <ul className="list-disc list-outside ml-4 text-left flex flex-col md:gap-2">
+                <li className="text-[15px] md:text-2xl">
+                  <b>Easy:</b> 4-letter words with one letter revealed.
                 </li>
-                <li className="text-[15px]">
-                  Players can enter shared rooms and guess the words in a
-                  similar way.
+                <li className="text-[15px] md:text-2xl">
+                  <b>Medium:</b> 5-letter words with one letter revealed.
                 </li>
-                <li className="text-[15px]">
-                  The same color-coded feedback system applies
+                <li className="text-[15px] md:text-2xl">
+                  <b>Hard:</b> 5-letter words with no letters revealed.
+                </li>
+                <li className="text-[15px] md:text-2xl">
+                  <b>Expert:</b> More challenging words with minimal hints.
                 </li>
               </ul>
-            </ul>
+
+              <h2 className="text-2xl md:text-4xl md:text-left text-center px-5 font-semibold">
+                Custom Word Challenges
+              </h2>
+              <ul className="list-disc list-outside ml-4 text-left flex flex-col md:gap-2">
+                <li className="text-[15px] md:text-2xl">
+                  Players can create their own set of four words and share them
+                  with other users.
+                </li>
+                <li className="text-[15px] md:text-2xl">Challenge Rules:.</li>
+                <ul className="list-disc list-outside ml-4 text-left">
+                  <li className="text-[15px] md:text-2xl">
+                    Custom words remain available for 24 hours.
+                  </li>
+                  <li className="text-[15px] md:text-2xl">
+                    Players can enter shared rooms and guess the words in a
+                    similar way.
+                  </li>
+                  <li className="text-[15px] md:text-2xl">
+                    The same color-coded feedback system applies
+                  </li>
+                </ul>
+              </ul>
+            </div>
+          )}
+          {step === 2 && (
+            <div className="text-sm flex flex-col gap-3 md:gap-9 h-[80vh]">
+              <h2 className="text-2xl md:text-4xl md:text-left text-center px-5 font-semibold">
+                Gameplay Rules{" "}
+              </h2>
+              <ul className="list-disc list-outside ml-4 text-left flex flex-col md:gap-2">
+                <li className="text-[15px] md:text-2xl">
+                  Players must place the correct letter in the correct grid
+                  position.
+                </li>
+                <li className="text-[15px] md:text-2xl">
+                  Color-coded feedback:
+                </li>
+                <ul className="list-disc list-outside ml-4 text-left flex flex-col md:gap-2">
+                  <li className="text-[15px] md:text-2xl">
+                    Green: Correct letter in the correct position.{" "}
+                  </li>
+                  <li className="text-[15px] md:text-2xl">
+                    Yellow: Correct letter but in the wrong position within the
+                    same word.
+                  </li>
+                  <li className="text-[15px] md:text-2xl">
+                    Red: Incorrect letter, not part of the word.{" "}
+                  </li>
+                </ul>
+                <li className="text-[15px] md:text-2xl">
+                  Players get 3 attempts to guess all the words.
+                </li>
+                <li className="text-[15px] md:text-2xl">
+                  If all words are guessed correctly, the player wins and earns
+                  5 coins.{" "}
+                </li>
+              </ul>
+              <img
+                src="/images/demo.png"
+                alt="demo game"
+                className="max-w-56 m-auto"
+              />
+            </div>
+          )}
+          {step === 3 && (
+            <div className="text-sm flex flex-col gap-3 md:gap-9 h-[80vh]">
+              <h2 className="text-2xl md:text-4xl md:text-left text-center px-5 font-semibold">
+                Hints & Ads:{" "}
+              </h2>
+              <ul className="list-disc list-outside ml-4 text-left flex flex-col md:gap-2">
+                <li className="text-[15px] md:text-2xl">
+                  Players can use hints by:
+                </li>
+                <ul className="list-disc list-outside ml-4 text-left flex flex-col md:gap-2">
+                  <li className="text-[15px] md:text-2xl">Watching an ad. </li>
+                  <li className="text-[15px] md:text-2xl">
+                    Spending 25 coins per hint.{" "}
+                  </li>
+                </ul>
+              </ul>
+
+              <h2 className="text-2xl font-semibold mt-6">
+                Rewards & Coin System
+              </h2>
+              <ul className="list-disc list-outside ml-4 text-left">
+                <li className="text-[15px] md:text-2xl">
+                  <b>Winning a game:</b> +5 coins.
+                </li>
+                <li className="text-[15px] md:text-2xl">
+                  <b>Using a hint:</b> -25 coins.
+                </li>
+                <li className="text-[15px] md:text-2xl">
+                  <b>Watching ads:</b> Option to earn extra hints or free
+                  retries.
+                </li>
+              </ul>
+            </div>
+          )}
+          <div className="flex gap-2 items-center justify-center">
+            <div
+              className={cn(
+                "size-2 bg-white rounded-full cursor-pointer",
+                step === 1 && "size-3"
+              )}
+              onClick={() => setStep(1)}
+            />
+            <div
+              className={cn(
+                "size-2 bg-white rounded-full cursor-pointer",
+                step === 2 && "size-3"
+              )}
+              onClick={() => setStep(2)}
+            />
+            <div
+              className={cn(
+                "size-2 bg-white rounded-full cursor-pointer",
+                step === 3 && "size-3"
+              )}
+              onClick={() => setStep(3)}
+            />
           </div>
         </div>
       </div>
