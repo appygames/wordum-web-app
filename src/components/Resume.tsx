@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../styles/resume.css";
 import { RxCross1 } from "react-icons/rx";
 import { useRouter } from "next/navigation";
 import HowToPlay from "./HowToPlay";
@@ -10,7 +9,10 @@ function Resume({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-[#80FFFF] flex flex-col items-center justify-center">
       <div className="w-80 m-auto flex flex-col items-center">
-        <RxCross1 className="absolute top-8 right-20 size-8 text-black" onClick={onClose} />
+        <RxCross1
+          className="absolute top-8 right-20 size-8 text-black"
+          onClick={onClose}
+        />
         <div className="flex flex-col gap-4 w-xs m-auto items-center justify-center text-white">
           <button
             className="w-[90%] md:w-full text-center py-3 px-5 text-xl rounded-lg bg-[#004c6b] cursor-pointer font-bold  hover:bg-[#0056b3] translate-0.5"
