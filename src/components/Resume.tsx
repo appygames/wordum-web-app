@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import { RxCross1 } from "react-icons/rx";
+import React from "react";
 import { useRouter } from "next/navigation";
-import HowToPlay from "./HowToPlay";
 
-function Resume({ onClose }: { onClose: () => void }) {
+function Resume({
+  onClose,
+  setShowModal,
+}: {
+  onClose: () => void;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const router = useRouter();
-  const [showModal, setShowModal] = useState(false);
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-[#F4C9EC] flex flex-col items-center justify-center">
       <div className="w-80 m-auto flex flex-col items-center">
@@ -36,7 +39,6 @@ function Resume({ onClose }: { onClose: () => void }) {
           </button>
         </div>
       </div>
-      <HowToPlay open={showModal} onClose={() => setShowModal(false)} />
     </div>
   );
 }

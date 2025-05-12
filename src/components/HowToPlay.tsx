@@ -14,16 +14,16 @@ const HowToPlay = ({
   return (
     open && (
       <div>
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#FBDCF5]"></div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#FBDCF5] opacity-30"></div>
         <div className="bg-[#2258B9] h-[700px] w-[335px] md:w-[80%] md:px-16 md:py-10 z-60 text-white rounded-xl shadow-lg fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
           <button
             onClick={onClose}
-            className="absolute md:hidden -top-12 left-1/2 transform -translate-x-1/2 bg-[#2258B9] rounded-full w-11 h-11 flex items-center justify-center text-2xl font-bold"
+            className="absolute md:hidden -top-12 left-1/2 transform cursor-pointer -translate-x-1/2 bg-[#2258B9] rounded-full w-11 h-11 flex items-center justify-center text-2xl font-bold"
           >
             ×
           </button>
           <RxCross1
-            className="absolute top-6 right-10 font-bold size-8 hidden md:block"
+            className="absolute top-6 right-10 font-bold size-8 hidden md:block cursor-pointer"
             onClick={onClose}
           />
           {step === 1 && (

@@ -35,10 +35,11 @@ const GameModal = ({
 
   return (
     open && (
-      <div className="fixed top-0 left-0 w-full h-full bg-[#F4C9EC] flex flex-col items-center justify-center">
-        <div className="w-80 m-auto flex flex-col items-center">
+      <div className="fixed top-0 left-0 w-full h-full  flex flex-col items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#FBDCF5] opacity-50"></div>
+        <div className="w-80 m-auto z-60 flex flex-col items-center">
           <RxCross1
-            className="absolute top-8 right-20 size-8 text-black hidden md:block"
+            className="absolute top-8 right-20 size-8 text-black cursor-pointer hidden md:block"
             onClick={handleClose}
           />
           <div className="flex flex-col items-center justify-center gap-5">

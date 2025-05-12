@@ -26,7 +26,7 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
         </div>
       </nav>
       <div className="w-80 m-auto flex flex-col items-center">
-        <RxCross1 className="close-icon" onClick={onClose} />
+        <RxCross1 className="close-icon cursor-pointer" onClick={onClose} />
         <div className="w-full flex flex-col items-center gap-4">
           <h2 className="text-black font-bold text-xl md:text-2xl md:mb-8">
             Choose your preferred level

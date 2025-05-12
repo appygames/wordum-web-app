@@ -7,9 +7,9 @@ export default function GameInfo() {
   const router = useRouter();
 
   return (
-    <HowToPlay
-      open={true}
-      onClose={() => router.push("/")} 
-    />
+    <>
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#FBDCF5] opacity-30"></div>
+      <HowToPlay open={true} onClose={() => router.push("/")} />
+    </>
   );
 }

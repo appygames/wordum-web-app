@@ -22,6 +22,7 @@ import {
 
 import { cn, targetWords } from "@/utils/utils";
 import GameModal from "./GameModal";
+import HowToPlay from "./HowToPlay";
 
 export default function GameBoard({ level }: { level: Difficulty }) {
   const router = useRouter();
@@ -42,6 +43,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   const feedback = useSelector((state: RootState) => state.game.feedback);
 
   const [showModal, setShowModal] = useState(false);
+  const [showResume, setShowResume] = useState(false);
 
   const handleKeyClick = (char: string, index: number) => {
     setCurrentChar(index);
@@ -93,7 +95,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
           <FaArrowRotateLeft
             className="cursor-pointer"
             style={{ cursor: "pointer", color: "#000" }}
-            onClick={() => setShowModal(true)}
+            onClick={() => setShowResume(true)}
           />
           <span className="bg-[#2258B9] text-white py-1 px-3 font-bold">
             {level?.toUpperCase()}
@@ -188,8 +190,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
                   key={index}
                   className={cn(
                     "min-h-10 min-w-10 py-1.5 px-1 md:px-3 bg-[#2258B9] text-white rounded-sm md:font-bold text-xl md:text-3xl cursor-pointer",
-                    shouldDisable &&
-                      "bg-gray-400 cursor-not-allowed",
+                    shouldDisable && "bg-gray-400 cursor-not-allowed",
                     index === currentChar && "bg-gray-400 "
                   )}
                   onClick={() => handleKeyClick(char, index)}
@@ -203,7 +204,17 @@ export default function GameBoard({ level }: { level: Difficulty }) {
         </div>
       </div>
 
-      {showModal && <Resume onClose={() => setShowModal(false)} />}
+      {showResume && (
+        <Resume
+          onClose={() => setShowResume(false)}
+          setShowModal={() => {
+            setShowResume(false);
+            setShowModal(true);
+          }}
+        />
+      )}
+      <HowToPlay open={showModal} onClose={() => setShowModal(false)} />
+
       <GameModal
         open={gameStatus == "lost"}
         title="Game Over"
