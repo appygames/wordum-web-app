@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -20,11 +21,14 @@ export default function Header() {
         <Link className="text-xl font-bold hover:underline" href="/">
           HOME
         </Link>
+        <Link className="text-xl font-bold hover:underline" href="/about">
+          ABOUT
+        </Link>
         <Link className="text-xl font-bold hover:underline" href="/game-info">
           GAME INFO
         </Link>
-        <Link className="text-xl font-bold hover:underline" href="/about">
-          ABOUT
+        <Link className="text-xl font-bold hover:underline" href="/daily-wordum">
+          DAILY WORDUM
         </Link>
       </nav>
       <div className="flex items-center justify-between w-full md:hidden bg-[#F4C9EC] px-4">
