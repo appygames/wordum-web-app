@@ -7,7 +7,7 @@ export default function DownloadApp() {
       <Header />
       <div className="bg-[#75fdfd] flex flex-col items-center justify-center min-h-[calc(100vh-112px)] md:min-h-[calc(100vh-284px)]">
         <div className="flex flex-col items-center justify-center gap-5">
-          <h2 className="text-2xl text-center md:text-4xl text-black font-bold">
+          <h2 className="text-2xl text-center md:text-4xl text-[#004C6B] font-bold">
             DOWNLOAD THE APP
             <br />
             TO CONTINUE!

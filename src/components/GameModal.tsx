@@ -1,3 +1,4 @@
+"use client";
 // components/GameModal.tsx
 
 import { RxCross1 } from "react-icons/rx";
@@ -41,11 +42,11 @@ const GameModal = ({
             onClick={handleClose}
           />
           <div className="flex flex-col items-center justify-center gap-5">
-            <div className="bg-[#003d66] w-[300px] md:min-w-fit rounded-lg p-3 gap-2.5 text-center shadow-lg">
-              <h2 className="text-2xl md:text-4xl font-bold text-center">
+            <div className="bg-[#004C6B] w-[300px] md:min-w-fit rounded-lg p-3 gap-2.5 text-center shadow-lg">
+              <h2 className=" text-white text-2xl md:text-4xl font-bold text-center">
                 {title}
               </h2>
-              <p className="text-md md:text-3xl text-center md:min-w-fit m-auto">
+              <p className="text-white text-md md:text-3xl text-center md:min-w-fit m-auto">
                 {subtitle}
               </p>
             </div>
@@ -55,15 +56,15 @@ const GameModal = ({
             <div className="flex justify-center gap-8 md:gap-16">
               <div
                 onClick={handleRetry}
-                className="bg-[#003d66] rounded-full p-3 md:p-5 flex items-center justify-center cursor-pointer"
+                className="bg-[#004C6B] rounded-full p-3 md:p-5 flex items-center justify-center cursor-pointer"
               >
-                <FaRedo className="text-xl md:text-5xl" />
+                <FaRedo className="text-white text-xl md:text-5xl" />
               </div>
               <div
                 onClick={handleClose}
-                className="bg-[#003d66] rounded-full p-3 flex items-center justify-center cursor-pointer"
+                className="bg-[#004C6B] rounded-full p-3 flex items-center justify-center cursor-pointer"
               >
-                <FaHome className="text-xl md:text-5xl" />
+                <FaHome className="text-white text-xl md:text-5xl" />
               </div>
             </div>
           </div>
