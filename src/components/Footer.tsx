@@ -9,7 +9,7 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="bg-[#004c6b] p-5 w-full hidden md:flex flex-col gap-4 text-left">
+    <footer className="bg-[#2258B9] p-5 w-full hidden md:flex flex-col gap-4 text-left">
       <div className="flex flex-col text-white">
         <a href="#" className="font-bold text-xl hover:underline">
           Privacy Policy

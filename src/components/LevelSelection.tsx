@@ -11,7 +11,7 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
   const [level, setLevel] = useState("");
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-[#80FFFF] flex flex-col items-center justify-center">
+    <div className="fixed top-0 left-0 w-full h-full bg-[#F4C9EC] flex flex-col items-center justify-center">
       <nav className="flex items-center justify-between w-full py-3 px-5 md:hidden">
         <div className="flex gap-2.5">
           <IoIosArrowBack
@@ -32,7 +32,7 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             Choose your preferred level
           </h2>
           <button
-            className={`h-12 w-full max-w-72 text-xl rounded-lg  bg-[#004c6b] cursor-pointer font-bold text-white hover:bg-[#0056b3] active:bg-green-400 translate-0.5 ${
+            className={`h-12 w-full max-w-72 text-xl rounded-lg  bg-[#2258B9] cursor-pointer font-bold text-white hover:bg-[#5d7196] active:bg-green-400 translate-0.5 ${
               level === "easy" && "bg-green-400"
             }`}
             onClick={() => setLevel("easy")}
@@ -40,7 +40,7 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             EASY
           </button>
           <button
-            className={`h-12 w-full max-w-72 text-xl rounded-lg bg-[#004c6b] cursor-pointer font-bold text-white hover:bg-[#0056b3] translate-0.5 ${
+            className={`h-12 w-full max-w-72 text-xl rounded-lg bg-[#2258B9] cursor-pointer font-bold text-white hover:bg-[#5d7196] translate-0.5 ${
               level === "medium" && "bg-green-400"
             }`}
             onClick={() => setLevel("medium")}
@@ -48,7 +48,7 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             MEDIUM
           </button>
           <button
-            className={`h-12 w-full max-w-72 text-xl rounded-lg bg-[#004c6b] cursor-pointer font-bold text-white hover:bg-[#0056b3] translate-0.5 ${
+            className={`h-12 w-full max-w-72 text-xl rounded-lg bg-[#2258B9] cursor-pointer font-bold text-white hover:bg-[#5d7196] translate-0.5 ${
               level === "hard" && "bg-green-400"
             }`}
             onClick={() => setLevel("hard")}
@@ -56,7 +56,7 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             HARD
           </button>
           <button
-            className={`h-12 w-full max-w-72 text-xl rounded-lg bg-[#004c6b] cursor-pointer font-bold text-white hover:bg-[#0056b3] translate-0.5 ${
+            className={`h-12 w-full max-w-72 text-xl rounded-lg bg-[#2258B9] cursor-pointer font-bold text-white hover:bg-[#5d7196] translate-0.5 ${
               level === "expert" && "bg-green-400"
             }`}
             onClick={() => setLevel("expert")}
@@ -64,7 +64,7 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             EXPERT
           </button>
           <button
-            className="h-12 w-full max-w-72 text-xl rounded-lg bg-gray-400 text-white hover:bg-gray-600 cursor-pointer font-bold  translate-0.5"
+            className="h-14 w-full max-w-80 text-xl rounded-lg bg-[#B3B3B3] text-white hover:bg-gray-600 cursor-pointer font-bold  translate-0.5"
             disabled={!level}
             onClick={() => router.push(`/game/play?level=${level}`)}
           >

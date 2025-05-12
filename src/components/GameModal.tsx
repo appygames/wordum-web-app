@@ -35,14 +35,14 @@ const GameModal = ({
 
   return (
     open && (
-      <div className="fixed top-0 left-0 w-full h-full bg-[#80FFFF] flex flex-col items-center justify-center">
+      <div className="fixed top-0 left-0 w-full h-full bg-[#F4C9EC] flex flex-col items-center justify-center">
         <div className="w-80 m-auto flex flex-col items-center">
           <RxCross1
-            className="absolute top-8 right-20 size-8 text-black"
+            className="absolute top-8 right-20 size-8 text-black hidden md:block"
             onClick={handleClose}
           />
           <div className="flex flex-col items-center justify-center gap-5">
-            <div className="bg-[#004C6B] w-[300px] md:min-w-fit rounded-lg p-3 gap-2.5 text-center shadow-lg">
+            <div className="bg-[#2258B9] w-[300px] md:min-w-fit rounded-lg p-3 gap-2.5 text-center shadow-lg">
               <h2 className=" text-white text-2xl md:text-4xl font-bold text-center">
                 {title}
               </h2>
@@ -56,13 +56,13 @@ const GameModal = ({
             <div className="flex justify-center gap-8 md:gap-16">
               <div
                 onClick={handleRetry}
-                className="bg-[#004C6B] rounded-full p-3 md:p-5 flex items-center justify-center cursor-pointer"
+                className="bg-[#2258B9] rounded-full p-3 md:p-5 flex items-center justify-center cursor-pointer"
               >
                 <FaRedo className="text-white text-xl md:text-5xl" />
               </div>
               <div
                 onClick={handleClose}
-                className="bg-[#004C6B] rounded-full p-3 flex items-center justify-center cursor-pointer"
+                className="bg-[#2258B9] rounded-full p-3 flex items-center justify-center cursor-pointer"
               >
                 <FaHome className="text-white text-xl md:text-5xl" />
               </div>
