@@ -2,11 +2,10 @@
 import Link from "next/link";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaRegUserCircle } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
 export default function Header() {
-  const dispatch = useDispatch();
   const coins = useSelector((state: RootState) => state.game.coins);
 
   return (
@@ -27,11 +26,14 @@ export default function Header() {
         <Link className="text-xl font-bold hover:underline" href="/game-info">
           GAME INFO
         </Link>
-        <Link className="text-xl font-bold hover:underline" href="/daily-wordum">
+        <Link
+          className="text-xl font-bold hover:underline"
+          href="/daily-wordum"
+        >
           DAILY WORDUM
         </Link>
       </nav>
-      <div className="flex items-center justify-between w-full md:hidden bg-[#F4C9EC] px-4">
+      <div className="flex items-center justify-between w-full md:hidden bg-[#F4C9EC]">
         <FaRegUserCircle size={32} color="black" />
 
         <div className="flex items-center gap-3">
