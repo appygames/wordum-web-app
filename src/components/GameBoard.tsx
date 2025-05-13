@@ -83,59 +83,66 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   }, [level, dispatch]);
 
   return (
-    <div className="min-w-screen min-h-screen p-0 flex flex-col justify-between items-center bg-[#F4C9EC]">
-      <div className="relative w-full flex items-center justify-between py-2.5 px-5 gap-2.5 text-md">
-        <div className="flex items-center gap-2.5">
+    <div className="h-[100dvh] w-full p-2 sm:p-4 flex flex-col justify-between items-center bg-[#F4C9EC]">
+      {/* Header Section */}
+      <div className="relative w-full flex items-center justify-between py-2 sm:py-3 px-2 sm:px-5 gap-2 text-sm sm:text-base">
+        <div className="flex items-center gap-2 sm:gap-3">
           <IoIosArrowBack
             className="cursor-pointer"
-            size={32}
+            size={24}
             style={{ color: "#000" }}
             onClick={() => router.push("/game")}
           />
           <FaArrowRotateLeft
             className="cursor-pointer"
-            style={{ cursor: "pointer", color: "#000" }}
+            style={{ color: "#000" }}
             onClick={() => setShowResume(true)}
           />
-          <span className="bg-[#2258B9] text-white py-1 px-3 font-bold">
+          <span className="bg-[#2258B9] text-white py-1 px-2 sm:px-3 text-xs sm:text-sm font-bold">
             {level?.toUpperCase()}
           </span>
         </div>
-        <div className="absolute top-24 md:static left-1/2 md:left-0 md:transform-none md:translate-x-0 transform -translate-x-1/2  w-fit m-auto flex flex-col items-center justify-center gap-2.5">
-          <div className="flex gap-2 text-yellow-300 text-3xl">
-            {/*show bulbs based on attempts */}
+
+        {/* Center Attempt Display */}
+        <div className="absolute top-20 sm:static left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 w-fit mx-auto flex flex-col items-center justify-center gap-2 sm:gap-3">
+          <div className="flex gap-1 sm:gap-2 text-yellow-300 text-xl sm:text-3xl">
             {[...Array(3)].map((_, index) => (
               <FaLightbulb
                 key={index}
-                style={{ color: index < attempts ? "FFDE05" : "gray" }}
+                style={{ color: index < attempts ? "#FFDE05" : "gray" }}
               />
             ))}
           </div>
-          <span className="md:text-2xl text-white bg-[#2258B9] py-1 px-2 rounded-sm font-semibold md:font-bold">
+          <span className="text-xs sm:text-lg text-white bg-[#2258B9] py-0.5 px-1.5 sm:py-1 sm:px-2 rounded-sm font-semibold">
             {attempts}/3 attempts
           </span>
         </div>
-        <div className="flex items-center gap-3">
-          <FaVolumeUp className="cursor-pointer" style={{ color: "#000" }} />
-          <BsBrightnessHighFill
-            className="cursor-pointer"
+
+        {/* Right Section */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          <FaVolumeUp
+            className="cursor-pointer text-base sm:text-xl"
             style={{ color: "#000" }}
           />
-          <div className="flex justify-center items-center bg-[#FFB400] size-10 rounded-full font-bold">
+          <BsBrightnessHighFill
+            className="cursor-pointer text-base sm:text-xl"
+            style={{ color: "#000" }}
+          />
+          <div className="flex justify-center items-center bg-[#FFB400] size-8 sm:size-10 rounded-full font-bold text-sm sm:text-base">
             {coins}
           </div>
         </div>
       </div>
 
-      <div className="w-full">
-        {/* Circle Grid */}
-        <div className="flex flex-col gap-2.5 items-center mb-10">
-          {grid.map((row: string[], rowIndex: number) => (
+      {/* Game Grid */}
+      <div className="w-full px-2 sm:px-0">
+        <div className="flex flex-col gap-2 sm:gap-3 items-center mb-5 sm:mb-10">
+          {grid.map((row, rowIndex) => (
             <div
-              className="flex py-2 px-6 rounded-lg gap-3 bg-[#FBDCF5]"
               key={rowIndex}
+              className="flex py-1.5 sm:py-2 px-4 sm:px-6 rounded-lg gap-1.5 sm:gap-3 bg-[#FBDCF5]"
             >
-              {row.map((letter: string, colIndex: number) => {
+              {row.map((letter, colIndex) => {
                 const feedbackColor = feedback[rowIndex]?.[colIndex] as
                   | "green"
                   | "yellow"
@@ -157,11 +164,11 @@ export default function GameBoard({ level }: { level: Difficulty }) {
                 }
                 return (
                   <div
+                    key={colIndex}
                     className={cn(
-                      "size-11 md:size-16 bg-[#2258B9] rounded-full flex items-center justify-center text-white cursor-pointer text-xl md:text-3xl md:font-semibold",
+                      "w-10 h-10 sm:w-16 sm:h-16 bg-[#2258B9] rounded-full flex items-center justify-center text-white cursor-pointer text-lg sm:text-2xl font-semibold",
                       color
                     )}
-                    key={colIndex}
                     onClick={() => {
                       if (feedbackColor === "green") return;
                       handleCircleClick(rowIndex, colIndex);
@@ -179,31 +186,32 @@ export default function GameBoard({ level }: { level: Difficulty }) {
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Keyboard */}
-        <div className="w-full flex justify-center items-center py-5 gap-3 bg-[#FBDCF5]">
-          <div className="flex justify-center items-center flex-wrap max-w-[400px] gap-3">
-            {keyboard.map((char, index) => {
-              const shouldDisable = disabledButtons.includes(index);
-              return (
-                <button
-                  key={index}
-                  className={cn(
-                    "min-h-10 min-w-10 py-1.5 px-1 md:px-3 bg-[#2258B9] text-white rounded-sm md:font-bold text-xl md:text-3xl cursor-pointer",
-                    shouldDisable && "bg-gray-400 cursor-not-allowed",
-                    index === currentChar && "bg-gray-400 "
-                  )}
-                  onClick={() => handleKeyClick(char, index)}
-                  disabled={shouldDisable}
-                >
-                  {char}
-                </button>
-              );
-            })}
-          </div>
+      {/* Keyboard */}
+      <div className="w-full flex justify-center items-center py-4 sm:py-5 bg-[#FBDCF5]">
+        <div className="flex justify-center items-center flex-wrap gap-2 sm:gap-3 px-2 max-w-[90%] sm:max-w-[400px]">
+          {keyboard.map((char, index) => {
+            const shouldDisable = disabledButtons.includes(index);
+            return (
+              <button
+                key={index}
+                className={cn(
+                  "min-h-10 min-w-10 py-1 px-1 sm:px-2 sm:py-2 bg-[#2258B9] text-white rounded-sm text-lg sm:text-xl font-bold",
+                  shouldDisable && "bg-gray-400 cursor-not-allowed",
+                  index === currentChar && "bg-gray-400"
+                )}
+                onClick={() => handleKeyClick(char, index)}
+                disabled={shouldDisable}
+              >
+                {char}
+              </button>
+            );
+          })}
         </div>
       </div>
 
+      {/* Resume and Modals */}
       {showResume && (
         <Resume
           onClose={() => setShowResume(false)}
@@ -216,15 +224,15 @@ export default function GameBoard({ level }: { level: Difficulty }) {
       <HowToPlay open={showModal} onClose={() => setShowModal(false)} />
 
       <GameModal
-        open={gameStatus == "lost"}
+        open={gameStatus === "lost"}
         title="Game Over"
         subtitle="You're out of attempts"
         type="over"
       />
       <GameModal
-        open={gameStatus == "won"}
+        open={gameStatus === "won"}
         title="You Won"
-        subtitle="You successfully found all four words Coins earned"
+        subtitle="You successfully found all four words. Coins earned."
         type="win"
       />
     </div>
