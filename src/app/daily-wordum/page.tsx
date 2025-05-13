@@ -1,5 +1,5 @@
 import DailyWordumCard from "@/components/DailyWordumCard";
 
-export default function DownloadPage() {
+export default function DailyWordumCardPage() {
   return <DailyWordumCard />;
 }

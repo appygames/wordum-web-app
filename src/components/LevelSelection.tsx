@@ -32,39 +32,48 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             Choose your preferred level
           </h2>
           <button
-            className={`h-12 w-full max-w-72 text-xl rounded-lg  bg-[#2258B9] cursor-pointer font-bold text-white hover:bg-[#5d7196] active:bg-green-400 translate-0.5 ${
-              level === "easy" && "bg-green-400"
+            className={`h-12 w-full max-w-72 text-xl rounded-lg font-bold cursor-pointer transition-all ${
+              level === "easy"
+                ? "bg-[#ffffff] text-[#2258B9] border-2 border-[#2258B9]"
+                : "bg-[#2258B9] text-white "
             }`}
             onClick={() => setLevel("easy")}
           >
             EASY
           </button>
+
           <button
-            className={`h-12 w-full max-w-72 text-xl rounded-lg bg-[#2258B9] cursor-pointer font-bold text-white hover:bg-[#5d7196] translate-0.5 ${
-              level === "medium" && "bg-green-400"
+            className={`h-12 w-full max-w-72 text-xl rounded-lg  cursor-pointer font-bold translate-0.5 ${
+              level === "medium"
+                ? "bg-[#ffffff] text-[#2258B9] border-2 border-[#2258B9]"
+                : "bg-[#2258B9] text-white "
             }`}
             onClick={() => setLevel("medium")}
           >
             MEDIUM
           </button>
           <button
-            className={`h-12 w-full max-w-72 text-xl rounded-lg bg-[#2258B9] cursor-pointer font-bold text-white hover:bg-[#5d7196] translate-0.5 ${
-              level === "hard" && "bg-green-400"
+            className={`h-12 w-full max-w-72 text-xl rounded-lg  cursor-pointer font-bold translate-0.5 ${
+              level === "hard"
+                ? "bg-[#ffffff] text-[#2258B9] border-2 border-[#2258B9]"
+                : "bg-[#2258B9] text-white "
             }`}
             onClick={() => setLevel("hard")}
           >
             HARD
           </button>
           <button
-            className={`h-12 w-full max-w-72 text-xl rounded-lg bg-[#2258B9] cursor-pointer font-bold text-white hover:bg-[#5d7196] translate-0.5 ${
-              level === "expert" && "bg-green-400"
+            className={`h-12 w-full max-w-72 text-xl rounded-lg cursor-pointer font-bold translate-0.5 ${
+              level === "expert"
+                ? "bg-[#ffffff] text-[#2258B9] border-2 border-[#2258B9]"
+                : "bg-[#2258B9] text-white "
             }`}
             onClick={() => setLevel("expert")}
           >
             EXPERT
           </button>
           <button
-            className="h-14 w-full max-w-80 text-xl rounded-lg bg-[#B3B3B3] text-white hover:bg-gray-600 cursor-pointer font-bold  translate-0.5"
+            className="h-14 w-full max-w-80 text-xl rounded-lg bg-[#EB598F] text-white cursor-pointer font-bold  translate-0.5"
             disabled={!level}
             onClick={() => router.push(`/game/play?level=${level}`)}
           >
