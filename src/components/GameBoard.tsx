@@ -86,7 +86,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
     <div className="h-[100dvh] w-full p-2 sm:p-4 flex flex-col justify-between items-center bg-[#F4C9EC]">
       {/* Header Section */}
       <div className="relative w-full flex items-center justify-between py-2 sm:py-3 px-2 sm:px-5 gap-2 text-sm sm:text-base">
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 md:gap-6  sm:gap-3 mt-0 md:mt-[-58px]">
           <IoIosArrowBack
             className="cursor-pointer"
             size={24}

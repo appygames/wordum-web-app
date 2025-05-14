@@ -27,12 +27,12 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
       </nav>
       <div className="w-80 m-auto flex flex-col items-center">
         <RxCross1 className="close-icon cursor-pointer" onClick={onClose} />
-        <div className="w-full flex flex-col items-center gap-4">
-          <h2 className="text-black font-bold text-xl md:text-2xl md:mb-8">
+        <div className="w-lg flex flex-col items-center gap-4">
+          <h2 className="text-black font-bold text-xl mb-20 md:text-3xl md:mb-10">
             Choose your preferred level
           </h2>
           <button
-            className={`h-12 w-full max-w-72 text-xl rounded-lg font-bold cursor-pointer transition-all ${
+            className={`h-12 w-full max-w-72 md:h-14 md:w-[58%] text-xl rounded-lg font-bold cursor-pointer transition-all ${
               level === "easy"
                 ? "bg-[#ffffff] text-[#2258B9] border-2 border-[#2258B9]"
                 : "bg-[#2258B9] text-white "
@@ -43,7 +43,7 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
           </button>
 
           <button
-            className={`h-12 w-full max-w-72 text-xl rounded-lg  cursor-pointer font-bold translate-0.5 ${
+            className={`h-12 w-full max-w-72 md:h-14 md:w-[58%] text-xl rounded-lg  cursor-pointer font-bold translate-0.5 ${
               level === "medium"
                 ? "bg-[#ffffff] text-[#2258B9] border-2 border-[#2258B9]"
                 : "bg-[#2258B9] text-white "
@@ -53,7 +53,7 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             MEDIUM
           </button>
           <button
-            className={`h-12 w-full max-w-72 text-xl rounded-lg  cursor-pointer font-bold translate-0.5 ${
+            className={`h-12 w-full max-w-72 md:h-14 md:w-[58%] text-xl rounded-lg  cursor-pointer font-bold translate-0.5 ${
               level === "hard"
                 ? "bg-[#ffffff] text-[#2258B9] border-2 border-[#2258B9]"
                 : "bg-[#2258B9] text-white "
@@ -63,7 +63,7 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             HARD
           </button>
           <button
-            className={`h-12 w-full max-w-72 text-xl rounded-lg cursor-pointer font-bold translate-0.5 ${
+            className={`h-12 w-full max-w-72 md:h-14 md:w-[58%] text-xl rounded-lg cursor-pointer font-bold translate-0.5 ${
               level === "expert"
                 ? "bg-[#ffffff] text-[#2258B9] border-2 border-[#2258B9]"
                 : "bg-[#2258B9] text-white "
@@ -73,7 +73,7 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             EXPERT
           </button>
           <button
-            className="h-14 w-full max-w-80 text-xl rounded-lg bg-[#EB598F] text-white cursor-pointer font-bold  translate-0.5"
+            className="h-16 w-full mt-5 max-w-80 text-xl rounded-lg bg-[#EB598F] text-white cursor-pointer font-bold  translate-0.5"
             disabled={!level}
             onClick={() => router.push(`/game/play?level=${level}`)}
           >

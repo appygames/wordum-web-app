@@ -9,48 +9,53 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="bg-[#2258B9] p-5 w-full hidden md:flex flex-col gap-4 text-left">
-      <div className="flex flex-col text-white">
-        <a href="#" className="font-bold text-xl hover:underline">
-          Privacy Policy
+    <footer className="bg-[#2258B9] text-white w-full hidden md:flex flex-col justify-between px-10 py-6 h-[220px]">
+      {/* Links */}
+      <div className="flex flex-col gap-3">
+        <a href="#" className="font-bold text-sm hover:underline">
+          PRIVACY POLICY
         </a>
-        <a href="#" className="font-bold text-xl hover:underline">
-          Terms and Conditions
+        <a href="#" className="font-bold text-sm hover:underline">
+          TERMS AND CONDITIONS
         </a>
       </div>
-      <div className="flex gap-2">
+
+      {/* Social icons */}
+      <div className="flex gap-4 mt-2">
         <a href="#">
           <FontAwesomeIcon
             icon={faDiscord}
-            className="size-4 text-white transition-colors ease-in-out duration-300 hover:text-[#00aced]"
-          />
-        </a>
-        <a href="#">
-          <FontAwesomeIcon
-            icon={faFacebook}
-            className="size-4 text-white transition-colors ease-in-out duration-300 hover:text-[#00aced]"
-          />
-        </a>
-        <a href="#">
-          <FontAwesomeIcon
-            icon={faTwitter}
-            className="size-4 text-white transition-colors ease-in-out duration-300 hover:text-[#00aced]"
+            className="text-white text-lg hover:text-[#00aced] transition-colors"
           />
         </a>
         <a href="#">
           <FontAwesomeIcon
             icon={faInstagram}
-            className="size-4 text-white transition-colors ease-in-out duration-300 hover:text-[#00aced]"
+            className="text-white text-lg hover:text-[#00aced] transition-colors"
+          />
+        </a>
+        <a href="#">
+          <FontAwesomeIcon
+            icon={faTwitter}
+            className="text-white text-lg hover:text-[#00aced] transition-colors"
+          />
+        </a>
+        <a href="#">
+          <FontAwesomeIcon
+            icon={faFacebook}
+            className="text-white text-lg hover:text-[#00aced] transition-colors"
           />
         </a>
         <a href="#">
           <FontAwesomeIcon
             icon={faTelegram}
-            className="size-4 text-white transition-colors ease-in-out duration-300 hover:text-[#00aced]"
+            className="text-white text-lg hover:text-[#00aced] transition-colors"
           />
         </a>
       </div>
-      <p className="text-white text-sm mt-2">Copyright © Wordum</p>
+
+      {/* Copyright */}
+      <p className="text-sm mt-4">Copyright © Wordum</p>
     </footer>
   );
 }

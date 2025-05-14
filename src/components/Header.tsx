@@ -10,14 +10,26 @@ export default function Header() {
   const coins = useSelector((state: RootState) => state.game.coins);
 
   return (
-    <header className="relative py-3 px-5 w-full h-28 flex items-center justify-between bg-[#F4C9EC] md:bg-[#2258B9]">
+    <header className="relative w-full h-20 bg-[#F4C9EC] md:bg-[#2258B9]">
+      {/* Mobile Header: fixed top bar */}
+      <div className="absolute top-0 left-0 w-full flex items-center justify-between px-4 py-3 md:hidden">
+        <FaRegUserCircle size={28} color="black" />
+        <div className="flex items-center gap-3">
+          <IoSettingsOutline size={28} color="black" />
+          <div className="bg-[#FFB400] size-8 rounded-full flex items-center justify-center font-bold text-black">
+            {coins}
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop Header */}
       <img
         src="/Logo/Logo.png"
-        alt="Example Image"
-        className="hidden md:inline absolute top-6 left-7 h-16 w-auto"
+        alt="Logo"
+        className="hidden md:inline absolute top-4 left-7 h-12 w-auto"
       />
 
-      <nav className="hidden md:flex max-w-2xl m-auto gap-12 text-white">
+      <nav className="hidden md:flex max-w-2xl mx-auto gap-12 items-center h-full text-white justify-center">
         <Link className="text-xl font-bold hover:underline" href="/">
           HOME
         </Link>
@@ -34,16 +46,6 @@ export default function Header() {
           DAILY WORDUM
         </Link>
       </nav>
-      <div className="fixed top-0 flex items-center justify-between w-full  md:hidden px-5 py-3">
-        <FaRegUserCircle size={32} color="black" />
-
-        <div className="flex items-center gap-3">
-          <IoSettingsOutline size={32} color="black" />
-          <div className="flex justify-center items-center bg-[#FFB400] size-10 rounded-full font-bold">
-            {coins}
-          </div>
-        </div>
-      </div>
     </header>
   );
 }
