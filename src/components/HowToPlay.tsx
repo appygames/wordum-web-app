@@ -2,6 +2,7 @@
 import { cn } from "@/utils/utils";
 import { useState } from "react";
 import { RxCross1 } from "react-icons/rx";
+import { useSwipeable } from "react-swipeable";
 
 const HowToPlay = ({
   open,
@@ -11,11 +12,19 @@ const HowToPlay = ({
   onClose: () => void;
 }) => {
   const [step, setStep] = useState(1);
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => setStep((prev) => Math.min(prev + 1, 3)),
+    onSwipedRight: () => setStep((prev) => Math.max(prev - 1, 1)),
+    trackMouse: true,
+  });
   return (
     open && (
       <div>
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#FBDCF5] opacity-30"></div>
-        <div className="bg-[#2258B9] h-[700px] w-[335px] md:w-[80%] md:px-16 md:py-10 z-60 text-white rounded-xl shadow-lg fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#FBDCF5] opacity-70"></div>
+        <div
+          {...swipeHandlers}
+          className="bg-[#2258B9] h-[600px] md:h-[700px] w-[335px] md:w-[80%] md:px-16 md:py-10 z-60 text-white rounded-xl shadow-lg fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5"
+        >
           <button
             onClick={onClose}
             className="absolute md:hidden -top-12 left-1/2 transform cursor-pointer -translate-x-1/2 bg-[#2258B9] rounded-full w-11 h-11 flex items-center justify-center text-2xl font-bold"
@@ -108,7 +117,7 @@ const HowToPlay = ({
               <img
                 src="/images/demo.gif"
                 alt="demo game"
-                className="max-h-80 md:max-h-full mx-auto"
+                className="max-h-72 md:max-h-full mx-auto"
               />
             </div>
           )}
@@ -146,7 +155,7 @@ const HowToPlay = ({
               </ul>
             </div>
           )}
-          <div className="flex gap-2 items-center justify-center">
+          <div className="hidden  md:flex gap-2 items-center justify-center">
             <div
               className={cn(
                 "size-2 bg-[#D9D9D9] rounded-full cursor-pointer hover:bg-white",
@@ -169,6 +178,10 @@ const HowToPlay = ({
               onClick={() => setStep(3)}
             />
           </div>
+          {/* Swipe indicator (Mobile) */}
+        </div>
+        <div className="md:hidden mb-4 flex justify-center items-center text-xs text-white">
+          <div className="w-20 h-1 bg-white rounded-full"></div>
         </div>
       </div>
     )
