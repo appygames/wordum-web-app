@@ -71,42 +71,44 @@ const HowToPlay = ({
             </div>
           )}
           {step === 2 && (
-            <div className="text-sm flex flex-col gap-3 md:gap-9 h-[80vh]">
-              <h2 className="text-2xl md:text-4xl md:text-left text-center px-5 font-semibold">
-                Gameplay Rules{" "}
-              </h2>
-              <ul className="list-disc list-outside ml-4 text-left flex flex-col md:gap-2">
-                <li className="text-[15px] md:text-2xl">
-                  Players must place the correct letter in the correct grid
-                  position.
-                </li>
-                <li className="text-[15px] md:text-2xl">
-                  Color-coded feedback:
-                </li>
+            <div className="text-sm flex flex-col md:flex-row gap-3 md:gap-5 h-[80vh]">
+              <div className="flex flex-col gap-3 md:gap-9">
+                <h2 className="text-2xl md:text-4xl md:text-left text-center px-5 font-semibold">
+                  Gameplay Rules{" "}
+                </h2>
                 <ul className="list-disc list-outside ml-4 text-left flex flex-col md:gap-2">
                   <li className="text-[15px] md:text-2xl">
-                    Green: Correct letter in the correct position.{" "}
+                    Players must place the correct letter in the correct grid
+                    position.
                   </li>
                   <li className="text-[15px] md:text-2xl">
-                    Yellow: Correct letter but in the wrong position within the
-                    same word.
+                    Color-coded feedback:
+                  </li>
+                  <ul className="list-disc list-outside ml-4 text-left flex flex-col md:gap-2">
+                    <li className="text-[15px] md:text-2xl">
+                      Green: Correct letter in the correct position.{" "}
+                    </li>
+                    <li className="text-[15px] md:text-2xl">
+                      Yellow: Correct letter but in the wrong position within
+                      the same word.
+                    </li>
+                    <li className="text-[15px] md:text-2xl">
+                      Red: Incorrect letter, not part of the word.{" "}
+                    </li>
+                  </ul>
+                  <li className="text-[15px] md:text-2xl">
+                    Players get 3 attempts to guess all the words.
                   </li>
                   <li className="text-[15px] md:text-2xl">
-                    Red: Incorrect letter, not part of the word.{" "}
+                    If all words are guessed correctly, the player wins and
+                    earns 5 coins.{" "}
                   </li>
                 </ul>
-                <li className="text-[15px] md:text-2xl">
-                  Players get 3 attempts to guess all the words.
-                </li>
-                <li className="text-[15px] md:text-2xl">
-                  If all words are guessed correctly, the player wins and earns
-                  5 coins.{" "}
-                </li>
-              </ul>
+              </div>
               <img
-                src="/images/demo.png"
+                src="/images/demo.gif"
                 alt="demo game"
-                className="max-w-56 m-auto"
+                className="max-h-80 md:max-h-full mx-auto"
               />
             </div>
           )}
