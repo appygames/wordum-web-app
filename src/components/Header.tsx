@@ -17,7 +17,7 @@ export default function Header() {
     <img
       src="/Logo/Logo.png"
       alt="Logo"
-      className="h-16 w-auto"
+      className="h-8 md:h-16 w-auto"
     />
 
     {/* Settings Icon */}
