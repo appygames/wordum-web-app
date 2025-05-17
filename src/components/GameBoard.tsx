@@ -139,11 +139,11 @@ export default function GameBoard({ level }: { level: Difficulty }) {
 
       {/* Game Grid */}
       <div className="w-full px-2 sm:px-0">
-        <div className="flex flex-col gap-2 sm:gap-3 items-center mb-5 sm:mb-10">
+        <div className="flex flex-col gap-2 sm:gap-3 items-center mb-5">
           {grid.map((row, rowIndex) => (
             <div
               key={rowIndex}
-              className="flex py-1.5 sm:py-2 px-1 sm:px-6 rounded-lg gap-2.5 sm:gap-3 bg-[#FBDCF5]"
+              className="flex p-1 sm:py-2 sm:px-2 rounded-lg gap-2.5 sm:gap-3 bg-[#FBDCF5]"
             >
               {row.map((letter, colIndex) => {
                 const feedbackColor = feedback[rowIndex]?.[colIndex] as
@@ -169,7 +169,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
                   <div
                     key={colIndex}
                     className={cn(
-                      "w-15 h-15 sm:w-16 sm:h-16 bg-[#2258B9] rounded-full flex items-center justify-center text-white cursor-pointer text-lg sm:text-2xl font-semibold active:bg-white active:border-4 border-[#2258B9]",
+                      "w-12 h-12 sm:w-16 sm:h-16 bg-[#2258B9] rounded-full flex items-center justify-center text-white cursor-pointer text-lg sm:text-2xl font-semibold active:bg-white active:border-4 border-[#2258B9]",
                       color
                     )}
                     onClick={() => {
