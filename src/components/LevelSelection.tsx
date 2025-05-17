@@ -22,7 +22,12 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
           <FaRegUserCircle size={32} color="black" />
         </div>
         <div>
-          <IoSettingsOutline size={32} color="black" />
+          <IoSettingsOutline
+            size={32}
+            color="black"
+            className="cursor-pointer"
+            onClick={() => router.push("/setting")}
+          />
         </div>
       </nav>
       <div className="w-80 m-auto flex flex-col items-center">
