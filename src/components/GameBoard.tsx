@@ -154,13 +154,13 @@ export default function GameBoard({ level }: { level: Difficulty }) {
                 let color = "";
                 switch (feedbackColor) {
                   case "green":
-                    color = "bg-[#7CFF54]";
+                    color = "border-4 border-[#7CFF54]";
                     break;
                   case "yellow":
-                    color = "bg-[#FFF422]";
+                    color = "border-4 border-[#FFF422]";
                     break;
                   case "red":
-                    color = "bg-[#FF3538]";
+                    color = "border-4 border-[#FF3538]";
                     break;
                   default:
                     color = "";
@@ -169,7 +169,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
                   <div
                     key={colIndex}
                     className={cn(
-                      "w-15 h-15 sm:w-16 sm:h-16 bg-[#2258B9] rounded-full flex items-center justify-center text-white cursor-pointer text-lg sm:text-2xl font-semibold",
+                      "w-15 h-15 sm:w-16 sm:h-16 bg-[#2258B9] rounded-full flex items-center justify-center text-white cursor-pointer text-lg sm:text-2xl font-semibold active:bg-white active:border-4 border-[#2258B9]",
                       color
                     )}
                     onClick={() => {
