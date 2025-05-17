@@ -1,14 +1,10 @@
 // components/SettingsPage.tsx
 "use client";
+import { cn } from "@/utils/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import {
-  FaArrowLeft,
-  FaInstagram,
-  FaFacebook,
-  FaTelegram,
-  FaDiscord,
-} from "react-icons/fa";
+import { ArrowLeftIcon } from "../../public/icons";
+import { FaInstagram, FaFacebook, FaTelegram, FaDiscord } from "react-icons/fa";
 
 export default function SettingsPage() {
   const [sound, setSound] = useState(true);
@@ -18,16 +14,15 @@ export default function SettingsPage() {
   return (
     <div className="w-full h-screen bg-[#F4C9EC] p-4 flex flex-col">
       {/* Header */}
-      <div className="flex items-center mb-6">
-        <FaArrowLeft
-          className="text-xl mr-2 cursor-pointer"
-          onClick={() => router.push("/")}
-        />
-        <h1 className="text-xl font-semibold">Settings</h1>
+      <div className="flex items-center gap-4 mb-6">
+        <div onClick={() => router.push("/")}>
+          <ArrowLeftIcon />
+        </div>
+        <h1 className="text-xl text-black font-semibold">Settings</h1>
       </div>
 
       {/* Toggles */}
-      <div className="space-y-4 mb-6">
+      <div className="space-y-4 mb-6 ">
         <SettingToggle
           label="Sound"
           enabled={sound}
@@ -53,11 +48,21 @@ export default function SettingsPage() {
       </div>
 
       {/* Social Icons */}
-      <div className="flex justify-center space-x-4 mt-auto">
-        <FaInstagram className="text-xl text-gray-700" />
-        <FaFacebook className="text-xl text-gray-700" />
-        <FaTelegram className="text-xl text-gray-700" />
-        <FaDiscord className="text-xl text-gray-700" />
+      <div className="flex justify-center space-x-4">
+        <div className="bg-white p-2 rounded-full">
+          <FaDiscord className="text-xl text-[#2258B9] " />
+        </div>
+        <div className="bg-white p-2 rounded-full">
+          <FaInstagram className="text-xl text-[#2258B9] " />
+        </div>
+
+        <div className="bg-white p-2 rounded-full">
+          <FaFacebook className="text-xl text-[#2258B9] " />
+        </div>
+
+        <div className="bg-white p-2 rounded-full">
+          <FaTelegram className="text-xl text-[#2258B9] " />
+        </div>
       </div>
     </div>
   );
@@ -74,19 +79,16 @@ function SettingToggle({
   onToggle: () => void;
 }) {
   return (
-    <div className="flex items-center justify-between bg-blue-600 text-white px-4 py-3 rounded-xl shadow">
+    <div className="flex items-center justify-between bg-[#2258B9] text-white px-4 py-3 rounded-xl shadow">
       <span>{label}</span>
       <button
         onClick={onToggle}
-        className={`w-12 h-6 rounded-full relative transition-all duration-300 ${
-          enabled ? "bg-green-400" : "bg-gray-400"
-        }`}
+        className={cn(
+          "w-12 min-h-6 p-0.5 rounded-full relative transition-all duration-300 border-4 border-white flex items-center",
+          enabled ? "justify-end" : "justify-start"
+        )}
       >
-        <span
-          className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white transition-transform duration-300 ${
-            enabled ? "translate-x-6" : ""
-          }`}
-        />
+        <span className="w-4 h-4 rounded-full bg-white transition-transform duration-300" />
       </button>
     </div>
   );
