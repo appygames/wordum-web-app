@@ -200,7 +200,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
               <button
                 key={index}
                 className={cn(
-                  "min-h-10 md:min-h-15 min-w-10 md:min-w-15  p-1 sm:p-3 bg-[#2258B9] text-white rounded-sm text-lg md:text-4xl font-bold cursor-pointer",
+                  "min-h-10 md:min-h-14 min-w-10 md:min-w-14  p-1 sm:p-2 bg-[#2258B9] text-white rounded-sm text-lg md:text-4xl font-bold cursor-pointer",
                   shouldDisable && "bg-gray-400 cursor-not-allowed",
                   index === currentChar && "ring-1 ring-inset ring-blue-800 bg-white text-blue-800"
                 )}
