@@ -12,7 +12,7 @@ export default function SettingsPage() {
   const router = useRouter();
 
   return (
-    <div className="w-full h-screen bg-[#F4C9EC] p-4 flex flex-col">
+    <div className="w-full h-screen bg-[#F4C9EC] p-4 flex flex-col md:hidden">
       {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <div onClick={() => router.push("/")}>

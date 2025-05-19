@@ -16,7 +16,7 @@ export default function Header() {
       {/* Mobile Header: fixed top bar */}
       <div className="absolute top-0 left-0 w-full flex items-center justify-between px-4 py-3 md:hidden">
         {/* Mobile Logo */}
-        <img src="/Logo/Logo.png" alt="Logo" className="h-8 md:h-16 w-auto" />
+        <img src="/Logo/Logo.png" alt="Logo" className="h-16 md:h-16 w-auto" />
 
         {/* Settings Icon */}
         <IoSettingsOutline
