@@ -20,7 +20,7 @@ import {
   resetFeedback,
 } from "@/features/game/gameSlice";
 
-import { cn, targetWords } from "@/utils/utils";
+import { cn, playSound, targetWords } from "@/utils/utils";
 import GameModal from "./GameModal";
 import HowToPlay from "./HowToPlay";
 
@@ -46,13 +46,14 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   const [showResume, setShowResume] = useState(false);
 
   const handleKeyClick = (char: string, index: number) => {
+    playSound("/sounds/click.mp3");
     setCurrentChar(index);
     dispatch(setSelectedLetter({ char, index }));
   };
 
   const handleCircleClick = (row: number, col: number) => {
     if (!selectedLetter) return;
-
+    playSound("/sounds/place.mp3");
     dispatch(
       evaluateLetter({
         selectedLetter: selectedLetter,
@@ -81,6 +82,25 @@ export default function GameBoard({ level }: { level: Difficulty }) {
       dispatch(revealLettersInGrid(targetWords[level as Difficulty]));
     }
   }, [level, dispatch]);
+  useEffect(() => {
+    if (gameStatus === "won") {
+      playSound("/sounds/win.mp3");
+    } else if (gameStatus === "lost") {
+      playSound("/sounds/lose.wav");
+    }
+  }, [gameStatus]);
+  useEffect(() => {
+    const sounds = [
+      "/sounds/click.mp3",
+      "/sounds/place.mp3",
+      "/sounds/win.mp3",
+      "/sounds/lose.wav",
+    ];
+    sounds.forEach((src) => {
+      const audio = new Audio(src);
+      audio.load();
+    });
+  }, []);
 
   return (
     <div className="h-[100dvh] w-full flex flex-col justify-between items-center bg-[#F4C9EC]">
@@ -202,7 +222,8 @@ export default function GameBoard({ level }: { level: Difficulty }) {
                 className={cn(
                   "min-h-10 md:min-h-14 min-w-10 md:min-w-14  p-1 sm:p-2 bg-[#2258B9] text-white rounded-sm text-lg md:text-4xl font-bold cursor-pointer",
                   shouldDisable && "bg-gray-400 cursor-not-allowed",
-                  index === currentChar && "ring-1 ring-inset ring-blue-800 bg-white text-blue-800"
+                  index === currentChar &&
+                    "ring-1 ring-inset ring-blue-800 bg-white text-blue-800"
                 )}
                 onClick={() => handleKeyClick(char, index)}
                 disabled={shouldDisable}

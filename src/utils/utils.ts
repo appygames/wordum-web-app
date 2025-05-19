@@ -10,3 +10,9 @@ export const targetWords = {
 export function cn(...inputs: ClassNameValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export const playSound = (soundPath: string) => {
+  if (localStorage.getItem("sound") === "false") return;
+  const audio = new Audio(soundPath);
+  audio.play();
+};

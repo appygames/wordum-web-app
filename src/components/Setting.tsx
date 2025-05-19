@@ -2,7 +2,7 @@
 "use client";
 import { cn } from "@/utils/utils";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeftIcon } from "../../public/icons";
 import { FaInstagram, FaFacebook, FaTelegram, FaDiscord } from "react-icons/fa";
 
@@ -10,7 +10,15 @@ export default function SettingsPage() {
   const [sound, setSound] = useState(true);
   const [notifications, setNotifications] = useState(true);
   const router = useRouter();
-
+  useEffect(() => {
+    const storedSound = localStorage.getItem("sound");
+    if (storedSound !== null) {
+      setSound(storedSound === "true");
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("sound", String(sound));
+  }, [sound]);
   return (
     <div className="w-full h-screen bg-[#F4C9EC] p-4 flex flex-col md:hidden">
       {/* Header */}
