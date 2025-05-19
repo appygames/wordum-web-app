@@ -193,7 +193,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
 
       {/* Keyboard */}
       <div className="w-full flex justify-center items-center py-4 sm:py-5 bg-[#FBDCF5]">
-        <div className="flex justify-center items-center flex-wrap gap-2 sm:gap-5 max-w-[400px] md:max-w-[550px]">
+        <div className="flex justify-center items-center flex-wrap gap-4 sm:gap-5 max-w-[400px] md:max-w-[550px]">
           {keyboard.map((char, index) => {
             const shouldDisable = disabledButtons.includes(index);
             return (
