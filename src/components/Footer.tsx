@@ -6,6 +6,7 @@ import {
   faTelegram,
   faDiscord,
 } from "@fortawesome/free-brands-svg-icons";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -15,9 +16,12 @@ export default function Footer() {
         <a href="#" className="font-bold text-sm hover:underline">
           PRIVACY POLICY
         </a>
-        <a href="#" className="font-bold text-sm hover:underline">
+        <Link
+          href="/privacy-policy"
+          className="font-bold text-sm hover:underline"
+        >
           TERMS AND CONDITIONS
-        </a>
+        </Link>
       </div>
 
       {/* Social icons */}
