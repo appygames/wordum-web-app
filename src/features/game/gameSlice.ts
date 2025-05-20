@@ -1,3 +1,4 @@
+import { playSound } from "@/utils/utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type Difficulty = "easy" | "medium" | "hard" | "expert";
@@ -162,6 +163,7 @@ const gameSlice = createSlice({
         } else {
           state.feedback[rowIndex][colIndex] = "red";
           state.attempts -= 1;
+          playSound("/sounds/error.mp3");
         }
         state.selectedLetter = null;
       }

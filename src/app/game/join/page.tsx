@@ -1,3 +1,5 @@
+import DownloadApp from "@/components/DownloadApp";
+
 export default function CodeEnter(){
-  return <h1>Code Enter</h1>
+  return <DownloadApp />
 }

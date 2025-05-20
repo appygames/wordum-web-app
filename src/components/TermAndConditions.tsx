@@ -1,9 +1,21 @@
+"use client";
 import React from "react";
+import { IoIosArrowBack } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 function TermAndConditions() {
+  const router = useRouter();
   return (
     <div className="w-full  h-screen overflow-auto bg-[#F4C9EC] text-black">
-      <div className="max-w-4xl mx-auto px-4 py-10 space-y-2">
+      {/* Back Arrow in Top-Right */}
+      <IoIosArrowBack
+        size={32}
+        className="relative
+      sm:absolute sm:top-3 sm:left-4
+ top-3 left-4 cursor-pointer text-black"
+        onClick={() => router.push("/")}
+      />
+      <div className="max-w-4xl mt-2.5 mx-auto px-4 py-17 space-y-2">
         <h1 className="text-4xl">Privacy Policy</h1>
         <div className="space-y-2">
           <p className="text-justify">Last updated: January 03, 2025</p>
@@ -27,7 +39,9 @@ function TermAndConditions() {
             singular or in plural.
           </p>
           <h3 className="text-xl">Definitions</h3>
-          <p className="text-justify">For the purposes of this Privacy Policy:</p>
+          <p className="text-justify">
+            For the purposes of this Privacy Policy:
+          </p>
           <ul className="list-disc">
             <li className="list-outside">
               <p className="text-justify">
@@ -122,7 +136,9 @@ function TermAndConditions() {
             <li className="list-outside">Usage Data</li>
           </ul>
           <h4>Usage Data</h4>
-          <p className="text-justify">Usage Data is collected automatically when using the Service.</p>
+          <p className="text-justify">
+            Usage Data is collected automatically when using the Service.
+          </p>
           <p className="text-justify">
             Usage Data may include information such as Your Device&apos;s
             Internet Protocol address (e.g. IP address), browser type, browser
@@ -144,7 +160,9 @@ function TermAndConditions() {
             mobile device.
           </p>
           <h3 className="text-xl">Use of Your Personal Data</h3>
-          <p className="text-justify">The Company may use Personal Data for the following purposes:</p>
+          <p className="text-justify">
+            The Company may use Personal Data for the following purposes:
+          </p>
           <ul className="list-disc">
             <li className="list-outside">
               <p className="text-justify">
@@ -354,7 +372,9 @@ function TermAndConditions() {
           </p>
           <ul className="list-disc">
             <li className="list-outside">Comply with a legal obligation</li>
-            <li className="list-outside">Protect and defend the rights or property of the Company</li>
+            <li className="list-outside">
+              Protect and defend the rights or property of the Company
+            </li>
             <li className="list-outside">
               Prevent or investigate possible wrongdoing in connection with the
               Service

@@ -53,6 +53,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
 
   const handleCircleClick = (row: number, col: number) => {
     if (!selectedLetter) return;
+
     playSound("/sounds/place.mp3");
     dispatch(
       evaluateLetter({
@@ -84,7 +85,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   }, [level, dispatch]);
   useEffect(() => {
     if (gameStatus === "won") {
-      playSound("/sounds/win.mp3");
+      playSound("/sounds/you-win.mp3");
     } else if (gameStatus === "lost") {
       playSound("/sounds/lose.wav");
     }
@@ -93,8 +94,9 @@ export default function GameBoard({ level }: { level: Difficulty }) {
     const sounds = [
       "/sounds/click.mp3",
       "/sounds/place.mp3",
-      "/sounds/win.mp3",
+      "/sounds/you-win.mp3",
       "/sounds/lose.wav",
+      "/sounds/error.mp3",
     ];
     sounds.forEach((src) => {
       const audio = new Audio(src);
@@ -112,9 +114,10 @@ export default function GameBoard({ level }: { level: Difficulty }) {
             style={{ color: "#000" }}
             onClick={() => router.push("/game")}
           />
-          <FaArrowRotateLeft
-            className="cursor-pointer  w-[34px] h-[22px] md:w-[25px] md:h-[25px]"
-            style={{ color: "#000" }}
+          <img
+            src="/icons/restart_alt.png"
+            alt="Reset"
+            className="cursor-pointer w-[29px] h-[29px] md:w-[25px] md:h-[25px]"
             onClick={() => setShowResume(true)}
           />
           <span
@@ -128,7 +131,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
 
         {/* Center Attempt Display */}
         <div className="absolute top-12 sm:static left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 w-fit mx-auto flex flex-col items-center justify-center gap-2 sm:gap-3">
-          <div className="flex gap-3 sm:gap-2 text-yellow-300 text-3xl sm:text-4xl">
+         <div className="flex gap-3 sm:gap-2 text-yellow-300 text-3xl sm:text-4xl">
             {[...Array(3)].map((_, index) => (
               <FaLightbulb
                 key={index}
@@ -147,12 +150,21 @@ export default function GameBoard({ level }: { level: Difficulty }) {
             className="cursor-pointer w-[34px] h-[22px] md:w-[28px] md:h-[28px]"
             style={{ color: "#000" }}
           />
-          <BsBrightnessHighFill
-            className="cursor-pointer w-[34px] h-[22px] md:w-[28px] md:h-[28px]"
+          <img
+            src="/icons/hint.png"
+            alt="Brightness"
+            className="cursor-pointer w-[29px] h-[29px] md:w-[28px] md:h-[28px]"
             style={{ color: "#000" }}
           />
-          <div className="flex justify-center items-center bg-[#FFB400] size-8 sm:size-10 rounded-full font-bold text-sm sm:text-base">
-            {coins}
+          <div className="relative w-8 h-8 sm:w-10 sm:h-10">
+            <img
+              src="/icons/Coin (2).png"
+              alt="Coins"
+              className="w-full h-full object-contain"
+            />
+            <span className="absolute inset-0 flex items-center justify-center text-black font-bold text-sm sm:text-base">
+              {coins}
+            </span>
           </div>
         </div>
       </div>
@@ -163,7 +175,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
           {grid.map((row, rowIndex) => (
             <div
               key={rowIndex}
-              className="flex p-1 sm:py-2 sm:px-2 rounded-lg gap-2.5 sm:gap-3 bg-[#FBDCF5]"
+              className="flex p-1 sm:py-2 sm:px-2 rounded-lg gap-3.5 sm:gap-3 bg-[#FBDCF5]"
             >
               {row.map((letter, colIndex) => {
                 const feedbackColor = feedback[rowIndex]?.[colIndex] as
@@ -256,7 +268,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
       <GameModal
         open={gameStatus === "won"}
         title="You Won"
-        subtitle="You successfully found all four words. Coins earned."
+        subtitle={`You successfully found all four words Coins earned: ${coins}`}
         type="win"
       />
     </div>
