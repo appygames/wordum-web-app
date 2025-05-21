@@ -1,18 +1,13 @@
 // "use client";
 // import { usePathname } from "next/navigation";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-// import Header from "@/components/Header";
-// import Footer from "@/components/Footer";
 import { Providers } from "./provider";
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import { Nunito } from 'next/font/google';
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const nunito = Nunito({
+  subsets: ['latin'],
+  weight: ['400', '700'], // Add more weights if needed
+  variable: '--font-nunito',
 });
 
 export default function RootLayout({
@@ -24,8 +19,8 @@ export default function RootLayout({
   // const hideLayout = pathname.startsWith("/game");
 
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" className={nunito.variable}>
+      <body className="font-nunito">
        <Providers>{children}</Providers>
       </body>
     </html>

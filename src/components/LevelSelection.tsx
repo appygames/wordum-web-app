@@ -19,7 +19,12 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             style={{ cursor: "pointer", color: "#000" }}
             onClick={() => router.push("/")}
           />
-          <FaRegUserCircle size={32} color="black" />
+          <FaRegUserCircle
+          size={32}
+          color="black"
+          className="cursor-pointer"
+          onClick={() => router.push("/download")}
+        />
         </div>
         <div>
           <IoSettingsOutline

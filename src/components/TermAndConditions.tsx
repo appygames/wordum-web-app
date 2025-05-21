@@ -2,17 +2,23 @@
 import React from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+
 
 function TermAndConditions() {
   const router = useRouter();
   return (
-    <div className="w-full  h-screen overflow-auto bg-[#F4C9EC] text-black">
+    <>
+    <div className="hidden md:block">
+     <Header  />
+     </div>
+    <div className="w-full h-screen md:h-[450px] overflow-auto bg-[#F4C9EC] text-black">
       {/* Back Arrow in Top-Right */}
       <IoIosArrowBack
         size={32}
         className="relative
-      sm:absolute sm:top-3 sm:left-4
- top-3 left-4 cursor-pointer text-black"
+        top-3 left-4 cursor-pointer text-black md:hidden"
         onClick={() => router.push("/")}
       />
       <div className="max-w-4xl mt-2.5 mx-auto px-4 py-17 space-y-2">
@@ -460,6 +466,10 @@ function TermAndConditions() {
         </div>
       </div>
     </div>
+    <div className="hidden md:block">
+     <Footer />
+     </div>
+    </>
   );
 }
 

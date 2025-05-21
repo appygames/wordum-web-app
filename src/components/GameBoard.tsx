@@ -1,5 +1,5 @@
 "use client";
-import { FaLightbulb, FaVolumeUp } from "react-icons/fa";
+import { FaLightbulb, FaVolumeUp, FaVolumeOff } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { FaArrowRotateLeft } from "react-icons/fa6";
 import { BsBrightnessHighFill } from "react-icons/bs";
@@ -25,6 +25,7 @@ import GameModal from "./GameModal";
 import HowToPlay from "./HowToPlay";
 
 export default function GameBoard({ level }: { level: Difficulty }) {
+  const [soundOn, setSoundOn] = useState(true);
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -104,6 +105,24 @@ export default function GameBoard({ level }: { level: Difficulty }) {
     });
   }, []);
 
+  useEffect(() => {
+    const storedSound = localStorage.getItem("sound");
+    if (storedSound !== null) {
+      setSoundOn(storedSound === "true");
+    }
+  }, []);
+
+  // Save sound state on change
+  useEffect(() => {
+    localStorage.setItem("sound", String(soundOn));
+  }, [soundOn]);
+
+  // Modified playSound function to respect soundOn state
+  const playSoundSafe = (src: string) => {
+    if (!soundOn) return;
+    playSound(src);
+  };
+
   return (
     <div className="h-[100dvh] w-full flex flex-col justify-between items-center bg-[#F4C9EC]">
       {/* Header Section */}
@@ -131,7 +150,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
 
         {/* Center Attempt Display */}
         <div className="absolute top-12 sm:static left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 w-fit mx-auto flex flex-col items-center justify-center gap-2 sm:gap-3">
-         <div className="flex gap-3 sm:gap-2 text-yellow-300 text-3xl sm:text-4xl">
+          <div className="flex gap-3 sm:gap-2 text-yellow-300 text-3xl sm:text-4xl">
             {[...Array(3)].map((_, index) => (
               <FaLightbulb
                 key={index}
@@ -146,23 +165,33 @@ export default function GameBoard({ level }: { level: Difficulty }) {
 
         {/* Right Section */}
         <div className="flex items-center gap-2 md:gap-6  sm:gap-3 mt-0 md:mt-[-58px]">
-          <FaVolumeUp
-            className="cursor-pointer w-[34px] h-[22px] md:w-[28px] md:h-[28px]"
-            style={{ color: "#000" }}
-          />
+          <button
+            onClick={() => setSoundOn(!soundOn)}
+            className="cursor-pointer"
+          >
+            {soundOn ? (
+              <FaVolumeUp className="text-gray-800 text-3xl" />
+            ) : (
+              <div className="relative inline-block w-8 h-7 md:w-8 md:h-7">
+                <FaVolumeOff className="text-gray-800 text-3xl" />
+                <span className="absolute top-1/2 left-0 w-full h-0.5 bg-black transform -rotate-45 origin-center"></span>
+              </div>
+            )}
+          </button>
+
           <img
             src="/icons/hint.png"
             alt="Brightness"
-            className="cursor-pointer w-[29px] h-[29px] md:w-[28px] md:h-[28px]"
+            className="cursor-pointer w-[27px] h-[29px] md:w-[28px] md:h-[32px]"
             style={{ color: "#000" }}
           />
-          <div className="relative w-8 h-8 sm:w-10 sm:h-10">
+          <div className="relative w-8 h-8 rounded-full bg-[#FFB400] flex items-center justify-center">
             <img
               src="/icons/Coin (2).png"
               alt="Coins"
-              className="w-full h-full object-contain"
+              className="w-6 h-6 object-contain"
             />
-            <span className="absolute inset-0 flex items-center justify-center text-black font-bold text-sm sm:text-base">
+            <span className="absolute text-black font-bold text-sm sm:text-base">
               {coins}
             </span>
           </div>
@@ -267,7 +296,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
       />
       <GameModal
         open={gameStatus === "won"}
-        title="You Won"
+        title="You Win"
         subtitle={`You successfully found all four words Coins earned: ${coins}`}
         type="win"
       />

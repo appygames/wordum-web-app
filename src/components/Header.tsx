@@ -16,11 +16,15 @@ export default function Header() {
       {/* Mobile Header: fixed top bar */}
       <div className="absolute top-0 left-0 w-full flex items-center justify-between px-4 py-3 md:hidden">
         {/* Mobile Logo */}
-        <img src="/Logo/logo-icon.svg" alt="Logo" className="h-16 md:h-16 w-auto" />
-
+        <FaRegUserCircle
+          size={32}
+          color="black"
+          className="cursor-pointer"
+          onClick={() => router.push("/download")}
+        />
         {/* Settings Icon */}
         <IoSettingsOutline
-          size={28}
+          size={32}
           color="black"
           className="cursor-pointer"
           onClick={() => router.push("/setting")}
@@ -34,7 +38,8 @@ export default function Header() {
         className="hidden md:inline absolute top-4 left-7 h-12 w-auto"
       />
 
-      <nav className="hidden md:flex max-w-2xl mx-auto gap-12 items-center h-full text-white justify-center">
+
+      <nav className="hidden md:flex font-nunito max-w-2xl mx-auto gap-12 items-center h-full text-white justify-center font-">
         <Link className="text-xl font-bold hover:underline" href="/">
           HOME
         </Link>
