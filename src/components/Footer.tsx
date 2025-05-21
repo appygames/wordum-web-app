@@ -32,7 +32,7 @@ export default function Footer() {
           rel="noopener noreferrer"
         >
           <img
-            src="/icons/discord-icon.svg"
+            src="/icons/dicord-icon.svg"
             alt="Discord"
             className="h-5 w-5 hover:opacity-70 transition-opacity"
           />
