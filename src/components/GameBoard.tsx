@@ -208,13 +208,13 @@ export default function GameBoard({ level }: { level: Difficulty }) {
                 let color = "";
                 switch (feedbackColor) {
                   case "green":
-                    color = "border-4 border-[#7CFF54]";
+                    color = "bg-[#7CFF54]";
                     break;
                   case "yellow":
-                    color = "border-4 border-[#FFF422]";
+                    color = "bg-[#FFF422]";
                     break;
                   case "red":
-                    color = "border-4 border-[#FF3538]";
+                    color = "bg-[#FF3538]";
                     break;
                   default:
                     color = "";
