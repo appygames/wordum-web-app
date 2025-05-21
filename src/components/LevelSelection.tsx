@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";
-import { RxCross1 } from "react-icons/rx";
+import { CrossIcon } from "../../public/icons";
 
 export default function LevelSelection({ onClose }: { onClose: () => void }) {
   const router = useRouter();
@@ -20,11 +20,11 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             onClick={() => router.push("/")}
           />
           <FaRegUserCircle
-          size={32}
-          color="black"
-          className="cursor-pointer"
-          onClick={() => router.push("/download")}
-        />
+            size={32}
+            color="black"
+            className="cursor-pointer"
+            onClick={() => router.push("/download")}
+          />
         </div>
         <div>
           <IoSettingsOutline
@@ -36,7 +36,9 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
         </div>
       </nav>
       <div className="w-80 m-auto flex flex-col items-center">
-        <RxCross1 className="close-icon cursor-pointer" onClick={onClose} />
+        <div className="close-icon cursor-pointer size-8" onClick={onClose}>
+          <CrossIcon />
+        </div>
         <div className="w-lg flex flex-col items-center gap-5 mb-32 md:mb-0 md:gap-4">
           <h2 className="text-black font-bold text-2xl mb-9 md:text-3xl md:mb-10">
             Choose your preferred level

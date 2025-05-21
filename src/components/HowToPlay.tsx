@@ -1,8 +1,8 @@
 "use client";
 import { cn } from "@/utils/utils";
 import { useState } from "react";
-import { RxCross1 } from "react-icons/rx";
 import { useSwipeable } from "react-swipeable";
+import { CrossIcon } from "../../public/icons";
 
 const HowToPlay = ({
   open,
@@ -31,10 +31,12 @@ const HowToPlay = ({
           >
             ×
           </button>
-          <RxCross1
-            className="absolute top-6 right-10 font-bold size-8 hidden md:block cursor-pointer"
+          <div
+            className="absolute size-8 top-6 right-10 font-bold size-8 hidden md:block cursor-pointer"
             onClick={onClose}
-          />
+          >
+            <CrossIcon />
+          </div>
           {step === 1 && (
             <div className="text-sm flex flex-col gap-3 md:gap-9 h-[80vh]">
               <h2 className="text-2xl md:text-3xl md:text-left text-center px-5 font-semibold">

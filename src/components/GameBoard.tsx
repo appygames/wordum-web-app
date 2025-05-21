@@ -1,10 +1,9 @@
 "use client";
-import { FaLightbulb, FaVolumeUp, FaVolumeOff } from "react-icons/fa";
+import { FaLightbulb, FaVolumeOff } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
-import { FaArrowRotateLeft } from "react-icons/fa6";
-import { BsBrightnessHighFill } from "react-icons/bs";
+
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Resume from "./Resume";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -23,6 +22,12 @@ import {
 import { cn, playSound, targetWords } from "@/utils/utils";
 import GameModal from "./GameModal";
 import HowToPlay from "./HowToPlay";
+import {
+  CoinIcon,
+  HintIcon,
+  RestartIcon,
+  SoundOnIcon,
+} from "../../public/icons";
 
 export default function GameBoard({ level }: { level: Difficulty }) {
   const [soundOn, setSoundOn] = useState(true);
@@ -45,9 +50,14 @@ export default function GameBoard({ level }: { level: Difficulty }) {
 
   const [showModal, setShowModal] = useState(false);
   const [showResume, setShowResume] = useState(false);
-
+  const playSoundSafe = useCallback(
+    (sound: string) => {
+      if (soundOn) playSound(sound);
+    },
+    [soundOn]
+  );
   const handleKeyClick = (char: string, index: number) => {
-    playSound("/sounds/click.mp3");
+    playSoundSafe("/sounds/click.mp3");
     setCurrentChar(index);
     dispatch(setSelectedLetter({ char, index }));
   };
@@ -55,7 +65,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   const handleCircleClick = (row: number, col: number) => {
     if (!selectedLetter) return;
 
-    playSound("/sounds/place.mp3");
+    playSoundSafe("/sounds/place.mp3");
     dispatch(
       evaluateLetter({
         selectedLetter: selectedLetter,
@@ -86,11 +96,11 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   }, [level, dispatch]);
   useEffect(() => {
     if (gameStatus === "won") {
-      playSound("/sounds/you-win.mp3");
+      playSoundSafe("/sounds/you-win.mp3");
     } else if (gameStatus === "lost") {
-      playSound("/sounds/lose.wav");
+      playSoundSafe("/sounds/lose.wav");
     }
-  }, [gameStatus]);
+  }, [gameStatus, playSoundSafe]);
   useEffect(() => {
     const sounds = [
       "/sounds/click.mp3",
@@ -117,12 +127,6 @@ export default function GameBoard({ level }: { level: Difficulty }) {
     localStorage.setItem("sound", String(soundOn));
   }, [soundOn]);
 
-  // Modified playSound function to respect soundOn state
-  const playSoundSafe = (src: string) => {
-    if (!soundOn) return;
-    playSound(src);
-  };
-
   return (
     <div className="h-[100dvh] w-full flex flex-col justify-between items-center bg-[#F4C9EC]">
       {/* Header Section */}
@@ -133,12 +137,9 @@ export default function GameBoard({ level }: { level: Difficulty }) {
             style={{ color: "#000" }}
             onClick={() => router.push("/game")}
           />
-          <img
-            src="/icons/restart_alt.png"
-            alt="Reset"
-            className="cursor-pointer w-[29px] h-[29px] md:w-[25px] md:h-[25px]"
-            onClick={() => setShowResume(true)}
-          />
+          <div className="size-6" onClick={() => setShowResume(true)}>
+            <RestartIcon />
+          </div>
           <span
             className="bg-[#2258B9] text-white  py-[7px] px-[13px] text-[13px]
   sm:py-[4px] sm:px-[10px] sm:text-[12px]
@@ -170,27 +171,19 @@ export default function GameBoard({ level }: { level: Difficulty }) {
             className="cursor-pointer"
           >
             {soundOn ? (
-              <FaVolumeUp className="text-gray-800 text-3xl" />
-            ) : (
-              <div className="relative inline-block w-8 h-7 md:w-8 md:h-7">
-                <FaVolumeOff className="text-gray-800 text-3xl" />
-                <span className="absolute top-1/2 left-0 w-full h-0.5 bg-black transform -rotate-45 origin-center"></span>
+              <div className="size-6">
+                <SoundOnIcon />
               </div>
+            ) : (
+              <FaVolumeOff className="text-gray-800 text-3xl" />
             )}
           </button>
 
-          <img
-            src="/icons/hint.png"
-            alt="Brightness"
-            className="cursor-pointer w-[27px] h-[29px] md:w-[28px] md:h-[32px]"
-            style={{ color: "#000" }}
-          />
-          <div className="relative w-8 h-8 rounded-full bg-[#FFB400] flex items-center justify-center">
-            <img
-              src="/icons/Coin (2).png"
-              alt="Coins"
-              className="w-6 h-6 object-contain"
-            />
+          <div className="cursor-pointer size-8">
+            <HintIcon />
+          </div>
+          <div className="relative size-8 md:size-10 rounded-full bg-[#FFB400] flex items-center justify-center">
+            <CoinIcon />
             <span className="absolute text-black font-bold text-sm sm:text-base">
               {coins}
             </span>
