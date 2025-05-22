@@ -157,7 +157,7 @@ const HowToPlay = ({
               </ul>
             </div>
           )}
-          <div className="flex gap-2 items-center justify-center mt-[-183px] md:mt-4">
+          <div className="flex gap-2 items-center justify-center -mt-6">
             <div
               className={cn(
                 "size-2 bg-[#D9D9D9] rounded-full cursor-pointer hover:bg-white",
