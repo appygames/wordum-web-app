@@ -39,7 +39,7 @@ const GameModal = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#FBDCF5] opacity-50"></div>
         <div className="w-80 m-auto z-60 flex flex-col items-center">
           <div
-            className="absolute size-8 top-8 right-20 size-8 text-black cursor-pointer hidden md:block"
+            className="absolute size-8 top-8 right-20  text-black cursor-pointer hidden md:block"
             onClick={handleClose}
           >
             <CrossIcon />

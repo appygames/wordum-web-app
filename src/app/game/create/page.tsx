@@ -1,5 +1,6 @@
-import DownloadApp from "@/components/DownloadApp";
+import CreateGamePage from "@/components/CreateGame"
 
-export default function CreateGame(){
-    return <DownloadApp />
+
+export default function CreatePage(){
+    return <CreateGamePage/>
 }
