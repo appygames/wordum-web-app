@@ -1,6 +1,5 @@
 "use client";
 // components/GameModal.tsx
-
 import { FaHome, FaRedo } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
