@@ -1,4 +1,4 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyCetmeNwc4J3gDzcoYaARwyP3McEsMR4FI",
@@ -11,7 +11,7 @@ const firebaseConfig = {
   databaseURL: "https://wordum-game-5f739-default-rtdb.firebaseio.com",
 };
 
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export { db };

@@ -10,11 +10,13 @@ import { CoinIcon } from "../../public/icons";
 import ConfirmationModal from "./ConfirmationModalPage";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import CopyGameCode from "./CopyGameCode";
 export default function UserGameCreatePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const length = parseInt(searchParams.get("length") || "4", 10);
-
+  const [gameCode, setGameCode] = useState<string>("");
+  const [showGameCodeCopyModal, setShowGameCodeCopyModal] = useState(false);
   const [grid, setGrid] = useState<string[][]>(
     Array(4)
       .fill(null)
@@ -31,7 +33,6 @@ export default function UserGameCreatePage() {
       const newGrid = [...grid];
       newGrid[row] = [...newGrid[row]];
       newGrid[row][col] = letter;
-      console.log(newGrid);
       setGrid(newGrid);
     }
   };
@@ -55,9 +56,9 @@ export default function UserGameCreatePage() {
 
       const docRef = await addDoc(collection(db, "userGames"), gameData);
       console.log("Game saved with ID:", docRef.id);
-
-      // Optional: pass the doc ID to confirmation page
-      router.push(`/game/create/confirmation?id=${docRef.id}`);
+      setGameCode(docRef.id);
+      setShowModal(false);
+      setShowGameCodeCopyModal(true);
     } catch (error) {
       console.error("Error saving game to Firestore:", error);
       alert("Something went wrong while saving the game.");
@@ -65,8 +66,7 @@ export default function UserGameCreatePage() {
   };
 
   const handleConfirm = () => {
-    setShowModal(false);
-    router.push("/game/create/confirmation");
+    setShowModal(true);
   };
 
   return (
@@ -118,7 +118,7 @@ export default function UserGameCreatePage() {
 
         {/* Submit Button */}
         <button
-          onClick={handleSubmit}
+          onClick={handleConfirm}
           className="bg-[#B3B3B3] text-white text-lg font-bold px-8 py-3 rounded-lg"
         >
           SUBMIT
@@ -131,8 +131,11 @@ export default function UserGameCreatePage() {
       {showModal && (
         <ConfirmationModal
           onClose={() => setShowModal(false)}
-          onConfirm={handleConfirm}
+          onConfirm={handleSubmit}
         />
+      )}
+      {showGameCodeCopyModal && (
+        <CopyGameCode onClose={() => router.push("/")} code={gameCode} />
       )}
     </div>
   );
