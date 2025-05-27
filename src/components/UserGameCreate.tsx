@@ -60,7 +60,6 @@ export default function UserGameCreatePage() {
       setGameCode(docRef.id);
       setShowModal(false);
       setShowGameCodeCopyModal(true);
-      router.push("/create/confirmation");
     } catch (error) {
       console.error("Error saving game to Firestore:", error);
       alert("Something went wrong while saving the game.");
