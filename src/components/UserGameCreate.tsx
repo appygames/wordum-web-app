@@ -1,13 +1,10 @@
 "use client";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { IoIosArrowBack } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { CoinIcon } from "../../public/icons";
-import ConfirmationModal from "./ConfirmationModalPage";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import CopyGameCode from "./CopyGameCode";
@@ -46,11 +43,6 @@ export default function UserGameCreatePage() {
   };
 
   const handleSubmit = async () => {
-    const allFilled = grid.every((row) => row.every((cell) => cell !== ""));
-    if (!allFilled) {
-      alert("Please fill all letters before submitting.");
-      return;
-    }
     const level =
       length === 4 ? (reveal ? "easy" : "medium") : reveal ? "medium" : "hard";
     const targetWords = grid.map((row) => row.join(""));
@@ -68,7 +60,7 @@ export default function UserGameCreatePage() {
       setGameCode(docRef.id);
       setShowModal(false);
       setShowGameCodeCopyModal(true);
-       router.push("/create/confirmation");
+      router.push("/create/confirmation");
     } catch (error) {
       console.error("Error saving game to Firestore:", error);
       alert("Something went wrong while saving the game.");
@@ -76,7 +68,14 @@ export default function UserGameCreatePage() {
       setIsSubmitting(false);
     }
   };
-
+  const handleCreate = () => {
+    const allFilled = grid.every((row) => row.every((cell) => cell !== ""));
+    if (!allFilled) {
+      alert("Please fill all letters before submitting.");
+      return;
+    }
+    setShowModal(true);
+  };
   return (
     <div className="min-h-[100dvh] w-full flex flex-col items-center gap-9 bg-[#F4C9EC]">
       {/* Top Bar (Mobile) */}
@@ -114,40 +113,56 @@ export default function UserGameCreatePage() {
             </div>
           ))}
         </div>
-        <div className="flex items-center justify-between bg-[#2258B9] text-white px-4 md:px-10 py-3 md:py-5 gap-[3rem] rounded-lg shadow">
-          <span>Reveal one letter in each word</span>
-          <button
-            onClick={() => setReveal(!reveal)}
-            className={cn(
-              "w-12 min-h-6 p-0.5 rounded-full relative transition-all duration-300 border-4 border-white flex items-center",
-              reveal ? "justify-end" : "justify-start"
-            )}
-          >
-            <span className="w-4 h-4 rounded-full bg-white transition-transform duration-300" />
-          </button>
-        </div>
-        {/* Submit Button */}
-        <button
-          onClick={() => setShowModal(true)}
-          disabled={isSubmitting}
-          className={`px-15 py-4 rounded-lg text- font-bold ${
-            isSubmitting
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#B3B3B3] text-white"
-          }`}
-        >
-          {isSubmitting ? "Creating..." : "CREATE"}
-        </button>
-      </div>
+        {!showModal ? (
+          <>
+            {" "}
+            <div className="flex items-center justify-between bg-[#2258B9] text-white px-4 md:px-10 py-3 md:py-5 gap-[3rem] rounded-lg shadow">
+              <span>Reveal one letter in each word</span>
+              <button
+                onClick={() => setReveal(!reveal)}
+                className={cn(
+                  "w-12 min-h-6 p-0.5 rounded-full relative transition-all duration-300 border-4 border-white flex items-center",
+                  reveal ? "justify-end" : "justify-start"
+                )}
+              >
+                <span className="w-4 h-4 rounded-full bg-white transition-transform duration-300" />
+              </button>
+            </div>
+            <button
+              onClick={handleCreate}
+              disabled={isSubmitting}
+              className={`px-15 py-4 rounded-lg text- font-bold ${
+                isSubmitting
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#B3B3B3] text-white"
+              }`}
+            >
+              {isSubmitting ? "Creating..." : "CREATE"}
+            </button>
+          </>
+        ) : (
+          <>
+            <div className="flex items-center justify-between bg-[#2258B9] text-white px-4 md:px-10 py-3 md:py-5 gap-[3rem] rounded-lg shadow">
+              Do you want to submit?
+            </div>
 
-      {/* Confirmation Modal */}
-      {showModal && (
-        <ConfirmationModal
-          onClose={() => setShowModal(false)}
-          onConfirm={handleSubmit}
-          grid={grid}
-        />
-      )}
+            <div className="flex justify-center gap-6">
+              <button
+                onClick={() => {}}
+                className="bg-[#2258B9] text-white px-6 py-2 rounded-lg text-lg font-bold"
+              >
+                NO
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="bg-[#2258B9] text-white px-6 py-2 rounded-lg text-lg font-bold"
+              >
+                YES
+              </button>
+            </div>
+          </>
+        )}
+      </div>
 
       {/* Game Code Modal */}
       {showGameCodeCopyModal && (
