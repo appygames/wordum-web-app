@@ -3,20 +3,17 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import Image from "next/image";
-import {
-  ChevronDown,
-  ChevronUp,
-  Pencil,
-  BarChart2,
-  Wallet,
-} from "lucide-react";
-import { IoSettingsOutline } from "react-icons/io5";
-import { ArrowLeftIcon } from "lucide-react";
+import { IoBarChart, IoSettingsOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
-
-// Import Header and Footer
 import Header from "./Header";
 import Footer from "./Footer";
+import {
+  FaArrowLeft,
+  FaChevronDown,
+  FaChevronUp,
+  FaPencilAlt,
+  FaWallet,
+} from "react-icons/fa";
 
 export default function ProfileCard() {
   const { avatar, coins, stats } = useSelector(
@@ -35,7 +32,7 @@ export default function ProfileCard() {
       {/* Mobile Header */}
       <div className="md:hidden flex items-center justify-between px-4 py-3  bg-[#F4C9EC]">
         <div onClick={() => router.push("/")} className="cursor-pointer">
-          <ArrowLeftIcon />
+          <FaArrowLeft />
         </div>
         <div onClick={() => router.push("/setting")} className="cursor-pointer">
           <IoSettingsOutline size={24} />
@@ -56,14 +53,14 @@ export default function ProfileCard() {
             />
           )}
           <div className="absolute bottom-0 right-0 bg-[#2258B9] p-1 rounded-full">
-            <Pencil size={16} color="white" />
+            <FaPencilAlt size={16} color="white" />
           </div>
         </div>
 
         {/* Coin display */}
         <div className="bg-[#2258B9] text-white rounded-lg flex items-center justify-between px-4 py-2 mt-6 w-72 shadow-md">
           <div className="flex items-center gap-2">
-            <Wallet size={20} />
+            <FaWallet size={20} />
             <span className="font-semibold">Coins earned</span>
           </div>
           <span className="font-bold">{coins}</span>
@@ -78,10 +75,14 @@ export default function ProfileCard() {
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <BarChart2 size={20} />
+              <IoBarChart size={20} />
               <span className="font-semibold">Stats</span>
             </div>
-            {showStats ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+            {showStats ? (
+              <FaChevronUp size={18} />
+            ) : (
+              <FaChevronDown size={18} />
+            )}
           </div>
 
           {/* Stats details */}
