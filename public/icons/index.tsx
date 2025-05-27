@@ -1,3 +1,20 @@
+export const ArrowLeftIcon = () => {
+  return (
+    <svg
+      width="14"
+      height="24"
+      viewBox="0 0 14 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M11.6667 23.6673L0 12.0007L11.6667 0.333984L13.7375 2.40482L4.14167 12.0007L13.7375 21.5965L11.6667 23.6673Z"
+        fill="#1C1B1F"
+      />
+    </svg>
+  );
+};
+
 export function HintIcon() {
   return (
     <svg
@@ -163,3 +180,6 @@ export function CrossIcon() {
     </svg>
   );
 }
+
+
+

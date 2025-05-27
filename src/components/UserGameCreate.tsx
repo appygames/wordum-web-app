@@ -68,6 +68,7 @@ export default function UserGameCreatePage() {
       setGameCode(docRef.id);
       setShowModal(false);
       setShowGameCodeCopyModal(true);
+       router.push("/create/confirmation");
     } catch (error) {
       console.error("Error saving game to Firestore:", error);
       alert("Something went wrong while saving the game.");
@@ -78,21 +79,16 @@ export default function UserGameCreatePage() {
 
   return (
     <div className="min-h-[100dvh] w-full flex flex-col items-center gap-9 bg-[#F4C9EC]">
-      {/* Header */}
-      <div className="hidden md:block w-full">
-        <Header />
-      </div>
-
       {/* Top Bar (Mobile) */}
-      <div className="relative w-full flex items-center py-2 px-4 gap-4 text-sm md:hidden justify-between">
+      <div className="w-full flex items-center justify-between md:justify-around py-4 px-6 gap-4 md:gap-[85%] bg-[#F4C9EC]">
         <IoIosArrowBack
-          className="cursor-pointer w-[34px] h-[40px]"
-          style={{ color: "#000" }}
+          className="cursor-pointer w-8 h-8 md:w-10 md:h-10 text-black"
           onClick={() => router.push("/game/create")}
         />
+
         <div className="relative size-8 md:size-10 rounded-full bg-[#FFB400] flex items-center justify-center">
           <CoinIcon />
-          <span className="absolute text-black font-bold text-sm md:hidden">
+          <span className="absolute text-black font-bold text-sm md:text-base">
             {coins}
           </span>
         </div>
@@ -110,7 +106,7 @@ export default function UserGameCreatePage() {
                 <div
                   key={colIndex}
                   onClick={() => handleCircleClick(rowIndex, colIndex)}
-                  className="w-14 h-14 bg-[#2258B9] rounded-full flex items-center justify-center text-white cursor-pointer text-lg sm:text-2xl font-semibold active:bg-white active:border-4 border-[#2258B9]"
+                  className="w-16 h-16 bg-[#2258B9] rounded-full flex items-center justify-center text-white cursor-pointer text-lg sm:text-2xl font-semibold active:bg-white active:border-4 border-[#2258B9]"
                 >
                   {letter}
                 </div>
@@ -118,7 +114,7 @@ export default function UserGameCreatePage() {
             </div>
           ))}
         </div>
-        <div className="flex items-center justify-between bg-[#2258B9] text-white px-4 py-3 rounded-xl shadow">
+        <div className="flex items-center justify-between bg-[#2258B9] text-white px-4 md:px-10 py-3 md:py-5 gap-[3rem] rounded-lg shadow">
           <span>Reveal one letter in each word</span>
           <button
             onClick={() => setReveal(!reveal)}
@@ -134,19 +130,14 @@ export default function UserGameCreatePage() {
         <button
           onClick={() => setShowModal(true)}
           disabled={isSubmitting}
-          className={`px-8 py-3 rounded-lg text-lg font-bold ${
+          className={`px-15 py-4 rounded-lg text- font-bold ${
             isSubmitting
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-[#B3B3B3] text-white"
           }`}
         >
-          {isSubmitting ? "Submitting..." : "SUBMIT"}
+          {isSubmitting ? "Creating..." : "CREATE"}
         </button>
-      </div>
-
-      {/* Footer */}
-      <div className="hidden md:block w-full">
-        <Footer />
       </div>
 
       {/* Confirmation Modal */}
@@ -154,6 +145,7 @@ export default function UserGameCreatePage() {
         <ConfirmationModal
           onClose={() => setShowModal(false)}
           onConfirm={handleSubmit}
+          grid={grid}
         />
       )}
 
