@@ -99,6 +99,7 @@ export function HintIcon() {
     </svg>
   );
 }
+
 export function CoinIcon() {
   return (
     <svg
@@ -167,8 +168,7 @@ export function RestartIcon() {
 export function CrossIcon() {
   return (
     <svg
-      width="100%"
-      height="100%"
+      className="w-full h-full" 
       viewBox="0 0 28 28"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -180,6 +180,8 @@ export function CrossIcon() {
     </svg>
   );
 }
+
+
 
 
 
