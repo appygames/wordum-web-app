@@ -17,7 +17,8 @@ const CopyGameCode = ({
   const coins = useSelector((state: RootState) => state.game.coins);
 
   const handleShare = () => {
-    navigator.clipboard.writeText(code);
+    const shareString = `${window.location.origin}/game/join/${code}`;
+    navigator.clipboard.writeText(shareString);
     alert("Code copied! You can now share it.");
   };
 
@@ -39,8 +40,12 @@ const CopyGameCode = ({
 
       {/* Main Card */}
       <div className="bg-[#2258B9] text-white rounded-xl px-6 py-8 w-[85%] min-h-[450px] md:w-full md:max-w-xl md:min-h-[400px] text-center mt-20 md:mt-6">
-        <h2 className="text-3xl font-extrabold mb-7 tracking-wide">CONGRATULATIONS!</h2>
-        <p className=" text-xl md:text-lg font-semibold mt-11">You've successfully created your own wordum</p>
+        <h2 className="text-3xl font-extrabold mb-7 tracking-wide">
+          CONGRATULATIONS!
+        </h2>
+        <p className=" text-xl md:text-lg font-semibold mt-11">
+          You&apos;ve successfully created your own wordum
+        </p>
 
         <div
           className="text-2xl font-extrabold tracking-widest mt-11  cursor-pointer"

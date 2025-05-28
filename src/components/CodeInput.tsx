@@ -10,13 +10,10 @@ import { CoinIcon } from "../../public/icons";
 export default function CodeInput() {
   const [code, setCode] = useState("");
   const router = useRouter();
-const coins = useSelector((state: RootState) => state.game.coins);
+  const coins = useSelector((state: RootState) => state.game.coins);
   const avatar = useSelector((state: RootState) => state.user.avatar);
-
   const handlePlay = () => {
-    if (code.trim()) {
-      alert(`Code entered: ${code}`);
-    }
+    router.push(`/game/join/${code}`);
   };
 
   const handleClose = () => {

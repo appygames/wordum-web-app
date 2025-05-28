@@ -16,19 +16,22 @@ const db = getFirestore(app);
 
 export { db };
 
-export const getGameById = async (id: string) => {
-  try {
-    const docRef = doc(db, "userGames", id);
-    const docSnap = await getDoc(docRef);
+type GameData = {
+  id: string;
+  level: string;
+  targetWords: string[];
+  coins: number;
+  length: number;
+  createdAt: Date;
+};
 
-    if (docSnap.exists()) {
-      return { id: docSnap.id, ...docSnap.data() };
-    } else {
-      console.log("No such document!");
-      return null;
-    }
-  } catch (error) {
-    console.error("Error getting document:", error);
-    return null;
+export const getGameById = async (id: string): Promise<GameData> => {
+  const docRef = doc(db, "userGames", id);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return { id: docSnap.id, ...docSnap.data() } as GameData;
+  } else {
+    throw new Error("Game not found");
   }
 };
