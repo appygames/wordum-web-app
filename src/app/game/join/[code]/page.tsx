@@ -187,9 +187,13 @@ export default function Page() {
             )}
           </button>
 
-          <div className="cursor-pointer size-8">
+          <div
+            className="cursor-pointer size-8"
+            onClick={() => router.push(`/game/join/hint`)}
+          >
             <HintIcon />
           </div>
+
           <div className="relative size-8 md:size-10 rounded-full bg-[#FFB400] flex items-center justify-center">
             <CoinIcon />
             <span className="absolute text-black font-bold text-sm sm:text-base">
