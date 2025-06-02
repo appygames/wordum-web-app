@@ -26,6 +26,7 @@ export default function Hint({
 
   const handleUseCoins = () => {
     if (coins >= 100) {
+      localStorage.setItem("coins", (coins - 100).toString());
       alert("Used 100 coins for hint");
       handleHint();
     } else {
