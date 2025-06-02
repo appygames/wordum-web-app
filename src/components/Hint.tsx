@@ -91,7 +91,7 @@ export default function Hint({
             </button>
             <button
               disabled
-              className="bg-[#EB598F] cursor-not-allowed text-white text-lg font-bold py-3 rounded"
+              className="bg-[#B3B3B3] cursor-not-allowed text-white text-lg font-bold py-3 rounded"
             >
               Watch ad to get a free hint (coming soon)
             </button>
