@@ -27,7 +27,6 @@ const getInitialPlacedIndexes = (difficulty: Difficulty): number[][] =>
   Array.from({ length: 4 }, () =>
     Array(difficulty === "easy" || difficulty === "medium" ? 4 : 5).fill(null)
   );
-const getInitialCoins = () => Number(localStorage.getItem("coins")) || 0;
 
 const initialState: GameState = {
   difficulty: "easy",
@@ -40,7 +39,7 @@ const initialState: GameState = {
   placedLettersIndex: getInitialPlacedIndexes("easy"),
   disabledButtons: [],
   keyboard: [],
-  coins: getInitialCoins(),
+  coins: 0,
 };
 
 const gameSlice = createSlice({
@@ -226,6 +225,12 @@ const gameSlice = createSlice({
       localStorage.setItem("coins", action.payload.toString());
       state.coins = action.payload;
     },
+    loadCoinsFromStorage: (state) => {
+      if (typeof window !== "undefined") {
+        const storedCoins = localStorage.getItem("coins");
+        state.coins = storedCoins ? Number(storedCoins) : 0;
+      }
+    },
     resetFeedback: (state) => {
       state.feedback = [];
       state.attempts = 3;
@@ -249,6 +254,7 @@ export const {
   checkGameWon,
   resetFeedback,
   removeLetterFromGrid,
+  loadCoinsFromStorage,
   setCoins,
 } = gameSlice.actions;
 
