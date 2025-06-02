@@ -90,10 +90,10 @@ export default function Hint({
               Use free hint
             </button>
             <button
-              onClick={handleWatchAd}
-              className="bg-[#EB598F] text-white text-lg font-bold py-3 rounded"
+              disabled
+              className="bg-[#EB598F] cursor-not-allowed text-white text-lg font-bold py-3 rounded"
             >
-              Watch ad to get a free hint
+              Watch ad to get a free hint (coming soon)
             </button>
             <button
               onClick={handleUseCoins}
