@@ -29,6 +29,7 @@ import Resume from "@/components/Resume";
 import HowToPlay from "@/components/HowToPlay";
 import GameModal from "@/components/GameModal";
 import { getGameById } from "@/lib/firebase";
+import Hint from "@/components/Hint";
 
 export default function Page() {
   const [soundOn, setSoundOn] = useState(true);
@@ -48,7 +49,7 @@ export default function Page() {
   );
   const gameStatus = useSelector((state: RootState) => state.game.gameStatus);
   const feedback = useSelector((state: RootState) => state.game.feedback);
-
+  const [showHintModal, setShowHintModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showResume, setShowResume] = useState(false);
   const playSoundSafe = useCallback(
@@ -86,6 +87,10 @@ export default function Page() {
   });
   const [level, setLevel] = useState<Difficulty>("easy");
   const [gameTargetWords, setGameTargetWords] = useState<string[]>([]);
+  const handleHint = () => {
+    dispatch(revealLettersInGrid(gameTargetWords));
+    setShowHintModal(false);
+  };
   useEffect(() => {
     dispatch(resetFeedback());
     dispatch(setDifficulty(level as Difficulty));
@@ -189,7 +194,7 @@ export default function Page() {
 
           <div
             className="cursor-pointer size-8"
-            onClick={() => router.push(`/game/join/hint`)}
+            onClick={() => setShowHintModal(true)}
           >
             <HintIcon />
           </div>
@@ -292,7 +297,9 @@ export default function Page() {
         />
       )}
       <HowToPlay open={showModal} onClose={() => setShowModal(false)} />
-
+      {showHintModal && (
+        <Hint onClose={() => setShowHintModal(false)} handleHint={handleHint} />
+      )}
       <GameModal
         open={gameStatus === "lost"}
         title="Game Over"

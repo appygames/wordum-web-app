@@ -28,6 +28,7 @@ import {
   RestartIcon,
   SoundOnIcon,
 } from "../../public/icons";
+import Hint from "./Hint";
 
 export default function GameBoard({ level }: { level: Difficulty }) {
   const [soundOn, setSoundOn] = useState(true);
@@ -45,6 +46,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   const selectedLetter = useSelector(
     (state: RootState) => state.game.selectedLetter
   );
+  const [showHintModal, setShowHintModal] = useState(false);
   const gameStatus = useSelector((state: RootState) => state.game.gameStatus);
   const feedback = useSelector((state: RootState) => state.game.feedback);
 
@@ -94,6 +96,10 @@ export default function GameBoard({ level }: { level: Difficulty }) {
       dispatch(revealLettersInGrid(targetWords[level as Difficulty]));
     }
   }, [level, dispatch]);
+  const handleHint = () => {
+    dispatch(revealLettersInGrid(targetWords[level as Difficulty]));
+    setShowHintModal(false);
+  };
   useEffect(() => {
     if (gameStatus === "won") {
       playSoundSafe("/sounds/you-win.mp3");
@@ -179,7 +185,10 @@ export default function GameBoard({ level }: { level: Difficulty }) {
             )}
           </button>
 
-          <div className="cursor-pointer size-8">
+          <div
+            className="cursor-pointer size-8"
+            onClick={() => setShowHintModal(true)}
+          >
             <HintIcon />
           </div>
           <div className="relative size-8 md:size-10 rounded-full bg-[#FFB400] flex items-center justify-center">
@@ -280,6 +289,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
         />
       )}
       <HowToPlay open={showModal} onClose={() => setShowModal(false)} />
+      {showHintModal && <Hint onClose={() => setShowHintModal(false)} handleHint={handleHint}/>}
 
       <GameModal
         open={gameStatus === "lost"}
