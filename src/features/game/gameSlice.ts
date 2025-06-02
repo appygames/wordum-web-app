@@ -28,24 +28,7 @@ const getInitialPlacedIndexes = (difficulty: Difficulty): number[][] =>
     Array(difficulty === "easy" || difficulty === "medium" ? 4 : 5).fill(null)
   );
 const getInitialCoins = () => Number(localStorage.getItem("coins")) || 0;
-const setCoins = (difficulty: Difficulty) => {
-  let coins = getInitialCoins();
-  switch (difficulty) {
-    case "easy":
-      coins += 5;
-      break;
-    case "medium":
-      coins += 10;
-      break;
-    case "hard":
-      coins += 15;
-      break;
-    case "expert":
-      coins += 20;
-      break;
-  }
-  localStorage.setItem("coins", coins.toString());
-};
+
 const initialState: GameState = {
   difficulty: "easy",
   grid: getInitialGrid("easy"),
@@ -204,7 +187,23 @@ const gameSlice = createSlice({
         .every((cell) => cell !== "");
       if (allGreen && allFilled) {
         state.gameStatus = "won";
-        setCoins(state.difficulty);
+        let coins = state.coins;
+        switch (state.difficulty) {
+          case "easy":
+            coins += 5;
+            break;
+          case "medium":
+            coins += 10;
+            break;
+          case "hard":
+            coins += 15;
+            break;
+          case "expert":
+            coins += 20;
+            break;
+        }
+        localStorage.setItem("coins", coins.toString());
+        state.coins = coins;
       }
     },
     removeLetterFromGrid: (state, action) => {
@@ -223,7 +222,10 @@ const gameSlice = createSlice({
       state.placedLettersIndex[row][col] = null;
       state.selectedLetter = null;
     },
-
+    setCoins: (state, action: PayloadAction<number>) => {
+      localStorage.setItem("coins", action.payload.toString());
+      state.coins = action.payload;
+    },
     resetFeedback: (state) => {
       state.feedback = [];
       state.attempts = 3;
@@ -247,6 +249,7 @@ export const {
   checkGameWon,
   resetFeedback,
   removeLetterFromGrid,
+  setCoins,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

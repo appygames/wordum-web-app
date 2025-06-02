@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { CrossIcon } from "../../public/icons";
+import { setCoins } from "@/features/game/gameSlice";
 
 export default function Hint({
   onClose,
@@ -26,7 +27,7 @@ export default function Hint({
 
   const handleUseCoins = () => {
     if (coins >= 100) {
-      localStorage.setItem("coins", (coins - 100).toString());
+      setCoins(coins - 100);
       alert("Used 100 coins for hint");
       handleHint();
     } else {
