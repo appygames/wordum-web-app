@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Image from "next/image";
 
 export default function DailyWordumCard() {
   const [word, setWord] = useState("");
@@ -15,6 +16,7 @@ export default function DailyWordumCard() {
     "resilience",
     "eloquent",
     "benevolent",
+    "inevitable",
   ];
 
   useEffect(() => {
@@ -45,16 +47,28 @@ export default function DailyWordumCard() {
   return (
     <>
       <Header />
-      <div className="bg-[#F4C9EC] flex flex-col items-center justify-center min-h-[calc(100vh-80px)] md:min-h-[calc(100vh-284px)]">
-        <div className="absolute text-center mt-[-200px] px-4">
-          {loading ? (
-            <p className="text-xl font-semibold">Loading...</p>
-          ) : (
-            <>
-              <h2 className="text-2xl font-bold">{word}</h2>
-              <p className="mt-2 text-lg">{definition}</p>
-            </>
-          )}
+      <div className="bg-[#F4C9EC] flex flex-col items-center justify-center min-h-[calc(100vh-80px)] md:min-h-[calc(100vh-296px)] px-4">
+        {/* Card Container */}
+        <div className="relative w-[334px] md:w-[224px] h-[587px] md:h-[400px]">
+          {/* Card Image */}
+          <Image
+            src="/images/Card.png"
+            alt="Card Background"
+            fill
+            className="object-cover rounded-xl"
+          />
+
+          {/* Text Over Image */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10">
+            {loading ? (
+              <p className="text-xl font-semibold text-black">Loading...</p>
+            ) : (
+              <>
+                <h2 className="text-2xl font-bold text-black mb-[5rem]">{word}</h2>
+                <p className="mt-2 text-lg text-black mb-[8rem]">{definition}</p>
+              </>
+            )}
+          </div>
         </div>
       </div>
       <Footer />
