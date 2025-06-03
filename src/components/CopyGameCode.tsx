@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaShareAlt, FaHome } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { CoinIcon } from "../../public/icons";
@@ -15,12 +15,24 @@ const CopyGameCode = ({
 }) => {
   const router = useRouter();
   const coins = useSelector((state: RootState) => state.game.coins);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+  };
 
   const handleShare = () => {
-    const shareString = `${window.location.origin}/game/join/${code}`;
-    navigator.clipboard.writeText(shareString);
-    alert("Code copied! You can now share it.");
+    const shareUrl = `${window.location.origin}/game/join/${code}`;
+    navigator.clipboard.writeText(shareUrl);
   };
+
+  useEffect(() => {
+    if (copied) {
+      const timer = setTimeout(() => setCopied(false), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [copied]);
 
   return (
     <div className="fixed inset-0 z-50 bg-[#FBDCF5] flex flex-col items-center">
@@ -43,18 +55,25 @@ const CopyGameCode = ({
         <h2 className="text-3xl font-extrabold mb-7 tracking-wide">
           CONGRATULATIONS!
         </h2>
-        <p className=" text-xl md:text-lg font-semibold mt-11">
+        <p className="text-xl md:text-lg font-semibold mt-11">
           You&apos;ve successfully created your own wordum
         </p>
 
-        <div
-          className="text-2xl font-extrabold tracking-widest mt-11  cursor-pointer"
-          onDoubleClick={handleShare}
-        >
-          {code}
+        <div className="relative mt-11">
+          <div
+            className="text-2xl font-extrabold tracking-widest cursor-pointer"
+            onDoubleClick={handleCopyCode}
+          >
+            {code}
+          </div>
+          {copied && (
+            <span className="absolute left-1/2 -translate-x-1/2 text-sm text-white bg-black bg-opacity-70 px-2 py-1 rounded mt-2">
+              Copied!
+            </span>
+          )}
         </div>
 
-        <p className="text-xl md:text-lg  font-bold mt-13">
+        <p className="text-xl md:text-lg font-bold mt-13">
           Double tap on code to copy and share code
           <br />
           <span className="font-semibold">OR</span>
@@ -63,7 +82,7 @@ const CopyGameCode = ({
         </p>
       </div>
 
-      {/* Share and Home Icons - below the card */}
+      {/* Share and Home Buttons */}
       <div className="flex justify-center gap-8 mt-6">
         <button
           onClick={handleShare}
@@ -73,7 +92,7 @@ const CopyGameCode = ({
         </button>
         <button
           onClick={onClose}
-          className="bg-[#2258b9] text-white  rounded-full p-7 shadow-md hover:scale-105 transition"
+          className="bg-[#2258b9] text-white rounded-full p-7 shadow-md hover:scale-105 transition"
         >
           <FaHome size={40} />
         </button>
