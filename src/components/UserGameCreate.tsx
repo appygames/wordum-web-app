@@ -28,20 +28,6 @@ export default function UserGameCreatePage() {
   const [reveal, setReveal] = useState(false);
   const coins = useSelector((state: RootState) => state.game.coins);
 
-  const handleCircleClick = (row: number, col: number) => {
-    const input = prompt("Enter a letter (A–Z):")?.toUpperCase();
-    if (input && /^[A-Z]$/.test(input)) {
-      setGrid((prevGrid) => {
-        const newGrid = [...prevGrid];
-        newGrid[row] = [...newGrid[row]];
-        newGrid[row][col] = input;
-        return newGrid;
-      });
-    } else if (input) {
-      alert("Invalid input. Please enter a single letter (A–Z).");
-    }
-  };
-
   const handleSubmit = async () => {
     const level =
       length === 4 ? (reveal ? "easy" : "medium") : reveal ? "medium" : "hard";
@@ -67,6 +53,7 @@ export default function UserGameCreatePage() {
       setIsSubmitting(false);
     }
   };
+
   const handleCreate = () => {
     const allFilled = grid.every((row) => row.every((cell) => cell !== ""));
     if (!allFilled) {
@@ -75,6 +62,7 @@ export default function UserGameCreatePage() {
     }
     setShowModal(true);
   };
+
   return (
     <div className="min-h-[100dvh] w-full flex flex-col items-center gap-9 bg-[#F4C9EC]">
       {/* Top Bar (Mobile) */}
@@ -101,20 +89,32 @@ export default function UserGameCreatePage() {
               className="flex gap-3 justify-center bg-[#FBDCF5] p-2 rounded-md"
             >
               {row.map((letter, colIndex) => (
-                <div
+                <input
                   key={colIndex}
-                  onClick={() => handleCircleClick(rowIndex, colIndex)}
-                  className="w-16 h-16 bg-[#2258B9] rounded-full flex items-center justify-center text-white cursor-pointer text-lg sm:text-2xl font-semibold active:bg-white active:border-4 border-[#2258B9]"
-                >
-                  {letter}
-                </div>
+                  type="text"
+                  maxLength={1}
+                  value={letter}
+                  onChange={(e) => {
+                    const val = e.target.value.toUpperCase();
+                    if (/^[A-Z]?$/.test(val)) {
+                      setGrid((prevGrid) => {
+                        const newGrid = [...prevGrid];
+                        newGrid[rowIndex] = [...newGrid[rowIndex]];
+                        newGrid[rowIndex][colIndex] = val;
+                        return newGrid;
+                      });
+                    }
+                  }}
+                  className="w-16 h-16 text-center text-white bg-[#2258B9] rounded-full text-lg sm:text-2xl font-semibold border-none outline-none focus:ring-4 focus:ring-white placeholder:text-white uppercase"
+                  placeholder=""
+                />
               ))}
             </div>
           ))}
         </div>
+
         {!showModal ? (
           <>
-            {" "}
             <div className="flex items-center justify-between bg-[#2258B9] text-white px-4 md:px-10 py-3 md:py-5 gap-[3rem] rounded-lg shadow">
               <span>Reveal one letter in each word</span>
               <button
@@ -130,7 +130,7 @@ export default function UserGameCreatePage() {
             <button
               onClick={handleCreate}
               disabled={isSubmitting}
-              className={`px-15 py-4 rounded-lg text- font-bold ${
+              className={`px-15 py-4 rounded-lg font-bold ${
                 isSubmitting
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-[#B3B3B3] text-white"
@@ -147,7 +147,7 @@ export default function UserGameCreatePage() {
 
             <div className="flex justify-center gap-6">
               <button
-                onClick={() => {}}
+                onClick={() => setShowModal(false)}
                 className="bg-[#2258B9] text-white px-6 py-2 rounded-lg text-lg font-bold"
               >
                 NO
