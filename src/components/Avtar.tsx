@@ -22,6 +22,8 @@ export default function AvatarPage() {
   const selectedAvatar = useSelector((state: RootState) => state.user.avatar);
 
   const handleAvatarSelect = (src: string) => {
+    if (selectedAvatar === src) return;
+    localStorage.setItem("avatar", src);
     dispatch(setAvatar(src));
   };
 
@@ -75,7 +77,7 @@ export default function AvatarPage() {
           {avatars.map((src, index) => (
             <img
               key={index}
-              src={src} 
+              src={src}
               alt={`avatar-${index}`}
               onClick={() => handleAvatarSelect(src)}
               className={`"w-24 h-24 rounded-full border-4 object-cover cursor-pointer block p-0 m-0 ${
