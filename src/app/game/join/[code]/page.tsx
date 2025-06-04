@@ -298,7 +298,11 @@ export default function Page() {
       )}
       <HowToPlay open={showModal} onClose={() => setShowModal(false)} />
       {showHintModal && (
-        <Hint onClose={() => setShowHintModal(false)} handleHint={handleHint} />
+        <Hint
+          onClose={() => setShowHintModal(false)}
+          handleHint={handleHint}
+          level={level}
+        />
       )}
       <GameModal
         open={gameStatus === "lost"}

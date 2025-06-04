@@ -289,7 +289,13 @@ export default function GameBoard({ level }: { level: Difficulty }) {
         />
       )}
       <HowToPlay open={showModal} onClose={() => setShowModal(false)} />
-      {showHintModal && <Hint onClose={() => setShowHintModal(false)} handleHint={handleHint}/>}
+      {showHintModal && (
+        <Hint
+          onClose={() => setShowHintModal(false)}
+          handleHint={handleHint}
+          level={level}
+        />
+      )}
 
       <GameModal
         open={gameStatus === "lost"}

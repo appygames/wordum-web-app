@@ -4,25 +4,37 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { CrossIcon } from "../../public/icons";
 import { setCoins } from "@/features/game/gameSlice";
+type Difficulty = "easy" | "medium" | "hard" | "expert";
 
 export default function Hint({
   onClose,
   handleHint,
+  level,
 }: {
   onClose: () => void;
   handleHint: () => void;
+  level: Difficulty;
 }) {
   const coins = useSelector((state: RootState) => state.game.coins);
   const [clickedInsufficientCoins, setClickedInsufficientCoins] =
     useState(false);
   const [showAdModal, setShowAdModal] = useState(false);
+  const [freeHintUsed, setFreeHintUsed] = useState(false);
+
+  useEffect(() => {
+    const usedHints = JSON.parse(localStorage.getItem("usedFreeHints") || "{}");
+    setFreeHintUsed(usedHints[level] === true);
+  }, [level]);
 
   const handleFreeHint = () => {
-    handleHint();
-  };
+    const usedHints = JSON.parse(localStorage.getItem("usedFreeHints") || "{}");
 
-  const handleWatchAd = () => {
-    setShowAdModal(true);
+    if (!usedHints[level]) {
+      usedHints[level] = true;
+      localStorage.setItem("usedFreeHints", JSON.stringify(usedHints));
+      setFreeHintUsed(true);
+      handleHint();
+    }
   };
 
   const handleUseCoins = () => {
@@ -85,9 +97,16 @@ export default function Hint({
           <div className="flex flex-col gap-4 w-full px-4 md:px-24">
             <button
               onClick={handleFreeHint}
-              className="bg-[#EB598F] text-white text-lg font-bold py-3 rounded"
+              disabled={freeHintUsed}
+              className={`${
+                freeHintUsed
+                  ? "bg-[#B3B3B3] cursor-not-allowed"
+                  : "bg-[#EB598F]"
+              } text-white text-lg font-bold py-3 rounded`}
             >
-              Use free hint
+              {freeHintUsed
+                ? "Free hint already used for this level"
+                : "Use free hint"}
             </button>
             <button
               disabled
