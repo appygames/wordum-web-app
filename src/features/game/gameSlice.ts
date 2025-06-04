@@ -146,19 +146,20 @@ const gameSlice = createSlice({
       if (selectedLetter.char === correctLetter) {
         state.feedback[rowIndex][colIndex] = "green";
       } else {
-        const totalOccurrences = [...correctWord].filter(
-          (char) => char === selectedLetter.char
-        ).length;
+        // const totalOccurrences = [...correctWord].filter(
+        //   (char) => char === selectedLetter.char
+        // ).length;
 
-        const alreadyPlacedCount = (state.feedback[rowIndex] || []).filter(
-          (fb, idx) =>
-            (fb === "green" || fb === "yellow") &&
-            state.grid[rowIndex][idx] === selectedLetter.char
-        ).length;
+        // const alreadyPlacedCount = (state.feedback[rowIndex] || []).filter(
+        //   (fb, idx) =>
+        //     (fb === "green" || fb === "yellow") &&
+        //     state.grid[rowIndex][idx] === selectedLetter.char
+        // ).length;
 
         if (
-          correctWord.includes(selectedLetter.char) &&
-          alreadyPlacedCount < totalOccurrences
+          // correctWord.includes(selectedLetter.char) &&
+          // alreadyPlacedCount < totalOccurrences
+          correctWord.includes(selectedLetter.char)
         ) {
           state.feedback[rowIndex][colIndex] = "yellow";
         } else {
