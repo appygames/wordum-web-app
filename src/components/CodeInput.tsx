@@ -16,11 +16,6 @@ export default function CodeInput() {
     router.push(`/game/join/${code}`);
   };
 
-  const handleClose = () => {
-    // Define logic to close or navigate
-    alert("Close clicked");
-  };
-
   return (
     <div className="min-h-screen bg-pink-200 flex items-center justify-center relative">
       {/* Mobile Top Bar */}
@@ -54,7 +49,7 @@ export default function CodeInput() {
         {/* Close Button (desktop only) */}
         <div
           className="absolute  size-1 md:size-8 top-8 right-20 text-black cursor-pointer md:block"
-          onClick={handleClose}
+         onClick={() => router.push("/")}
         >
           <CrossIcon />
         </div>
