@@ -10,7 +10,7 @@ function Reset({
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-[#F4C9EC] flex flex-col items-center justify-center">
       <div className="w-80 m-auto flex flex-col items-center">
-        <p className="text-2xl font-bold bg-[#FBDCF5] mb-4">
+        <p className="text-2xl font-bold bg-[#2258B9] mb-4 px-4 py-2 rounded-lg">
           Are you sure you want to reset the game?
         </p>
         <div className="flex gap-4 w-xs m-auto items-center justify-center text-white">
