@@ -52,7 +52,7 @@ export default function ProfileCard() {
               className="w-24 h-24 rounded-full object-none p-0 m-0 block border-4 border-[#2258B9]"
             />
           )}
-          <div className="absolute bottom-0 right-0 bg-[#2258B9] p-1 rounded-full">
+          <div className="absolute bottom-0 right-0 bg-[#2258B9] p-1 rounded-full" onClick={() => router.push("/avatar")}>
             <FaPencilAlt size={16} color="white" />
           </div>
         </div>

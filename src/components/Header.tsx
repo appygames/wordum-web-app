@@ -21,7 +21,7 @@ export default function Header() {
           src={avatar ?? undefined}
           alt="Avatar"
           className="w-9 h-9 rounded-full cursor-pointer"
-          onClick={() => router.push("/avatar")}
+          onClick={() => router.push("/profile")}
         />
 
         {/* Settings Icon */}
@@ -52,7 +52,7 @@ export default function Header() {
         src={avatar ?? undefined}
         alt="Avatar"
         className="hidden md:inline-block absolute top-4 right-7 w-10 h-10 rounded-full cursor-pointer border-2 border-white"
-        onClick={() => router.push("/avatar")}
+        onClick={() => router.push("/profile")}
       />
     </header>
   );
