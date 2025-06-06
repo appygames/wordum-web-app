@@ -2,7 +2,6 @@
 import { FaLightbulb, FaVolumeOff } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Resume from "./Resume";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,10 +28,10 @@ import {
   SoundOnIcon,
 } from "../../public/icons";
 import Hint from "./Hint";
+import Reset from "./Reset";
 
 export default function GameBoard({ level }: { level: Difficulty }) {
   const [soundOn, setSoundOn] = useState(true);
-  const router = useRouter();
 
   const dispatch = useDispatch();
   const grid = useSelector((state: RootState) => state.game.grid);
@@ -49,7 +48,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   const [showHintModal, setShowHintModal] = useState(false);
   const gameStatus = useSelector((state: RootState) => state.game.gameStatus);
   const feedback = useSelector((state: RootState) => state.game.feedback);
-
+  const [showReset, setShowReset] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showResume, setShowResume] = useState(false);
   const playSoundSafe = useCallback(
@@ -85,10 +84,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
       letterUsage[letter] = (letterUsage[letter] || 0) + 1;
     }
   });
-
-  useEffect(() => {
-    if (!level) return;
-
+  const resetGame = useCallback(() => {
     dispatch(resetFeedback());
     dispatch(setDifficulty(level as Difficulty));
     dispatch(setTargetWords(targetWords[level as Difficulty]));
@@ -96,6 +92,10 @@ export default function GameBoard({ level }: { level: Difficulty }) {
       dispatch(revealLettersInGrid(targetWords[level as Difficulty]));
     }
   }, [level, dispatch]);
+  useEffect(() => {
+    if (!level) return;
+    resetGame();
+  }, [level, resetGame]);
   const handleHint = () => {
     dispatch(revealLettersInGrid(targetWords[level as Difficulty]));
     setShowHintModal(false);
@@ -132,7 +132,6 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   useEffect(() => {
     localStorage.setItem("sound", String(soundOn));
   }, [soundOn]);
-
   return (
     <div className="h-[100dvh] w-full flex flex-col justify-between items-center bg-[#F4C9EC]">
       {/* Header Section */}
@@ -141,9 +140,9 @@ export default function GameBoard({ level }: { level: Difficulty }) {
           <IoIosArrowBack
             className="cursor-pointer  w-[34px] h-[40px] md:w-[31px] md:h-[31px]"
             style={{ color: "#000" }}
-            onClick={() => router.push("/game")}
+            onClick={() => setShowResume(true)}
           />
-          <div className="size-6" onClick={() => setShowResume(true)}>
+          <div className="size-6" onClick={() => setShowReset(true)}>
             <RestartIcon />
           </div>
           <span
@@ -285,6 +284,15 @@ export default function GameBoard({ level }: { level: Difficulty }) {
           setShowModal={() => {
             setShowResume(false);
             setShowModal(true);
+          }}
+        />
+      )}
+      {showReset && (
+        <Reset
+          onClose={() => setShowReset(false)}
+          onConfirm={() => {
+            resetGame();
+            setShowReset(false);
           }}
         />
       )}
