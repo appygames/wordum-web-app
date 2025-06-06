@@ -2,7 +2,6 @@ import { playSound } from "@/utils/utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type Difficulty = "easy" | "medium" | "hard" | "expert";
-
 export type LetterFeedback = "green" | "yellow" | "red" | "";
 export type GameStatus = "playing" | "won" | "lost";
 interface GameState {

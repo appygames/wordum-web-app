@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { IoSettingsOutline } from "react-icons/io5";
-import { FaRegUserCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { RootState } from "../store";
