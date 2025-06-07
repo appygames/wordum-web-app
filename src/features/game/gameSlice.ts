@@ -144,6 +144,7 @@ const gameSlice = createSlice({
 
       if (selectedLetter.char === correctLetter) {
         state.feedback[rowIndex][colIndex] = "green";
+        state.selectedLetter = null;
       } else {
         // const totalOccurrences = [...correctWord].filter(
         //   (char) => char === selectedLetter.char
