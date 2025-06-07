@@ -210,9 +210,24 @@ const gameSlice = createSlice({
 
       const placedIndex = state.placedLettersIndex[row]?.[col];
       if (placedIndex !== null && placedIndex !== undefined) {
-        state.disabledButtons = state.disabledButtons.filter(
-          (index) => index !== placedIndex
-        );
+        // Check if the same index exists anywhere else in the grid
+        let isUsedElsewhere = false;
+        for (let r = 0; r < state.placedLettersIndex.length; r++) {
+          for (let c = 0; c < state.placedLettersIndex[r].length; c++) {
+            if (r === row && c === col) continue;
+            if (state.placedLettersIndex[r][c] === placedIndex) {
+              isUsedElsewhere = true;
+              break;
+            }
+          }
+          if (isUsedElsewhere) break;
+        }
+
+        if (!isUsedElsewhere) {
+          state.disabledButtons = state.disabledButtons.filter(
+            (index) => index !== placedIndex
+          );
+        }
       }
 
       state.grid[row][col] = "";
