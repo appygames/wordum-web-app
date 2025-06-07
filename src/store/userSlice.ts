@@ -1,36 +1,38 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+interface Stats {
+  easy: { wins: number; losses: number };
+  medium: { wins: number; losses: number };
+  hard: { wins: number; losses: number };
+  expert: { wins: number; losses: number };
+}
 
 interface UserState {
   avatar: string | null;
-  coins: number;
-  stats: {
-    easy: string;
-    medium: string;
-    hard: string;
-    expert: string;
-  };
+  stats: Stats;
 }
 
 const initialState: UserState = {
   avatar: null,
-  coins: 289,
   stats: {
-    easy: '35 / 60',
-    medium: '20 / 60',
-    hard: '10 / 60',
-    expert: '10 / 10',
+    easy: { wins: 0, losses: 0 },
+    medium: { wins: 0, losses: 0 },
+    hard: { wins: 0, losses: 0 },
+    expert: { wins: 0, losses: 0 },
   },
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     setAvatar(state, action: PayloadAction<string>) {
       state.avatar = action.payload;
     },
+    setStats(state, action: PayloadAction<Stats>) {
+      state.stats = action.payload;
+    },
   },
 });
 
-export const { setAvatar } = userSlice.actions;
+export const { setAvatar, setStats } = userSlice.actions;
 export default userSlice.reducer;

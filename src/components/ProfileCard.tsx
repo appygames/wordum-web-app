@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import Image from "next/image";
 import { IoBarChart, IoSettingsOutline } from "react-icons/io5";
@@ -14,14 +14,21 @@ import {
   FaPencilAlt,
   FaWallet,
 } from "react-icons/fa";
+import { setStats } from "@/store/userSlice";
 
 export default function ProfileCard() {
-  const { avatar, coins, stats } = useSelector(
-    (state: RootState) => state.user
-  );
-  const [showStats, setShowStats] = useState(false);
+  const dispatch = useDispatch();
   const router = useRouter();
-
+  const avatar = useSelector((state: RootState) => state.user.avatar);
+  const coins = useSelector((state: RootState) => state.game.coins);
+  const stats = useSelector((state: RootState) => state.user.stats);
+  const [showStats, setShowStats] = useState(false);
+  useEffect(() => {
+    const gameStats = localStorage.getItem("gameStats");
+    if (gameStats) {
+      dispatch(setStats(JSON.parse(gameStats)));
+    }
+  }, [dispatch]);
   return (
     <>
       {/* Desktop Header */}
@@ -30,7 +37,7 @@ export default function ProfileCard() {
       </div>
 
       {/* Mobile Header */}
-      <div className="md:hidden flex items-center justify-between px-4 py-3  bg-[#F4C9EC]">
+      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-[#F4C9EC]">
         <div onClick={() => router.push("/")} className="cursor-pointer">
           <FaArrowLeft />
         </div>
@@ -52,7 +59,10 @@ export default function ProfileCard() {
               className="w-24 h-24 rounded-full object-none p-0 m-0 block border-4 border-[#2258B9]"
             />
           )}
-          <div className="absolute bottom-0 right-0 bg-[#2258B9] p-1 rounded-full" onClick={() => router.push("/avatar")}>
+          <div
+            className="absolute bottom-0 right-0 bg-[#2258B9] p-1 rounded-full"
+            onClick={() => router.push("/avatar")}
+          >
             <FaPencilAlt size={16} color="white" />
           </div>
         </div>
@@ -66,7 +76,7 @@ export default function ProfileCard() {
           <span className="font-bold">{coins}</span>
         </div>
 
-        {/* Stats box with embedded content */}
+        {/* Stats box */}
         <div
           onClick={() => setShowStats(!showStats)}
           className={`bg-[#2258B9] text-white rounded-lg px-4 py-2 mt-4 w-72 shadow-md cursor-pointer transition-all duration-300 ${
@@ -95,19 +105,27 @@ export default function ProfileCard() {
               <div className="flex flex-col gap-y-6 md:gap-y-1">
                 <div className="flex justify-between">
                   <span>Easy</span>
-                  <span>{stats.easy}</span>
+                  <span>
+                    {stats.easy?.wins ?? 0} / {stats.easy?.losses ?? 0}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Medium</span>
-                  <span>{stats.medium}</span>
+                  <span>
+                    {stats.medium?.wins ?? 0} / {stats.medium?.losses ?? 0}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Hard</span>
-                  <span>{stats.hard}</span>
+                  <span>
+                    {stats.hard?.wins ?? 0} / {stats.hard?.losses ?? 0}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Expert</span>
-                  <span>{stats.expert}</span>
+                  <span>
+                    {stats.expert?.wins ?? 0} / {stats.expert?.losses ?? 0}
+                  </span>
                 </div>
               </div>
             </div>

@@ -16,3 +16,18 @@ export const playSound = (soundPath: string) => {
   const audio = new Audio(soundPath);
   audio.play();
 };
+
+export const updateGameStats = (level: string, result: "win" | "loss") => {
+  const statsKey = "gameStats";
+  const raw = localStorage.getItem(statsKey);
+  const stats = raw ? JSON.parse(raw) : {};
+
+  if (!stats[level]) {
+    stats[level] = { wins: 0, losses: 0 };
+  }
+
+  if (result === "win") stats[level].wins += 1;
+  else stats[level].losses += 1;
+
+  localStorage.setItem(statsKey, JSON.stringify(stats));
+};

@@ -18,7 +18,7 @@ import {
   resetFeedback,
 } from "@/features/game/gameSlice";
 
-import { cn, playSound, targetWords } from "@/utils/utils";
+import { cn, playSound, targetWords, updateGameStats } from "@/utils/utils";
 import GameModal from "./GameModal";
 import HowToPlay from "./HowToPlay";
 import {
@@ -102,11 +102,13 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   };
   useEffect(() => {
     if (gameStatus === "won") {
+      updateGameStats(level, "win");
       playSoundSafe("/sounds/you-win.mp3");
     } else if (gameStatus === "lost") {
+      updateGameStats(level, "loss");
       playSoundSafe("/sounds/lose.wav");
     }
-  }, [gameStatus, playSoundSafe]);
+  }, [gameStatus, playSoundSafe, attempts, level]);
   useEffect(() => {
     const sounds = [
       "/sounds/click.mp3",
