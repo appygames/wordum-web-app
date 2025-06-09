@@ -2,21 +2,8 @@
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { loadCoinsFromStorage } from "@/features/game/gameSlice";
-import { setAvatar } from "@/store/userSlice";
 
 export default function Home() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const coins = localStorage.getItem("coins");
-    const avatar = localStorage.getItem("avatar") || "/avatars/profile-1.png";
-    if (coins) {
-      dispatch(loadCoinsFromStorage());
-      dispatch(setAvatar(String(avatar)));
-    }
-  }, []);
   return (
     <div className="flex flex-col items-center bg-[#F4C9EC] min-h-screen max-h-screen overflow-hidden">
       <Header />

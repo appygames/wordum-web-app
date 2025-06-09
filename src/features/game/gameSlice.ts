@@ -241,12 +241,6 @@ const gameSlice = createSlice({
       localStorage.setItem("coins", action.payload.toString());
       state.coins = action.payload;
     },
-    loadCoinsFromStorage: (state) => {
-      if (typeof window !== "undefined") {
-        const storedCoins = localStorage.getItem("coins");
-        state.coins = storedCoins ? Number(storedCoins) : 0;
-      }
-    },
     resetFeedback: (state) => {
       state.feedback = [];
       state.attempts = 3;
@@ -270,7 +264,6 @@ export const {
   checkGameWon,
   resetFeedback,
   removeLetterFromGrid,
-  loadCoinsFromStorage,
   setCoins,
 } = gameSlice.actions;
 

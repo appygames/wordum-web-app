@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { CrossIcon } from "../../public/icons";
 import { setCoins } from "@/features/game/gameSlice";
@@ -15,6 +15,7 @@ export default function Hint({
   handleHint: () => void;
   level: Difficulty;
 }) {
+  const dispatch = useDispatch();
   const coins = useSelector((state: RootState) => state.game.coins);
   const [clickedInsufficientCoins, setClickedInsufficientCoins] =
     useState(false);
@@ -39,8 +40,7 @@ export default function Hint({
 
   const handleUseCoins = () => {
     if (coins >= 100) {
-      setCoins(coins - 100);
-      alert("Used 100 coins for hint");
+      dispatch(setCoins(coins - 100));
       handleHint();
     } else {
       setClickedInsufficientCoins(true);
@@ -109,6 +109,7 @@ export default function Hint({
                 : "Use free hint"}
             </button>
             <button
+              onClick={() => setShowAdModal(true)}
               disabled
               className="bg-[#B3B3B3] cursor-not-allowed text-white text-lg font-bold py-3 rounded"
             >
@@ -123,7 +124,7 @@ export default function Hint({
               Use 100 coins to get a free hint
             </button>
             {clickedInsufficientCoins && coins < 100 && (
-              <p className="text-xs text-gray-700 mt-[-10px]">
+              <p className="text-sm text-red-700 mt-[-10px]">
                 You don&apos;t have enough coins for this
               </p>
             )}

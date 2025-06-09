@@ -1,8 +1,11 @@
-// "use client";
-// import { usePathname } from "next/navigation";
+"use client";
 import "./globals.css";
 import { Providers } from "./provider";
 import { Nunito } from "next/font/google";
+import { useEffect } from "react";
+import { setAvatar } from "@/store/userSlice";
+import { setCoins } from "@/features/game/gameSlice";
+import { store } from "@/store";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -15,8 +18,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // const pathname = usePathname();
-  // const hideLayout = pathname.startsWith("/game");
+  useEffect(() => {
+    const coins = localStorage.getItem("coins");
+    const avatar = localStorage.getItem("avatar") || "/avatars/profile-1.png";
+    if (coins) {
+      const coins = localStorage.getItem("coins") || 0;
+      store.dispatch(setAvatar(String(avatar)));
+      store.dispatch(setCoins(Number(coins)));
+    }
+  }, []);
 
   return (
     <html lang="en" className={nunito.variable}>
