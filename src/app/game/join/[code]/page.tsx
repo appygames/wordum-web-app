@@ -214,7 +214,7 @@ export default function Page() {
           {grid.map((row, rowIndex) => (
             <div
               key={rowIndex}
-              className="flex p-1 sm:py-2 sm:px-2 rounded-lg gap-3.5 sm:gap-3 bg-[#FBDCF5]"
+              className="flex p-1 sm:py-2 sm:px-2 rounded-lg gap-3.5 sm:gap-3 bg-[#FBDCF5] shadow-[0_6px_15px_rgba(0,0,0,0.3)]"
             >
               {row.map((letter, colIndex) => {
                 const feedbackColor = feedback[rowIndex]?.[colIndex] as
