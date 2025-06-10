@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import Image from "next/image";
-import { IoBarChart, IoSettingsOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -14,6 +13,7 @@ import {
   FaPencilAlt,
   FaWallet,
 } from "react-icons/fa";
+import { IoBarChart, IoSettingsOutline } from "react-icons/io5";
 import { setStats } from "@/store/userSlice";
 
 export default function ProfileCard() {
@@ -23,21 +23,23 @@ export default function ProfileCard() {
   const coins = useSelector((state: RootState) => state.game.coins);
   const stats = useSelector((state: RootState) => state.user.stats);
   const [showStats, setShowStats] = useState(false);
+
   useEffect(() => {
     const gameStats = localStorage.getItem("gameStats");
     if (gameStats) {
       dispatch(setStats(JSON.parse(gameStats)));
     }
   }, [dispatch]);
+
   return (
-    <>
-      {/* Desktop Header */}
-      <div className="hidden md:block">
+    <div className="flex flex-col items-center bg-[#F4C9EC] min-h-screen max-h-screen overflow-hidden">
+      {/* Header (same as Home layout) */}
+      <div className="hidden md:block w-full">
         <Header />
       </div>
 
       {/* Mobile Header */}
-      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-[#F4C9EC]">
+      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-[#F4C9EC] w-full">
         <div onClick={() => router.push("/")} className="cursor-pointer">
           <FaArrowLeft />
         </div>
@@ -46,9 +48,9 @@ export default function ProfileCard() {
         </div>
       </div>
 
-      {/* Main profile content */}
-      <div className="flex flex-col items-center bg-[#F4C9EC] h-screen md:h-[60%] pt-12 pb-10 px-4">
-        {/* Avatar with edit icon */}
+      {/* Main content */}
+      <div className="flex flex-col items-center justify-center gap-6 h-[260px] md:w-1/4 w-[90%] m-auto font-nunito text-white mt-20 md:mt-auto">
+        {/* Avatar */}
         <div className="relative">
           {avatar && (
             <Image
@@ -60,15 +62,15 @@ export default function ProfileCard() {
             />
           )}
           <div
-            className="absolute bottom-0 right-0 bg-[#2258B9] p-1 rounded-full"
+            className="absolute bottom-0 right-0 bg-[#2258B9] p-1 rounded-full cursor-pointer"
             onClick={() => router.push("/avatar")}
           >
             <FaPencilAlt size={16} color="white" />
           </div>
         </div>
 
-        {/* Coin display */}
-        <div className="bg-[#2258B9] text-white rounded-lg flex items-center justify-between px-4 py-2 mt-6 w-72 shadow-md">
+        {/* Coins */}
+        <div className="bg-[#2258B9] text-white rounded-lg flex items-center justify-between px-4 py-2 w-full shadow-md">
           <div className="flex items-center gap-2">
             <FaWallet size={20} />
             <span className="font-semibold">Coins earned</span>
@@ -76,10 +78,10 @@ export default function ProfileCard() {
           <span className="font-bold">{coins}</span>
         </div>
 
-        {/* Stats box */}
+        {/* Stats toggle */}
         <div
           onClick={() => setShowStats(!showStats)}
-          className={`bg-[#2258B9] text-white rounded-lg px-4 py-2 mt-4 w-72 shadow-md cursor-pointer transition-all duration-300 ${
+          className={`bg-[#2258B9] text-white rounded-lg px-4 py-2 w-full shadow-md cursor-pointer transition-all duration-300 ${
             showStats ? "pb-4" : ""
           }`}
         >
@@ -102,7 +104,7 @@ export default function ProfileCard() {
                 <span>Level</span>
                 <span>Wins / Losses</span>
               </div>
-              <div className="flex flex-col gap-y-6 md:gap-y-1">
+              <div className="flex flex-col gap-y-2">
                 <div className="flex justify-between">
                   <span>Easy</span>
                   <span>
@@ -134,9 +136,9 @@ export default function ProfileCard() {
       </div>
 
       {/* Footer */}
-      <div className="hidden md:block">
+      <div className="hidden md:block w-full">
         <Footer />
       </div>
-    </>
+    </div>
   );
 }

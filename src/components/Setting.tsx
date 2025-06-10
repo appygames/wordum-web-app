@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaInstagram, FaFacebook, FaTelegram, FaDiscord } from "react-icons/fa";
+import { FaInstagram, FaFacebook, FaTelegram, FaDiscord} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { ArrowLeftIcon } from "../../public/icons";
 import { cn } from "@/utils/utils";
 import Header from "@/components/Header";
@@ -24,24 +25,29 @@ export default function SettingsPage() {
   }, [sound]);
 
   return (
-    <>
+    <div className="flex flex-col items-center bg-[#F4C9EC] min-h-screen max-h-screen overflow-hidden">
       {/* Desktop Header */}
-      <div className="hidden md:block">
+      <div className="hidden md:block w-full">
         <Header />
       </div>
 
-      {/* Mobile Settings Page */}
-      <div className="w-full h-screen bg-[#F4C9EC] p-4 flex flex-col md:hidden">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
+      {/* Main Settings Content */}
+      <div className="flex-1 w-full flex flex-col items-center justify-center overflow-auto px-4 pt-3 pb-[95%] md:pt-10 md:pb-10 md:px-0">
+        {/* Mobile Header */}
+        <div className="flex items-center gap-4 mb-6 md:hidden self-start">
           <div onClick={() => router.push("/")}>
             <ArrowLeftIcon />
           </div>
           <h1 className="text-xl text-black font-semibold">Settings</h1>
         </div>
 
-        {/* Toggles */}
-        <div className="space-y-4 mb-6">
+        {/* Title for Desktop */}
+        <h1 className="text-3xl font-extrabold text-black mb-6 hidden md:block">
+          Settings
+        </h1>
+
+        {/* Settings content */}
+        <div className="space-y-6 w-full md:w-[28rem] font-extrabold text-xl">
           <SettingToggle
             label="Sound"
             enabled={sound}
@@ -52,66 +58,37 @@ export default function SettingsPage() {
             enabled={notifications}
             onToggle={() => setNotifications(!notifications)}
           />
-        </div>
 
-        {/* Navigation Options */}
-        <div className="space-y-4 mb-6">
-          {["Language", "Help", "Privacy Policy"].map((item) => (
+          {["Language", "Help"].map((item) => (
             <button
               key={item}
-              className="w-full text-left bg-[#2258B9] text-white py-3 px-4 rounded-b-sm shadow"
+              className="w-full text-left bg-[#2258B9] text-white py-3 px-4 rounded-xl shadow"
             >
               {item}
             </button>
           ))}
+
+          {/* Show Privacy Policy only on mobile */}
+          <button className="w-full text-left bg-[#2258B9] text-white py-3 px-4 rounded-xl shadow md:hidden">
+            Privacy Policy
+          </button>
         </div>
 
-        {/* Social Icons */}
-        <div className="flex justify-center space-x-4">
-          <div className="bg-white p-2 rounded-full">
-            <FaDiscord className="text-xl text-[#2258B9]" />
-          </div>
-          <div className="bg-white p-2 rounded-full">
-            <FaInstagram className="text-xl text-[#2258B9]" />
-          </div>
-          <div className="bg-white p-2 rounded-full">
-            <FaFacebook className="text-xl text-[#2258B9]" />
-          </div>
-          <div className="bg-white p-2 rounded-full">
-            <FaTelegram className="text-xl text-[#2258B9]" />
-          </div>
-        </div>
-      </div>
-
-      {/* Desktop Settings Page */}
-      <div className="hidden md:flex flex-col items-center bg-[#F4C9EC] h-[60%] p-10">
-        <h1 className="text-3xl font-extrabold text-black mb-6">Settings</h1>
-
-        <div className="space-y-6 w-[28rem] font-extrabold text-xl">
-          <SettingToggle
-            label="Sound"
-            enabled={sound}
-            onToggle={() => setSound(!sound)}
-          />
-          <SettingToggle
-            label="Notifications"
-            enabled={notifications}
-            onToggle={() => setNotifications(!notifications)}
-          />
-          <button className="w-full text-left bg-[#2258B9] text-white py-3 px-4 rounded-xl shadow">
-            Language
-          </button>
-          <button className="w-full text-left bg-[#2258B9] text-white py-3 px-4 rounded-xl shadow">
-            Help
-          </button>
+        {/* Social Icons - mobile only */}
+        <div className="flex justify-center space-x-4 mt-8 md:hidden">
+          {[FaDiscord, FaInstagram, FaFacebook, FaXTwitter, FaTelegram].map((Icon, i) => (
+            <div key={i} className="bg-white p-2 rounded-full">
+              <Icon className="text-xl text-[#2258B9]" />
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Desktop Footer */}
-      <div className="hidden md:block">
+      <div className="hidden md:block w-full">
         <Footer />
       </div>
-    </>
+    </div>
   );
 }
 

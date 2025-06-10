@@ -56,7 +56,7 @@ export default function CreateGamePage() {
 
       {/* Desktop-only close icon in top-right */}
       <div
-        className="hidden md:block absolute top-6 right-40 cursor-pointer size-8"
+        className="hidden md:block absolute top-6 right-[50px] cursor-pointer size-8"
         onClick={handleClose}
       >
         <CrossIcon />

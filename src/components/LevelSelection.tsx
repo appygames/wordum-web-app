@@ -1,14 +1,16 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaRegUserCircle } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";
 import { CrossIcon } from "../../public/icons";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 export default function LevelSelection({ onClose }: { onClose: () => void }) {
   const router = useRouter();
   const [level, setLevel] = useState("");
+  const avatar = useSelector((state: RootState) => state.user.avatar);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-[#F4C9EC] flex flex-col items-center justify-center">
@@ -19,12 +21,12 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             style={{ cursor: "pointer", color: "#000" }}
             onClick={() => router.push("/")}
           />
-          <FaRegUserCircle
-            size={32}
-            color="black"
-            className="cursor-pointer"
-            onClick={() => router.push("/download")}
-          />
+        <img
+          src={avatar ?? undefined}
+          alt="Avatar"
+          className="w-9 h-9 rounded-full cursor-pointer"
+          onClick={() => router.push("/profile")}
+        />
         </div>
         <div>
           <IoSettingsOutline

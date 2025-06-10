@@ -46,41 +46,47 @@ export default function AvatarPage() {
   );
 
   return (
-    <>
-      {/* Desktop Header */}
-      <div className="hidden md:block">
+    <div className="flex flex-col items-center bg-[#F4C9EC] min-h-screen max-h-screen overflow-hidden">
+      <div className="hidden md:block w-full">
         <Header />
       </div>
 
-      {/* Mobile View */}
-      <div className="w-full h-screen bg-[#F4C9EC] p-4 flex flex-col md:hidden relative">
-        <div className="flex items-center gap-4 mb-4">
+      {/* Main Content */}
+      <div className="flex-1 w-full flex flex-col items-center justify-start md:justify-center p-4 md:p-10 relative">
+        {/* Mobile Back and Title */}
+        <div className="md:hidden flex items-center gap-4 w-full mb-6">
           <div onClick={() => router.back()}>
             <ArrowLeftIcon />
           </div>
           <h1 className="text-xl font-semibold text-black">Choose avatar</h1>
         </div>
 
-        {/* Check icon in top-right */}
-        <div className="absolute top-4 right-4" onClick={confirm}>
+        {/* Check icon top-right */}
+        <div
+          className="absolute top-4 right-4 md:top-8 md:right-8 z-10 cursor-pointer"
+          onClick={confirm}
+        >
           <CheckIcon />
         </div>
-        <div className="flex justify-center mt-32">
+
+        {/* Selected Avatar Preview */}
+        <div className="mb-10">
           <img
             src={selectedAvatar ?? undefined}
             alt="Selected Avatar"
-            className="w-36 h-37 rounded-full object-none p-0 m-0 block border-4 border-[#2258B9]"
+            className="w-36 h-36 rounded-full border-4 border-[#2258B9] object-cover"
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-4 mt-12 ml-[19px]">
+        {/* Avatar Selection Grid */}
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-4 md:gap-6">
           {avatars.map((src, index) => (
             <img
               key={index}
               src={src}
               alt={`avatar-${index}`}
               onClick={() => handleAvatarSelect(src)}
-              className={`"w-24 h-24 rounded-full border-4 object-cover cursor-pointer block p-0 m-0 ${
+              className={`w-24 h-24 rounded-full border-4 cursor-pointer object-cover ${
                 selectedAvatar === src
                   ? "border-[#2258B9]"
                   : "border-transparent"
@@ -90,46 +96,9 @@ export default function AvatarPage() {
         </div>
       </div>
 
-      {/* Desktop View */}
-      <div className="hidden md:flex flex-col items-center bg-[#F4C9EC] p-10 min-h-[60%] relative">
-        <h1 className="text-3xl font-extrabold text-black mb-6">
-          Choose avatar
-        </h1>
-
-        {/* Check icon in top-right */}
-        <div className="absolute top-8 right-8" onClick={confirm}>
-          <CheckIcon />
-        </div>
-
-        <div className="flex justify-center mb-10">
-          <img
-            src={selectedAvatar ?? undefined}
-            alt="Selected Avatar"
-            className="w-36 h-36 rounded-full border-4 border-[#2258B9]"
-          />
-        </div>
-
-        <div className="grid grid-cols-6 gap-6">
-          {avatars.map((src, index) => (
-            <img
-              key={index}
-              src={src}
-              alt={`avatar-${index}`}
-              onClick={() => handleAvatarSelect(src)}
-              className={`w-24 h-24 rounded-full border-4 cursor-pointer ${
-                selectedAvatar === src
-                  ? "border-[#2258B9]"
-                  : "border-transparent"
-              } hover:border-[#2258B9]`}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Desktop Footer */}
-      <div className="hidden md:block">
+      <div className="hidden md:block w-full">
         <Footer />
       </div>
-    </>
+    </div>
   );
 }
