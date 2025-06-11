@@ -12,7 +12,7 @@ function TermAndConditions() {
       <div className="hidden md:block">
         <Header />
       </div>
-      <div className="w-full h-[calc(100vh-80px)] overflow-auto bg-[#F4C9EC] text-black">
+      <div className="w-full h-screen md:h-[calc(100vh-80px)] overflow-auto bg-[#F4C9EC] text-black">
         {/* Back Arrow in Top-Right */}
         <IoIosArrowBack
           size={32}
@@ -20,7 +20,7 @@ function TermAndConditions() {
         top-3 left-4 cursor-pointer text-black md:hidden"
           onClick={() => router.push("/")}
         />
-        <div className="max-w-4xl mt-2.5 mx-auto p-4 space-y-2">
+        <div className="max-w-4xl mt-2.5 mx-auto p-8 md:p-4 space-y-2">
           <h1 className="text-4xl">Privacy Policy</h1>
           <div className="space-y-2">
             <p className="text-justify">Last updated: January 03, 2025</p>
