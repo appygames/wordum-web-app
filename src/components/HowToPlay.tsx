@@ -32,7 +32,7 @@ const HowToPlay = ({
             ×
           </button>
           <div
-            className="absolute size-8 top-6 right-10 font-bold hidden md:block cursor-pointer"
+            className="absolute  size-8 top-6 right-10 font-bold hidden md:block cursor-pointer text-white"
             onClick={onClose}
           >
             <CrossIcon />
