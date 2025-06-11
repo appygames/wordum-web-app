@@ -25,7 +25,6 @@ export default function CreateGamePage() {
   return (
     <div className="flex flex-col items-center bg-[#F4C9EC] min-h-screen max-h-screen overflow-hidden relative">
       {/* Mobile-only top bar */}
-      {/* Mobile-only top bar */}
       <div className="flex justify-between items-center w-full px-4 py-4 md:hidden">
         {/* Avatar */}
         <img

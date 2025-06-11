@@ -1,11 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFacebook,
-  faTwitter,
-  faInstagram,
-  faTelegram,
-  faDiscord,
-} from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
 
 export default function Footer() {
