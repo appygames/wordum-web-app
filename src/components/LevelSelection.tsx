@@ -21,12 +21,12 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             style={{ cursor: "pointer", color: "#000" }}
             onClick={() => router.push("/")}
           />
-        <img
-          src={avatar ?? undefined}
-          alt="Avatar"
-          className="w-9 h-9 rounded-full cursor-pointer"
-          onClick={() => router.push("/profile")}
-        />
+          <img
+            src={avatar ?? undefined}
+            alt="Avatar"
+            className="w-9 h-9 rounded-full cursor-pointer"
+            onClick={() => router.push("/profile")}
+          />
         </div>
         <div>
           <IoSettingsOutline
@@ -87,7 +87,11 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             EXPERT
           </button>
           <button
-            className="h-16 w-full mt-5 max-w-80 text-xl rounded-lg bg-[#EB598F] text-white cursor-pointer font-bold  translate-0.5"
+            className={`h-16 w-full mt-5 max-w-80 text-xl rounded-lg font-bold cursor-pointer transition-all ${
+              level
+                ? "bg-[#EB598F] text-white"
+                : "bg-[#B3B3B3] text-white cursor-not-allowed"
+            }`}
             disabled={!level}
             onClick={() => router.push(`/game/play?level=${level}`)}
           >
