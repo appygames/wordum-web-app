@@ -38,7 +38,7 @@ const HowToPlay = ({
             <CrossIcon />
           </div>
           {step === 1 && (
-            <div className="text-sm flex flex-col gap-3 md:gap-9 h-[80vh]">
+            <div className="text-sm flex flex-col gap-3 md:gap-9">
               <h2 className="text-2xl md:text-3xl md:text-left text-center px-5 font-semibold">
                 Wordum offers different levels!
               </h2>
@@ -82,7 +82,7 @@ const HowToPlay = ({
             </div>
           )}
           {step === 2 && (
-            <div className="text-sm flex flex-col md:flex-row gap-3 md:gap-5 h-[80vh]">
+            <div className="text-sm flex flex-col md:flex-row gap-3 md:gap-5">
               <div className="flex flex-col gap-3 md:gap-9">
                 <h2 className="text-2xl md:text-3xl md:text-left text-center px-5 font-semibold">
                   Gameplay Rules{" "}
@@ -124,7 +124,7 @@ const HowToPlay = ({
             </div>
           )}
           {step === 3 && (
-            <div className="text-sm flex flex-col gap-3 md:gap-9 h-[80vh]">
+            <div className="text-sm flex flex-col gap-3 md:gap-9">
               <h2 className="text-2xl md:text-3xl md:text-left text-center px-5 font-semibold">
                 Hints & Ads:{" "}
               </h2>
@@ -157,29 +157,19 @@ const HowToPlay = ({
               </ul>
             </div>
           )}
-          <div className="flex gap-2 items-center justify-center mt-[-183px] md:mt-4">
-            <div
-              className={cn(
-                "size-2 bg-[#D9D9D9] rounded-full cursor-pointer hover:bg-white",
-                step === 1 && "size-3"
-              )}
-              onClick={() => setStep(1)}
-            />
-            <div
-              className={cn(
-                "size-2 bg-[#D9D9D9] rounded-full cursor-pointer hover:bg-white",
-                step === 2 && "size-3"
-              )}
-              onClick={() => setStep(2)}
-            />
-            <div
-              className={cn(
-                "size-2 bg-[#D9D9D9] rounded-full cursor-pointer hover:bg-white",
-                step === 3 && "size-3"
-              )}
-              onClick={() => setStep(3)}
-            />
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full flex gap-2 items-center justify-center shadow-md">
+            {[1, 2, 3].map((num) => (
+              <div
+                key={num}
+                className={cn(
+                  "size-2 bg-[#D9D9D9] rounded-full cursor-pointer hover:bg-white transition-all",
+                  step === num && "size-3 bg-white"
+                )}
+                onClick={() => setStep(num)}
+              />
+            ))}
           </div>
+
           {/* Swipe indicator (Mobile) */}
         </div>
         {/* <div className="md:hidden mb-4 flex justify-center items-center text-xs text-white">
