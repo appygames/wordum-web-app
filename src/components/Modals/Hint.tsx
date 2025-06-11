@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { CrossIcon } from "../../public/icons";
 import { setCoins } from "@/features/game/gameSlice";
+import { CrossIcon } from "../../../public/icons";
 type Difficulty = "easy" | "medium" | "hard" | "expert";
 
 export default function Hint({

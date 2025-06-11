@@ -4,7 +4,7 @@ import { FaHome, FaRedo } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { resetFeedback } from "@/features/game/gameSlice";
-import { CrossIcon } from "../../public/icons";
+import { CrossIcon } from "../../../public/icons";
 
 interface GameModalProps {
   open: boolean;
