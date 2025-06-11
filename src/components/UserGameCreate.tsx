@@ -26,9 +26,14 @@ export default function UserGameCreatePage() {
   const [showGameCodeCopyModal, setShowGameCodeCopyModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [reveal, setReveal] = useState(false);
+   const [submissionMessage, setSubmissionMessage] = useState("");
+  const [yesClicked, setYesClicked] = useState(false);
+  const [noClicked, setNoClicked] = useState(false);
   const coins = useSelector((state: RootState) => state.game.coins);
 
   const handleSubmit = async () => {
+    setYesClicked(true);
+    setNoClicked(false);
     const level =
       length === 4 ? (reveal ? "easy" : "medium") : reveal ? "medium" : "hard";
     const targetWords = grid.map((row) => row.join(""));
@@ -46,6 +51,10 @@ export default function UserGameCreatePage() {
       setGameCode(docRef.id);
       setShowModal(false);
       setShowGameCodeCopyModal(true);
+      setSubmissionMessage("Submitted!");
+        setTimeout(() => {
+        setSubmissionMessage("");
+      }, 3000);
     } catch (error) {
       console.error("Error saving game to Firestore:", error);
       alert("Something went wrong while saving the game.");
@@ -54,8 +63,9 @@ export default function UserGameCreatePage() {
     }
   };
 
+  const allFilled = grid.every((row) => row.every((cell) => cell !== ""));
+
   const handleCreate = () => {
-    const allFilled = grid.every((row) => row.every((cell) => cell !== ""));
     if (!allFilled) {
       alert("Please fill all letters before submitting.");
       return;
@@ -129,11 +139,11 @@ export default function UserGameCreatePage() {
             </div>
             <button
               onClick={handleCreate}
-              disabled={isSubmitting}
-              className={`px-15 py-4 rounded-lg font-bold ${
-                isSubmitting
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#B3B3B3] text-white"
+              disabled={isSubmitting || !allFilled}
+              className={`px-15 py-4 rounded-lg font-bold transition-all duration-200 ${
+                isSubmitting || !allFilled
+                  ? "bg-[#B3B3B3] text-white cursor-not-allowed"
+                  : "bg-[#EB598F] text-white cursor-pointer"
               }`}
             >
               {isSubmitting ? "Creating..." : "CREATE"}
@@ -147,19 +157,36 @@ export default function UserGameCreatePage() {
 
             <div className="flex justify-center gap-6">
               <button
-                onClick={() => setShowModal(false)}
-                className="bg-[#2258B9] text-white px-6 py-2 rounded-lg text-lg font-bold"
+                onClick={() =>{
+                  setNoClicked(true);
+                  setYesClicked(false);
+                  setShowModal(false)
+                }}
+                className={`px-6 py-2 rounded-lg text-lg font-bold transition-all duration-200 ${
+                  noClicked
+                    ? "bg-[#EB598F] text-white"
+                    : "bg-[#2258B9] text-white"
+                }`}
               >
                 NO
               </button>
               <button
                 onClick={handleSubmit}
-                className="bg-[#2258B9] text-white px-6 py-2 rounded-lg text-lg font-bold"
+                className={`px-6 py-2 rounded-lg text-lg font-bold transition-all duration-200 ${
+                  yesClicked
+                    ? "bg-[#EB598F] text-white"
+                    : "bg-[#2258B9] text-white"
+                }`}
               >
                 YES
               </button>
             </div>
           </>
+        )}
+         {submissionMessage && (
+          <div className="text-green-700 text-sm font-semibold mt-2">
+            {submissionMessage}
+          </div>
         )}
       </div>
 
