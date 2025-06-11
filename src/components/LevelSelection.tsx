@@ -33,7 +33,7 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             size={32}
             color="black"
             className="cursor-pointer"
-            onClick={() => router.push("/setting")}
+            onClick={() => router.push("/settings")}
           />
         </div>
       </nav>

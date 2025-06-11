@@ -33,7 +33,7 @@ export default function CodeInput() {
           <IoSettingsOutline
             size={28}
             className="text-black cursor-pointer"
-            onClick={() => router.push("/setting")}
+            onClick={() => router.push("/settings")}
           />
           <div className="relative size-8 rounded-full bg-[#FFB400] flex items-center justify-center">
             <CoinIcon />

@@ -28,7 +28,7 @@ export default function Header() {
           size={32}
           color="black"
           className="cursor-pointer"
-          onClick={() => router.push("/setting")}
+          onClick={() => router.push("/settings")}
         />
       </div>
 
@@ -42,7 +42,7 @@ export default function Header() {
       <nav className="hidden md:flex font-nunito max-w-2xl mx-auto gap-12 items-center h-full text-white justify-center">
         <Link className="text-xl font-bold hover:underline" href="/">HOME</Link>
         <Link className="text-xl font-bold hover:underline" href="/game-info">HOW TO PLAY?</Link>
-        <Link className="text-xl font-bold hover:underline" href="/setting">SETTINGS</Link>
+        <Link className="text-xl font-bold hover:underline" href="/settings">SETTINGS</Link>
         <Link className="text-xl font-bold hover:underline" href="/daily-wordum">DAILY WORDUM</Link>
       </nav>
 

@@ -41,7 +41,7 @@ export default function CreateGamePage() {
           <IoSettingsOutline
             size={28}
             className="text-black cursor-pointer"
-            onClick={() => router.push("/setting")}
+            onClick={() => router.push("/settings")}
           />
 
           {/* Coin display */}

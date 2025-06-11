@@ -43,7 +43,7 @@ export default function ProfileCard() {
         <div onClick={() => router.push("/")} className="cursor-pointer">
           <FaArrowLeft />
         </div>
-        <div onClick={() => router.push("/setting")} className="cursor-pointer">
+        <div onClick={() => router.push("/settings")} className="cursor-pointer">
           <IoSettingsOutline size={24} />
         </div>
       </div>
