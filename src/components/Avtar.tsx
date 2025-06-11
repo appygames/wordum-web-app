@@ -58,7 +58,7 @@ export default function AvatarPage() {
           <div onClick={() => router.back()}>
             <ArrowLeftIcon />
           </div>
-          <h1 className="text-xl font-semibold text-black">Choose avatar</h1>
+          <h1 className="text-xl font-semibold text-black">Change avatar</h1>
         </div>
 
         {/* Check icon top-right */}

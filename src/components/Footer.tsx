@@ -13,14 +13,14 @@ export default function Footer() {
     <footer className="bg-[#2258B9] text-white w-full hidden md:flex flex-col justify-between px-10 py-6 h-[220px]">
       {/* Links */}
       <div className="flex flex-col gap-3">
-        <a href="#" className="font-bold text-sm hover:underline">
+        <a href="/privacy-policy" className="font-bold text-sm hover:underline">
           PRIVACY POLICY
         </a>
         <Link
-          href="/privacy-policy"
+          href="#"
           className="font-bold text-sm hover:underline"
         >
-          TERMS AND CONDITIONS
+          TERMS OF SERVICE
         </Link>
       </div>
 
