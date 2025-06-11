@@ -1,6 +1,10 @@
 import { cn } from "@/utils/utils";
-import { useDispatch } from "react-redux";
-import { removeLetterFromGrid } from "@/features/game/gameSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  removeLetterFromGrid,
+  setSelectedLetter,
+} from "@/features/game/gameSlice";
+import { RootState } from "@/store";
 
 type GameGridProps = {
   grid: string[][];
@@ -16,6 +20,9 @@ export default function GameGrid({
   onPlaceLetter,
 }: GameGridProps) {
   const dispatch = useDispatch();
+  const placedLettersIndex = useSelector(
+    (state: RootState) => state.game.placedLettersIndex
+  );
 
   return (
     <div className="w-full px-2 sm:px-0">
@@ -45,9 +52,22 @@ export default function GameGrid({
                     }
                   }}
                   onDoubleClick={() => {
+                    const placedIndex =
+                      placedLettersIndex[rowIndex]?.[colIndex];
+
                     dispatch(
                       removeLetterFromGrid({ row: rowIndex, col: colIndex })
                     );
+
+                    if (
+                      letter &&
+                      placedIndex !== null &&
+                      placedIndex !== undefined
+                    ) {
+                      dispatch(
+                        setSelectedLetter({ char: letter, index: placedIndex })
+                      );
+                    }
                   }}
                 >
                   {letter}
