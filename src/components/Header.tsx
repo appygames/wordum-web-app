@@ -1,14 +1,12 @@
 "use client";
 import Link from "next/link";
 import { IoSettingsOutline } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { RootState } from "../store";
 
 export default function Header() {
-  const dispatch = useDispatch();
   const router = useRouter();
-  const coins = useSelector((state: RootState) => state.game.coins);
   const avatar = useSelector((state: RootState) => state.user.avatar);
 
   return (
@@ -16,12 +14,12 @@ export default function Header() {
       {/* Mobile Header */}
       <div className="absolute top-0 left-0 w-full flex items-center justify-between px-4 py-3 md:hidden">
         {/* Mobile Avatar */}
-        <img
-          src={avatar ?? undefined}
+        {avatar && <img
+          src={avatar}
           alt="Avatar"
           className="w-9 h-9 rounded-full cursor-pointer"
           onClick={() => router.push("/profile")}
-        />
+        />}
 
         {/* Settings Icon */}
         <IoSettingsOutline

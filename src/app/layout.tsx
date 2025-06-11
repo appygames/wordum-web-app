@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { setAvatar } from "@/store/userSlice";
 import { setCoins } from "@/features/game/gameSlice";
 import { store } from "@/store";
+import { useRouter } from "next/navigation";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -18,15 +19,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
   useEffect(() => {
-    const coins = localStorage.getItem("coins");
-    const avatar = localStorage.getItem("avatar") || "/avatars/profile-1.png";
-    if (coins) {
-      const coins = localStorage.getItem("coins") || 0;
+    const coins = localStorage.getItem("coins") || "0";
+    const avatar = localStorage.getItem("avatar") || null;
+
+    store.dispatch(setCoins(Number(coins)));
+    if (avatar) {
       store.dispatch(setAvatar(String(avatar)));
-      store.dispatch(setCoins(Number(coins)));
+    } else {
+      router.push("/avatar");
     }
-  }, []);
+  }, [router]);
 
   return (
     <html lang="en" className={nunito.variable}>
