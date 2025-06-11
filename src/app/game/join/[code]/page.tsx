@@ -148,18 +148,18 @@ export default function Page() {
           <IoIosArrowBack
             className="cursor-pointer  w-[34px] h-[40px] md:w-[31px] md:h-[31px]"
             style={{ color: "#000" }}
-            onClick={() => router.push("/game")}
+            onClick={() => setShowResume(true)}
           />
-          <div className="size-6" onClick={() => setShowResume(true)}>
+          {/* <div className="size-6" onClick={() => setShowResume(true)}>
             <RestartIcon />
-          </div>
-          <span
+          </div> */}
+          {/* <span
             className="bg-[#2258B9] text-white  py-[7px] px-[13px] text-[13px]
   sm:py-[4px] sm:px-[10px] sm:text-[12px]
   md:py-[6px] md:px-[14px] md:text-[14px] rounded font-bold"
           >
             {level?.toUpperCase()}
-          </span>
+          </span> */}
         </div>
 
         {/* Center Attempt Display */}

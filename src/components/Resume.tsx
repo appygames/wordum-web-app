@@ -33,7 +33,7 @@ function Resume({
           </button>
           <button
             className="w-[90%] md:w-full text-center py-3 px-5 text-xl rounded-lg bg-[#2258B9] cursor-pointer font-bold  hover:bg-[#0056b3] translate-0.5"
-            onClick={() => router.push("/game")}
+            onClick={() => router.push("/")}
           >
             EXIT
           </button>
