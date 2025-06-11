@@ -1,7 +1,6 @@
 "use client";
 import { FaLightbulb, FaVolumeOff } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
-
 import { useCallback, useEffect, useState } from "react";
 import Resume from "./Resume";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,8 +1,7 @@
 "use client";
 import { FaLightbulb, FaVolumeOff } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
-
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -33,7 +32,6 @@ import Hint from "@/components/Hint";
 
 export default function Page() {
   const [soundOn, setSoundOn] = useState(true);
-  const router = useRouter();
   const { code } = useParams();
   const dispatch = useDispatch();
   const grid = useSelector((state: RootState) => state.game.grid);
@@ -150,16 +148,16 @@ export default function Page() {
             style={{ color: "#000" }}
             onClick={() => setShowResume(true)}
           />
-          {/* <div className="size-6" onClick={() => setShowResume(true)}>
+          <div className="size-6" onClick={() => setShowResume(true)}>
             <RestartIcon />
-          </div> */}
-          {/* <span
+          </div>
+          <span
             className="bg-[#2258B9] text-white  py-[7px] px-[13px] text-[13px]
   sm:py-[4px] sm:px-[10px] sm:text-[12px]
   md:py-[6px] md:px-[14px] md:text-[14px] rounded font-bold"
           >
             {level?.toUpperCase()}
-          </span> */}
+          </span>
         </div>
 
         {/* Center Attempt Display */}
@@ -274,7 +272,7 @@ export default function Page() {
                   "min-h-10 md:min-h-14 min-w-10 md:min-w-14  p-1 sm:p-2 bg-[#2258B9] text-white rounded-sm text-lg md:text-4xl font-bold cursor-pointer",
                   shouldDisable && "bg-gray-400 cursor-not-allowed",
                   index === currentChar &&
-                    "ring-1 ring-inset ring-blue-800 bg-white text-blue-800"
+                  "ring-1 ring-inset ring-blue-800 bg-white text-blue-800"
                 )}
                 onClick={() => handleKeyClick(char, index)}
                 disabled={shouldDisable}
