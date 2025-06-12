@@ -62,8 +62,8 @@ export default function CreateGamePage() {
       </div>
 
       {/* Level selection section */}
-      <div className="flex flex-col gap-6 md:gap-4 h-[260px] md:w-1/4 w-[90%] m-auto font-nunito items-center justify-center text-white mt-40 md:mt-20">
-        <div className="w-lg flex flex-col items-center gap-5 md:mt-[262px] md:gap-4">
+      <div className="flex flex-col gap-6 md:gap-4 h-[260px] md:w-1/4 w-[90%] m-auto font-nunito items-center justify-center text-white">
+        <div className="w-lg flex flex-col items-center gap-5 my-auto md:gap-4">
           <h2 className="text-black font-bold text-2xl mb-9 md:text-3xl md:mb-10">
             Choose your preferred level
           </h2>
