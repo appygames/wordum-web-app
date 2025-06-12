@@ -26,7 +26,7 @@ export default function UserGameCreatePage() {
   const [showGameCodeCopyModal, setShowGameCodeCopyModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [reveal, setReveal] = useState(false);
-   const [submissionMessage, setSubmissionMessage] = useState("");
+  const [submissionMessage, setSubmissionMessage] = useState("");
   const [yesClicked, setYesClicked] = useState(false);
   const [noClicked, setNoClicked] = useState(false);
   const coins = useSelector((state: RootState) => state.game.coins);
@@ -52,7 +52,7 @@ export default function UserGameCreatePage() {
       setShowModal(false);
       setShowGameCodeCopyModal(true);
       setSubmissionMessage("Submitted!");
-        setTimeout(() => {
+      setTimeout(() => {
         setSubmissionMessage("");
       }, 3000);
     } catch (error) {
@@ -125,6 +125,7 @@ export default function UserGameCreatePage() {
 
         {!showModal ? (
           <>
+            {/* Reveal & Create Buttons */}
             <div className="flex items-center justify-between bg-[#2258B9] text-white px-4 md:px-10 py-3 md:py-5 gap-[3rem] rounded-lg shadow">
               <span>Reveal one letter in each word</span>
               <button
@@ -137,6 +138,7 @@ export default function UserGameCreatePage() {
                 <span className="w-4 h-4 rounded-full bg-white transition-transform duration-300" />
               </button>
             </div>
+
             <button
               onClick={handleCreate}
               disabled={isSubmitting || !allFilled}
@@ -150,40 +152,56 @@ export default function UserGameCreatePage() {
             </button>
           </>
         ) : (
-          <>
-            <div className="flex items-center justify-between bg-[#2258B9] text-white px-4 md:px-10 py-3 md:py-5 gap-[3rem] rounded-lg shadow">
-              Do you want to submit?
+          // Modal overlay
+          <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-xl px-6 py-8 w-[90%] max-w-md text-center shadow-lg">
+              {isSubmitting ? (
+                <>
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 border-4 border-[#2258B9] border-t-transparent rounded-full animate-spin" />
+                    <p className="text-[#2258B9] text-lg font-semibold">
+                      Creating game...
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="text-lg font-bold text-[#2258B9] mb-6">
+                    Do you want to submit?
+                  </p>
+                  <div className="flex justify-center gap-6">
+                    <button
+                      onClick={() => {
+                        setNoClicked(true);
+                        setYesClicked(false);
+                        setShowModal(false);
+                      }}
+                      className={`px-6 py-2 rounded-lg text-lg font-bold transition-all duration-200 ${
+                        noClicked
+                          ? "bg-[#EB598F] text-white"
+                          : "bg-[#2258B9] text-white"
+                      }`}
+                    >
+                      NO
+                    </button>
+                    <button
+                      onClick={handleSubmit}
+                      className={`px-6 py-2 rounded-lg text-lg font-bold transition-all duration-200 ${
+                        yesClicked
+                          ? "bg-[#EB598F] text-white"
+                          : "bg-[#2258B9] text-white"
+                      }`}
+                    >
+                      YES
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
-
-            <div className="flex justify-center gap-6">
-              <button
-                onClick={() =>{
-                  setNoClicked(true);
-                  setYesClicked(false);
-                  setShowModal(false)
-                }}
-                className={`px-6 py-2 rounded-lg text-lg font-bold transition-all duration-200 ${
-                  noClicked
-                    ? "bg-[#EB598F] text-white"
-                    : "bg-[#2258B9] text-white"
-                }`}
-              >
-                NO
-              </button>
-              <button
-                onClick={handleSubmit}
-                className={`px-6 py-2 rounded-lg text-lg font-bold transition-all duration-200 ${
-                  yesClicked
-                    ? "bg-[#EB598F] text-white"
-                    : "bg-[#2258B9] text-white"
-                }`}
-              >
-                YES
-              </button>
-            </div>
-          </>
+          </div>
         )}
-         {submissionMessage && (
+
+        {submissionMessage && (
           <div className="text-green-700 text-sm font-semibold mt-2">
             {submissionMessage}
           </div>

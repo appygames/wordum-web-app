@@ -1,6 +1,4 @@
 "use client";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { FaHome, FaShareAlt } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { CrossIcon } from "../../public/icons";
