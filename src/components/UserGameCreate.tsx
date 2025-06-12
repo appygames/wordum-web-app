@@ -154,7 +154,7 @@ export default function UserGameCreatePage() {
         ) : (
           // Modal overlay
           <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl px-6 py-8 w-[90%] max-w-md text-center shadow-lg">
+            <div className="bg-transparent rounded-xl px-6 py-8 w-[90%] max-w-md text-center">
               {isSubmitting ? (
                 <>
                   <div className="flex flex-col items-center gap-4">
@@ -166,7 +166,7 @@ export default function UserGameCreatePage() {
                 </>
               ) : (
                 <>
-                  <p className="text-lg font-bold text-[#2258B9] mb-6">
+                  <p className="text-lg font-bold bg-[#2258B9] w-fit p-3 m-auto text-white mb-6 rounded-lg">
                     Do you want to submit?
                   </p>
                   <div className="flex justify-center gap-6">
