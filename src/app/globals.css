@@ -28,6 +28,7 @@ body {
   background: var(--background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
 }
 
 .scrollbar-hidden::-webkit-scrollbar {
