@@ -12,7 +12,7 @@ function TermAndConditions() {
       <div className="hidden md:block">
         <Header />
       </div>
-      <div className="w-full h-screen md:h-[calc(100vh-80px)] overflow-auto bg-[#F4C9EC] text-black">
+      <div className="w-full h-screen md:h-[calc(100vh-80px)] overflow-auto scrollbar-hidden bg-[#F4C9EC] text-black">
         {/* Back Arrow in Top-Right */}
         <IoIosArrowBack
           size={32}
