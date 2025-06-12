@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaInstagram, FaFacebook, FaTelegram, FaDiscord} from "react-icons/fa";
+import { FaInstagram, FaFacebook, FaTelegram, FaDiscord } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { ArrowLeftIcon } from "../../public/icons";
 import { cn } from "@/utils/utils";
@@ -9,9 +9,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export default function SettingsPage() {
+  const router = useRouter();
   const [sound, setSound] = useState(true);
   const [notifications, setNotifications] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     const storedSound = localStorage.getItem("sound");
@@ -20,38 +20,36 @@ export default function SettingsPage() {
     }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("sound", String(sound));
-  }, [sound]);
+  const handleSoundChange = () => {
+    setSound(!sound);
+    localStorage.setItem("sound", sound.toString());
+  };
+
+  const staticButtons = ["Language", "Help"];
 
   return (
     <div className="flex flex-col items-center bg-[#F4C9EC] min-h-screen max-h-screen overflow-hidden">
-      {/* Desktop Header */}
-      <div className="hidden md:block w-full">
+      <header className="hidden md:block w-full">
         <Header />
-      </div>
+      </header>
 
-      {/* Main Settings Content */}
-      <div className="flex-1 w-full flex flex-col items-center justify-center overflow-auto px-4 pt-3 pb-[95%] md:pt-10 md:pb-10 md:px-0">
-        {/* Mobile Header */}
+      <main className="flex-1 w-full flex flex-col items-center justify-center overflow-auto px-4 pt-3 pb-[95%] md:pt-10 md:pb-10 md:px-0">
         <div className="flex items-center gap-4 mb-6 md:hidden self-start">
-          <div onClick={() => router.push("/")}>
+          <button onClick={() => router.push("/")}>
             <ArrowLeftIcon />
-          </div>
+          </button>
           <h1 className="text-xl text-black font-semibold">Settings</h1>
         </div>
 
-        {/* Title for Desktop */}
         <h1 className="text-3xl font-extrabold text-black mb-6 hidden md:block">
           Settings
         </h1>
 
-        {/* Settings content */}
-        <div className="space-y-6 w-full md:w-[28rem] font-extrabold text-xl">
+        <section className="space-y-6 w-full md:w-[28rem] font-extrabold text-xl">
           <SettingToggle
             label="Sound"
             enabled={sound}
-            onToggle={() => setSound(!sound)}
+            onToggle={() => handleSoundChange()}
           />
           <SettingToggle
             label="Notifications"
@@ -59,40 +57,32 @@ export default function SettingsPage() {
             onToggle={() => setNotifications(!notifications)}
           />
 
-          {["Language", "Help"].map((item) => (
-            <button
-              key={item}
-              className="w-full text-left bg-[#2258B9] text-white py-3 px-4 rounded-xl shadow"
-            >
-              {item}
-            </button>
+          {staticButtons.map((item) => (
+            <StaticButton key={item} label={item} />
           ))}
 
-          {/* Show Privacy Policy only on mobile */}
-          <button className="w-full text-left bg-[#2258B9] text-white py-3 px-4 rounded-xl shadow md:hidden">
-            Privacy Policy
-          </button>
-        </div>
+          <StaticButton label="Privacy Policy" className="md:hidden" />
+        </section>
 
-        {/* Social Icons - mobile only */}
         <div className="flex justify-center space-x-4 mt-8 md:hidden">
-          {[FaDiscord, FaInstagram, FaFacebook, FaXTwitter, FaTelegram].map((Icon, i) => (
-            <div key={i} className="bg-white p-2 rounded-full">
-              <Icon className="text-xl text-[#2258B9]" />
-            </div>
-          ))}
+          {[FaDiscord, FaInstagram, FaFacebook, FaXTwitter, FaTelegram].map(
+            (Icon, i) => (
+              <div key={i} className="bg-white p-2 rounded-full">
+                <Icon className="text-xl text-[#2258B9]" />
+              </div>
+            )
+          )}
         </div>
-      </div>
+      </main>
 
-      {/* Desktop Footer */}
-      <div className="hidden md:block w-full">
+      <footer className="hidden md:block w-full">
         <Footer />
-      </div>
+      </footer>
     </div>
   );
 }
 
-// Toggle Component
+// Toggle Switch Component
 function SettingToggle({
   label,
   enabled,
@@ -115,5 +105,25 @@ function SettingToggle({
         <span className="w-4 h-4 rounded-full bg-white transition-transform duration-300" />
       </button>
     </div>
+  );
+}
+
+// Reusable Button Component
+function StaticButton({
+  label,
+  className = "",
+}: {
+  label: string;
+  className?: string;
+}) {
+  return (
+    <button
+      className={cn(
+        "w-full text-left bg-[#2258B9] text-white py-3 px-4 rounded-xl shadow",
+        className
+      )}
+    >
+      {label}
+    </button>
   );
 }
