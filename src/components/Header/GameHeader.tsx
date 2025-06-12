@@ -34,7 +34,7 @@ export default function GameHeader({
   onHint,
 }: GameHeaderProps) {
   return (
-    <div className="relative w-full grid grid-cols-3 py-2 sm:py-3 px-2 sm:px-20 gap-2 text-sm sm:text-base">
+    <div className="relative w-full grid grid-cols-2 sm:grid-cols-3 py-2 sm:py-3 px-2 sm:px-20 gap-2 text-sm sm:text-base">
       <div className="flex items-center gap-2 md:gap-6 sm:gap-3 mt-0 md:mt-[-58px]">
         <IoIosArrowBack
           className="cursor-pointer w-[34px] h-[40px] md:w-[31px] md:h-[31px]"
