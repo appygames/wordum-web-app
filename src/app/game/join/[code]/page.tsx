@@ -137,12 +137,14 @@ export default function Page() {
       {/* Header Section */}
       <GameHeader
         level={level}
+        showlevel={false}
         attempts={attempts}
         coins={coins}
         soundOn={soundOn}
         toggleSound={() => setSoundOn(!soundOn)}
         onBack={() => setShowResume(true)}
         onRestart={() => setShowResume(true)}
+        showRestart={false}
         onHint={() => setShowHintModal(true)}
       />
 

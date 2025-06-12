@@ -19,16 +19,16 @@ const avatars = [
 export default function AvatarPage() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const selectedAvatar = useSelector((state: RootState) => state.user.avatar);
+  const avatar = useSelector((state: RootState) => state.user.avatar);
 
   const handleAvatarSelect = (src: string) => {
-    if (selectedAvatar === src) return;
+    if (avatar === src) return;
     localStorage.setItem("avatar", src);
     dispatch(setAvatar(src));
   };
 
   const confirm = () => {
-    if (selectedAvatar) {
+    if (avatar) {
       router.push("/profile");
     }
   };
@@ -58,7 +58,9 @@ export default function AvatarPage() {
           <div onClick={() => router.back()}>
             <ArrowLeftIcon />
           </div>
-          <h1 className="text-xl font-semibold text-black">Change avatar</h1>
+          <h1 className="text-xl font-semibold text-black">
+            {avatar ? "Change Avatar" : "Choose Avatar"}
+          </h1>
         </div>
 
         {/* Check icon top-right */}
@@ -72,7 +74,7 @@ export default function AvatarPage() {
         {/* Selected Avatar Preview */}
         <div className="mb-10">
           <img
-            src={selectedAvatar ?? undefined}
+            src={avatar ?? undefined}
             alt="Selected Avatar"
             className="w-36 h-36 rounded-full border-4 border-[#2258B9] object-cover"
           />
@@ -87,9 +89,7 @@ export default function AvatarPage() {
               alt={`avatar-${index}`}
               onClick={() => handleAvatarSelect(src)}
               className={`w-24 h-24 rounded-full border-4 cursor-pointer object-cover ${
-                selectedAvatar === src
-                  ? "border-[#2258B9]"
-                  : "border-transparent"
+                avatar === src ? "border-[#2258B9]" : "border-transparent"
               } hover:border-[#2258B9]`}
             />
           ))}
