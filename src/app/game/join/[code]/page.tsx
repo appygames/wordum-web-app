@@ -78,10 +78,13 @@ export default function Page() {
     }
   });
   const [level, setLevel] = useState<Difficulty>("easy");
+  const [hintUsed, setHintUsed] = useState(false);
+  
   const [gameTargetWords, setGameTargetWords] = useState<string[]>([]);
   const handleHint = () => {
     dispatch(revealLettersInGrid(gameTargetWords));
     setShowHintModal(false);
+    setHintUsed(true);
   };
   useEffect(() => {
     dispatch(resetFeedback());
@@ -180,6 +183,7 @@ export default function Page() {
           onClose={() => setShowHintModal(false)}
           handleHint={handleHint}
           level={level}
+          freeHintUsed={hintUsed}
         />
       )}
       <GameModal

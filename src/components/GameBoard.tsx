@@ -44,6 +44,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   const [showReset, setShowReset] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showResume, setShowResume] = useState(false);
+  const [hintUsed, setHintUsed] = useState(false);
   const playSoundSafe = useCallback(
     (sound: string) => {
       if (soundOn) playSound(sound);
@@ -92,6 +93,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   const handleHint = () => {
     dispatch(revealLettersInGrid(targetWords[level as Difficulty]));
     setShowHintModal(false);
+    setHintUsed(true);
   };
   useEffect(() => {
     if (gameStatus === "won") {
@@ -180,6 +182,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
           onClose={() => setShowHintModal(false)}
           handleHint={handleHint}
           level={level}
+          freeHintUsed={hintUsed}
         />
       )}
 

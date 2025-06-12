@@ -9,44 +9,21 @@ type Difficulty = "easy" | "medium" | "hard" | "expert";
 export default function Hint({
   onClose,
   handleHint,
-  level,
+  freeHintUsed,
 }: {
   onClose: () => void;
   handleHint: () => void;
   level: Difficulty;
+  freeHintUsed: boolean;
 }) {
   const dispatch = useDispatch();
   const coins = useSelector((state: RootState) => state.game.coins);
-  const [clickedInsufficientCoins, setClickedInsufficientCoins] =
-    useState(false);
   const [showAdModal, setShowAdModal] = useState(false);
-  const [freeHintUsed, setFreeHintUsed] = useState(false);
-
-  useEffect(() => {
-    const usedHints = JSON.parse(localStorage.getItem("usedFreeHints") || "{}");
-    setFreeHintUsed(usedHints[level] === true);
-  }, [level]);
-
-  const handleFreeHint = () => {
-    const usedHints = JSON.parse(localStorage.getItem("usedFreeHints") || "{}");
-
-    if (!usedHints[level]) {
-      usedHints[level] = true;
-      localStorage.setItem("usedFreeHints", JSON.stringify(usedHints));
-      setFreeHintUsed(true);
-      handleHint();
-    }
-  };
 
   const handleUseCoins = () => {
-    if (coins >= 100) {
-      dispatch(setCoins(coins - 100));
-      handleHint();
-    } else {
-      setClickedInsufficientCoins(true);
-    }
+    dispatch(setCoins(coins - 100));
+    handleHint();
   };
-
   useEffect(() => {
     if (showAdModal) {
       try {
@@ -96,7 +73,7 @@ export default function Hint({
           {/* Buttons */}
           <div className="flex flex-col gap-4 w-full px-4 md:px-24">
             <button
-              onClick={handleFreeHint}
+              onClick={handleHint}
               disabled={freeHintUsed}
               className={`${
                 freeHintUsed
@@ -117,14 +94,15 @@ export default function Hint({
             </button>
             <button
               onClick={handleUseCoins}
+              disabled={coins < 100}
               className={`text-white text-lg font-bold py-3 rounded ${
-                clickedInsufficientCoins ? "bg-[#B3B3B3]" : "bg-[#EB598F]"
+                coins < 100 ? "bg-[#B3B3B3] cursor-not-allowed" : "bg-[#EB598F]"
               }`}
             >
               Use 100 coins to get a free hint
             </button>
-            {clickedInsufficientCoins && coins < 100 && (
-              <p className="text-sm text-red-700 mt-[-10px]">
+            {coins < 100 && (
+              <p className="text-md text-red-700 mt-[-10px]">
                 You don&apos;t have enough coins for this
               </p>
             )}
