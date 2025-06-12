@@ -43,7 +43,10 @@ export default function ProfileCard() {
         <div onClick={() => router.push("/")} className="cursor-pointer">
           <FaArrowLeft />
         </div>
-        <div onClick={() => router.push("/settings")} className="cursor-pointer">
+        <div
+          onClick={() => router.push("/settings")}
+          className="cursor-pointer"
+        >
           <IoSettingsOutline size={24} />
         </div>
       </div>
@@ -127,6 +130,23 @@ export default function ProfileCard() {
                   <span>Expert</span>
                   <span>
                     {stats.expert?.wins ?? 0} / {stats.expert?.losses ?? 0}
+                  </span>
+                </div>
+
+                {/* Total: Challenge Accepted */}
+                <div className="flex justify-between font-bold pt-2 border-t border-white/30">
+                  <span>Challenge Accepted</span>
+                  <span>
+                    {[
+                      stats.easy?.wins ?? 0,
+                      stats.medium?.wins ?? 0,
+                      stats.hard?.wins ?? 0,
+                      stats.expert?.wins ?? 0,
+                      stats.easy?.losses ?? 0,
+                      stats.medium?.losses ?? 0,
+                      stats.hard?.losses ?? 0,
+                      stats.expert?.losses ?? 0,
+                    ].reduce((acc, val) => acc + val, 0)}
                   </span>
                 </div>
               </div>
