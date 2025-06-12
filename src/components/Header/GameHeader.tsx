@@ -53,7 +53,7 @@ export default function GameHeader({
         )}
       </div>
 
-      <div className="absolute top-12 sm:static left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 w-fit mx-auto flex flex-col items-center justify-center gap-2 sm:gap-3">
+      <div className="absolute top-16 sm:static left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 w-fit mx-auto flex flex-col items-center justify-center gap-2 sm:gap-3">
         <div className="flex gap-3 sm:gap-2 text-yellow-300 text-3xl sm:text-4xl">
           {[...Array(3)].map((_, index) => (
             <FaLightbulb
