@@ -14,7 +14,12 @@ import {
   resetFeedback,
 } from "@/features/game/gameSlice";
 
-import { playSound, targetWords, updateGameStats } from "@/utils/utils";
+import {
+  getRandomWords,
+  playSound,
+  updateGameStats,
+  wordPool,
+} from "@/utils/utils";
 import GameModal from "./Modals/GameModal";
 import HowToPlay from "./HowToPlay";
 import Reset from "./Modals/Reset";
@@ -33,6 +38,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   const disabledButtons = useSelector(
     (state: RootState) => state.game.disabledButtons
   );
+  const [words, setWords] = useState<string[]>([]);
   const attempts = useSelector((state: RootState) => state.game.attempts);
   const coins = useSelector((state: RootState) => state.game.coins);
   const selectedLetter = useSelector(
@@ -81,9 +87,11 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   const resetGame = useCallback(() => {
     dispatch(resetFeedback());
     dispatch(setDifficulty(level as Difficulty));
-    dispatch(setTargetWords(targetWords[level as Difficulty]));
+    const selectedWords = getRandomWords(wordPool[level as Difficulty]);
+    setWords(selectedWords);
+    dispatch(setTargetWords(selectedWords));
     if (level === "easy" || level === "hard") {
-      dispatch(revealLettersInGrid(targetWords[level as Difficulty]));
+      dispatch(revealLettersInGrid(selectedWords));
     }
   }, [level, dispatch]);
   useEffect(() => {
@@ -91,7 +99,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
     resetGame();
   }, [level, resetGame]);
   const handleHint = () => {
-    dispatch(revealLettersInGrid(targetWords[level as Difficulty]));
+    dispatch(revealLettersInGrid(words));
     setShowHintModal(false);
     setHintUsed(true);
   };
