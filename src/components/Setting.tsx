@@ -22,7 +22,7 @@ export default function SettingsPage() {
 
   const handleSoundChange = () => {
     setSound(!sound);
-    localStorage.setItem("sound", sound.toString());
+    localStorage.setItem("sound", (!sound).toString());
   };
 
   const staticButtons = ["Language", "Help"];
