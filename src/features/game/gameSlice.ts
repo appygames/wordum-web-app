@@ -2,7 +2,6 @@ import { playSound } from "@/utils/utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type Difficulty = "easy" | "medium" | "hard" | "expert";
-
 export type LetterFeedback = "green" | "yellow" | "red" | "";
 export type GameStatus = "playing" | "won" | "lost";
 interface GameState {
@@ -52,6 +51,7 @@ const gameSlice = createSlice({
       state.placedLettersIndex = getInitialPlacedIndexes(action.payload);
       state.selectedLetter = null;
     },
+
     setSelectedLetter: (
       state,
       action: PayloadAction<{ char: string; index: number }>
@@ -144,20 +144,22 @@ const gameSlice = createSlice({
 
       if (selectedLetter.char === correctLetter) {
         state.feedback[rowIndex][colIndex] = "green";
+        state.selectedLetter = null;
       } else {
-        const totalOccurrences = [...correctWord].filter(
-          (char) => char === selectedLetter.char
-        ).length;
+        // const totalOccurrences = [...correctWord].filter(
+        //   (char) => char === selectedLetter.char
+        // ).length;
 
-        const alreadyPlacedCount = (state.feedback[rowIndex] || []).filter(
-          (fb, idx) =>
-            (fb === "green" || fb === "yellow") &&
-            state.grid[rowIndex][idx] === selectedLetter.char
-        ).length;
+        // const alreadyPlacedCount = (state.feedback[rowIndex] || []).filter(
+        //   (fb, idx) =>
+        //     (fb === "green" || fb === "yellow") &&
+        //     state.grid[rowIndex][idx] === selectedLetter.char
+        // ).length;
 
         if (
-          correctWord.includes(selectedLetter.char) &&
-          alreadyPlacedCount < totalOccurrences
+          // correctWord.includes(selectedLetter.char) &&
+          // alreadyPlacedCount < totalOccurrences
+          correctWord.includes(selectedLetter.char)
         ) {
           state.feedback[rowIndex][colIndex] = "yellow";
         } else {
@@ -185,7 +187,23 @@ const gameSlice = createSlice({
         .every((cell) => cell !== "");
       if (allGreen && allFilled) {
         state.gameStatus = "won";
-        state.coins += 10;
+        let coins = state.coins;
+        switch (state.difficulty) {
+          case "easy":
+            coins += 5;
+            break;
+          case "medium":
+            coins += 10;
+            break;
+          case "hard":
+            coins += 15;
+            break;
+          case "expert":
+            coins += 20;
+            break;
+        }
+        localStorage.setItem("coins", coins.toString());
+        state.coins = coins;
       }
     },
     removeLetterFromGrid: (state, action) => {
@@ -193,9 +211,24 @@ const gameSlice = createSlice({
 
       const placedIndex = state.placedLettersIndex[row]?.[col];
       if (placedIndex !== null && placedIndex !== undefined) {
-        state.disabledButtons = state.disabledButtons.filter(
-          (index) => index !== placedIndex
-        );
+        // Check if the same index exists anywhere else in the grid
+        let isUsedElsewhere = false;
+        for (let r = 0; r < state.placedLettersIndex.length; r++) {
+          for (let c = 0; c < state.placedLettersIndex[r].length; c++) {
+            if (r === row && c === col) continue;
+            if (state.placedLettersIndex[r][c] === placedIndex) {
+              isUsedElsewhere = true;
+              break;
+            }
+          }
+          if (isUsedElsewhere) break;
+        }
+
+        if (!isUsedElsewhere) {
+          state.disabledButtons = state.disabledButtons.filter(
+            (index) => index !== placedIndex
+          );
+        }
       }
 
       state.grid[row][col] = "";
@@ -204,7 +237,10 @@ const gameSlice = createSlice({
       state.placedLettersIndex[row][col] = null;
       state.selectedLetter = null;
     },
-
+    setCoins: (state, action: PayloadAction<number>) => {
+      localStorage.setItem("coins", action.payload.toString());
+      state.coins = action.payload;
+    },
     resetFeedback: (state) => {
       state.feedback = [];
       state.attempts = 3;
@@ -228,6 +264,7 @@ export const {
   checkGameWon,
   resetFeedback,
   removeLetterFromGrid,
+  setCoins,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

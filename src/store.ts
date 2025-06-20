@@ -1,11 +1,13 @@
 // store.ts
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import gameReducer from "./features/game/gameSlice";
+import userReducer from "./store/userSlice";
 
 export const store = configureStore({
-  reducer: {
+  reducer: combineReducers({
     game: gameReducer,
-  },
+    user: userReducer,
+  }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

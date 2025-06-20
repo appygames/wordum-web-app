@@ -1,8 +1,7 @@
 "use client";
+import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import Resume from "./Modals/Resume";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store";
 import {
   setSelectedLetter,
   setDifficulty,
@@ -14,23 +13,20 @@ import {
   resetFeedback,
 } from "@/features/game/gameSlice";
 
-import {
-  getRandomWords,
-  playSound,
-  updateGameStats,
-  wordPool,
-} from "@/utils/utils";
-import GameModal from "./Modals/GameModal";
-import HowToPlay from "./HowToPlay";
-import Reset from "./Modals/Reset";
-import GameHeader from "./Header/GameHeader";
-import GameGrid from "./Grid/GameGrid";
-import Keyboard from "./Keyboard/Keyboard";
-import Hint from "./Modals/Hint";
+import { playSound } from "@/utils/utils";
+import { RootState } from "@/store";
+import Resume from "@/components/Modals/Resume";
+import HowToPlay from "@/components/HowToPlay";
+import GameModal from "@/components/Modals/GameModal";
+import { getGameById } from "@/lib/firebase";
+import Hint from "@/components/Modals/Hint";
+import GameHeader from "@/components/Header/GameHeader";
+import GameGrid from "@/components/Grid/GameGrid";
+import Keyboard from "@/components/Keyboard/Keyboard";
 
-export default function GameBoard({ level }: { level: Difficulty }) {
+export default function Page() {
   const [soundOn, setSoundOn] = useState(true);
-
+  const { code } = useParams();
   const dispatch = useDispatch();
   const grid = useSelector((state: RootState) => state.game.grid);
   const [currentChar, setCurrentChar] = useState<number | null>(null);
@@ -38,19 +34,16 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   const disabledButtons = useSelector(
     (state: RootState) => state.game.disabledButtons
   );
-  const [words, setWords] = useState<string[]>([]);
   const attempts = useSelector((state: RootState) => state.game.attempts);
   const coins = useSelector((state: RootState) => state.game.coins);
   const selectedLetter = useSelector(
     (state: RootState) => state.game.selectedLetter
   );
-  const [showHintModal, setShowHintModal] = useState(false);
   const gameStatus = useSelector((state: RootState) => state.game.gameStatus);
   const feedback = useSelector((state: RootState) => state.game.feedback);
-  const [showReset, setShowReset] = useState(false);
+  const [showHintModal, setShowHintModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showResume, setShowResume] = useState(false);
-  const [hintUsed, setHintUsed] = useState(false);
   const playSoundSafe = useCallback(
     (sound: string) => {
       if (soundOn) playSound(sound);
@@ -84,34 +77,39 @@ export default function GameBoard({ level }: { level: Difficulty }) {
       letterUsage[letter] = (letterUsage[letter] || 0) + 1;
     }
   });
-  const resetGame = useCallback(() => {
-    dispatch(resetFeedback());
-    dispatch(setDifficulty(level as Difficulty));
-    const selectedWords = getRandomWords(wordPool[level as Difficulty]);
-    setWords(selectedWords);
-    dispatch(setTargetWords(selectedWords));
-    if (level === "easy" || level === "hard") {
-      dispatch(revealLettersInGrid(selectedWords));
-    }
-  }, [level, dispatch]);
-  useEffect(() => {
-    if (!level) return;
-    resetGame();
-  }, [level, resetGame]);
+  const [level, setLevel] = useState<Difficulty>("easy");
+  const [hintUsed, setHintUsed] = useState(false);
+  
+  const [gameTargetWords, setGameTargetWords] = useState<string[]>([]);
   const handleHint = () => {
-    dispatch(revealLettersInGrid(words));
+    dispatch(revealLettersInGrid(gameTargetWords));
     setShowHintModal(false);
     setHintUsed(true);
   };
   useEffect(() => {
+    dispatch(resetFeedback());
+    dispatch(setDifficulty(level as Difficulty));
+    dispatch(setTargetWords(gameTargetWords));
+    if (level === "easy" || level === "hard") {
+      dispatch(revealLettersInGrid(gameTargetWords));
+    }
+  }, [level, gameTargetWords, dispatch]);
+  useEffect(() => {
+    const fetchGame = async () => {
+      const inputCode = code || "";
+      const res = await getGameById(inputCode as string);
+      setLevel(res.level as Difficulty);
+      setGameTargetWords(res.targetWords);
+    };
+    fetchGame();
+  }, [code]);
+  useEffect(() => {
     if (gameStatus === "won") {
-      updateGameStats(level, "win");
       playSoundSafe("/sounds/you-win.mp3");
     } else if (gameStatus === "lost") {
-      updateGameStats(level, "loss");
       playSoundSafe("/sounds/lose.wav");
     }
-  }, [gameStatus, playSoundSafe, attempts, level]);
+  }, [gameStatus, playSoundSafe]);
   useEffect(() => {
     const sounds = [
       "/sounds/click.mp3",
@@ -133,24 +131,27 @@ export default function GameBoard({ level }: { level: Difficulty }) {
     }
   }, []);
 
-  // Save sound state on change
   useEffect(() => {
     localStorage.setItem("sound", String(soundOn));
   }, [soundOn]);
+
   return (
     <div className="h-[100dvh] w-full flex flex-col justify-between items-center bg-[#F4C9EC]">
       {/* Header Section */}
       <GameHeader
         level={level}
+        showlevel={false}
         attempts={attempts}
         coins={coins}
         soundOn={soundOn}
         toggleSound={() => setSoundOn(!soundOn)}
         onBack={() => setShowResume(true)}
-        onRestart={() => setShowReset(true)}
+        onRestart={() => setShowResume(true)}
+        showRestart={false}
         onHint={() => setShowHintModal(true)}
       />
 
+      {/* Game Grid */}
       <GameGrid
         grid={grid}
         feedback={feedback}
@@ -158,6 +159,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
         onPlaceLetter={handleCircleClick}
       />
 
+      {/* Keyboard */}
       <Keyboard
         keyboard={keyboard}
         disabledButtons={disabledButtons}
@@ -175,15 +177,6 @@ export default function GameBoard({ level }: { level: Difficulty }) {
           }}
         />
       )}
-      {showReset && (
-        <Reset
-          onClose={() => setShowReset(false)}
-          onConfirm={() => {
-            resetGame();
-            setShowReset(false);
-          }}
-        />
-      )}
       <HowToPlay open={showModal} onClose={() => setShowModal(false)} />
       {showHintModal && (
         <Hint
@@ -193,7 +186,6 @@ export default function GameBoard({ level }: { level: Difficulty }) {
           freeHintUsed={hintUsed}
         />
       )}
-
       <GameModal
         open={gameStatus === "lost"}
         title="Game Over"

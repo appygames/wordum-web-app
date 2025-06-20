@@ -1,82 +1,88 @@
-// components/SettingsPage.tsx
 "use client";
-import { cn } from "@/utils/utils";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ArrowLeftIcon } from "../../public/icons";
+import { useRouter } from "next/navigation";
 import { FaInstagram, FaFacebook, FaTelegram, FaDiscord } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { ArrowLeftIcon } from "../../public/icons";
+import { cn } from "@/utils/utils";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function SettingsPage() {
+  const router = useRouter();
   const [sound, setSound] = useState(true);
   const [notifications, setNotifications] = useState(true);
-  const router = useRouter();
+
   useEffect(() => {
     const storedSound = localStorage.getItem("sound");
     if (storedSound !== null) {
       setSound(storedSound === "true");
     }
   }, []);
-  useEffect(() => {
-    localStorage.setItem("sound", String(sound));
-  }, [sound]);
+
+  const handleSoundChange = () => {
+    setSound(!sound);
+    localStorage.setItem("sound", (!sound).toString());
+  };
+
+  const staticButtons = ["Language", "Help"];
+
   return (
-    <div className="w-full h-screen bg-[#F4C9EC] p-4 flex flex-col md:hidden">
-      {/* Header */}
-      <div className="flex items-center gap-4 mb-6">
-        <div onClick={() => router.push("/")}>
-          <ArrowLeftIcon />
-        </div>
-        <h1 className="text-xl text-black font-semibold">Settings</h1>
-      </div>
+    <div className="flex flex-col items-center bg-[#F4C9EC] min-h-screen max-h-screen overflow-hidden">
+      <header className="hidden md:block w-full">
+        <Header />
+      </header>
 
-      {/* Toggles */}
-      <div className="space-y-4 mb-6 ">
-        <SettingToggle
-          label="Sound"
-          enabled={sound}
-          onToggle={() => setSound(!sound)}
-        />
-        <SettingToggle
-          label="Notifications"
-          enabled={notifications}
-          onToggle={() => setNotifications(!notifications)}
-        />
-      </div>
-
-      {/* Navigation Options */}
-      <div className="space-y-4 mb-6">
-        {["Language", "Help", "Privacy Policy"].map((item) => (
-          <button
-            key={item}
-            className="w-full text-left bg-[#2258B9] text-white py-3 px-4 rounded-xl shadow"
-          >
-            {item}
+      <main className="flex-1 w-full flex flex-col items-center justify-center overflow-auto px-4 pt-3 pb-[95%] md:pt-10 md:pb-10 md:px-0">
+        <div className="flex items-center gap-4 mb-6 md:hidden self-start">
+          <button onClick={() => router.push("/")}>
+            <ArrowLeftIcon />
           </button>
-        ))}
-      </div>
-
-      {/* Social Icons */}
-      <div className="flex justify-center space-x-4">
-        <div className="bg-white p-2 rounded-full">
-          <FaDiscord className="text-xl text-[#2258B9] " />
-        </div>
-        <div className="bg-white p-2 rounded-full">
-          <FaInstagram className="text-xl text-[#2258B9] " />
+          <h1 className="text-xl text-black font-semibold">Settings</h1>
         </div>
 
-        <div className="bg-white p-2 rounded-full">
-          <FaFacebook className="text-xl text-[#2258B9] " />
-        </div>
+        <h1 className="text-3xl font-extrabold text-black mb-6 hidden md:block">
+          Settings
+        </h1>
 
-        <div className="bg-white p-2 rounded-full">
-          <FaTelegram className="text-xl text-[#2258B9] " />
+        <section className="space-y-6 w-full md:w-[28rem] font-extrabold text-xl">
+          <SettingToggle
+            label="Sound"
+            enabled={sound}
+            onToggle={() => handleSoundChange()}
+          />
+          <SettingToggle
+            label="Notifications"
+            enabled={notifications}
+            onToggle={() => setNotifications(!notifications)}
+          />
+
+          {staticButtons.map((item) => (
+            <StaticButton key={item} label={item} />
+          ))}
+
+          <StaticButton label="Privacy Policy" className="md:hidden" />
+        </section>
+
+        <div className="flex justify-center space-x-4 mt-8 md:hidden">
+          {[FaDiscord, FaInstagram, FaFacebook, FaXTwitter, FaTelegram].map(
+            (Icon, i) => (
+              <div key={i} className="bg-white p-2 rounded-full">
+                <Icon className="text-xl text-[#2258B9]" />
+              </div>
+            )
+          )}
         </div>
-      </div>
+      </main>
+
+      <footer className="hidden md:block w-full">
+        <Footer />
+      </footer>
     </div>
   );
 }
 
-// Toggle Component
+// Toggle Switch Component
 function SettingToggle({
   label,
   enabled,
@@ -99,5 +105,25 @@ function SettingToggle({
         <span className="w-4 h-4 rounded-full bg-white transition-transform duration-300" />
       </button>
     </div>
+  );
+}
+
+// Reusable Button Component
+function StaticButton({
+  label,
+  className = "",
+}: {
+  label: string;
+  className?: string;
+}) {
+  return (
+    <button
+      className={cn(
+        "w-full text-left bg-[#2258B9] text-white py-3 px-4 rounded-xl shadow",
+        className
+      )}
+    >
+      {label}
+    </button>
   );
 }

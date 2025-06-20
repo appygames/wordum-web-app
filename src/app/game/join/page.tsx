@@ -1,5 +1,6 @@
-import DownloadApp from "@/components/DownloadApp";
+import CodeInput from "@/components/CodeInput";
+
 
 export default function CodeEnter(){
-  return <DownloadApp />
+  return <CodeInput />
 }
