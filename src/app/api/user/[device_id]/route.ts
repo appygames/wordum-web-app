@@ -6,11 +6,6 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { device_id: string } }
 ) {
-  const apiKey = req.headers.get("x-api-key");
-  if (apiKey !== process.env.NEXT_PUBLIC_API_KEY) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   const userRef = collection(db, "users");
   const q = query(userRef, where("device_id", "==", params.device_id));
   const snapshot = await getDocs(q);

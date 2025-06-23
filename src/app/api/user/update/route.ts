@@ -10,10 +10,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
   const { device_id, avatar } = await req.json();
-  const apiKey = req.headers.get("x-api-key");
-  if (apiKey !== process.env.NEXT_PUBLIC_API_KEY) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
 
   const userRef = collection(db, "users");
   const q = query(userRef, where("device_id", "==", device_id));

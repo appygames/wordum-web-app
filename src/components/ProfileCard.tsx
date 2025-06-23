@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -56,12 +55,12 @@ export default function ProfileCard() {
         {/* Avatar */}
         <div className="relative">
           {avatar && (
-            <Image
+            <img
               src={avatar}
               alt="user avatar"
               width={100}
               height={100}
-              className="w-24 h-24 rounded-full object-none p-0 m-0 block border-4 border-[#2258B9]"
+              className="w-24 h-24 rounded-full object-contain p-0 m-0 block border-4 border-[#2258B9]"
             />
           )}
           <div
