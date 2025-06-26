@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setAvatar } from "@/store/userSlice";
 import { setCoins } from "@/features/game/gameSlice";
+import { setStats } from "@/store/userSlice";
 import {
   useCreateUserMutation,
   useLazyGetUserByDeviceIdQuery,
@@ -35,6 +36,9 @@ export default function ClientWrapper({
         if (data && data.avatar) {
           dispatch(setAvatar(data.avatar));
           localStorage.setItem("avatar", data.avatar);
+        }
+        if (data.stats) {
+          dispatch(setStats(data.stats));
         } else {
           // No user found, create a new one
           const defaultAvatar =
