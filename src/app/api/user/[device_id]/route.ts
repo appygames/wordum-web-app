@@ -1,7 +1,5 @@
-// /app/api/user/[device_id]/route.ts
-import { Difficulty } from "@/features/game/gameSlice";
 import { db } from "@/lib/firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -10,18 +8,26 @@ export async function GET(
 ) {
   const { device_id } = params;
 
-  // Fetch user
-  const userQuery = query(
-    collection(db, "users"),
-    where("device_id", "==", device_id)
-  );
+  // Reference to the users collection
+  const usersRef = collection(db, "users");
+
+  // Check if user exists
+  const userQuery = query(usersRef, where("device_id", "==", device_id));
   const userSnap = await getDocs(userQuery);
 
-  if (userSnap.empty) {
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
-  }
+  let userData;
 
-  const userData = userSnap.docs[0].data();
+  if (userSnap.empty) {
+    // If user does not exist, create one with default avatar
+    const newUser = {
+      device_id,
+      avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${device_id}`, // or any default logic
+      created_at: new Date().toISOString(), // optional
+    };
+    userData = newUser;
+  } else {
+    userData = userSnap.docs[0].data();
+  }
 
   // Fetch game results
   const resultQuery = query(
