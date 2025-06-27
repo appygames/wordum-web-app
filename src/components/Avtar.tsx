@@ -25,9 +25,9 @@ export default function AvatarPage() {
   const avatar = useSelector((state: RootState) => state.user.avatar);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
-useEffect(() => {
-  if (avatar) setSelectedAvatar(avatar);
-}, [avatar]);
+  useEffect(() => {
+    if (avatar) setSelectedAvatar(avatar);
+  }, [avatar]);
   const handleAvatarSelect = (src: string) => {
     if (selectedAvatar === src) return;
     setSelectedAvatar(src);
@@ -44,17 +44,29 @@ useEffect(() => {
 
     try {
       await updateUser({ device_id, avatar: selectedAvatar }).unwrap();
-
-      // Store & dispatch
-      localStorage.setItem("avatar", selectedAvatar);
-      dispatch(setAvatar(selectedAvatar));
-
-         setTimeout(() => {
-      router.push("/profile");
-    }, 50);
-    } catch (err) {
-      console.error("Failed to update avatar:", err);
+    } catch (err: any) {
+      if (err?.status === 404) {
+        // User not found, create the user first
+        try {
+          await fetch("/api/user/create", {
+            method: "POST",
+            body: JSON.stringify({ device_id, avatar: selectedAvatar }),
+            headers: { "Content-Type": "application/json" },
+          });
+        } catch (createErr) {
+          console.error("Failed to create user automatically:", createErr);
+          return;
+        }
+      } else {
+        console.error("Failed to update avatar:", err);
+        return;
+      }
     }
+
+    // Update Redux + LocalStorage + Redirect
+    localStorage.setItem("avatar", selectedAvatar);
+    dispatch(setAvatar(selectedAvatar));
+    router.push("/profile");
   };
 
   const CheckIcon = () => (
