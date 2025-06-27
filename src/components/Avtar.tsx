@@ -8,6 +8,7 @@ import { RootState } from "@/store";
 import { setAvatar } from "@/store/userSlice";
 import { useUpdateUserMutation } from "@/store/slices/userApiSlice";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const avatars = [
   "/avatars/profile-1.png",
@@ -23,8 +24,10 @@ export default function AvatarPage() {
   const dispatch = useDispatch();
   const avatar = useSelector((state: RootState) => state.user.avatar);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
-  const [selectedAvatar, setSelectedAvatar] = useState<string | null>(avatar);
-
+  const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
+useEffect(() => {
+  if (avatar) setSelectedAvatar(avatar);
+}, [avatar]);
   const handleAvatarSelect = (src: string) => {
     if (selectedAvatar === src) return;
     setSelectedAvatar(src);
@@ -46,7 +49,9 @@ export default function AvatarPage() {
       localStorage.setItem("avatar", selectedAvatar);
       dispatch(setAvatar(selectedAvatar));
 
+         setTimeout(() => {
       router.push("/profile");
+    }, 50);
     } catch (err) {
       console.error("Failed to update avatar:", err);
     }
