@@ -23,11 +23,13 @@ import Hint from "@/components/Modals/Hint";
 import GameHeader from "@/components/Header/GameHeader";
 import GameGrid from "@/components/Grid/GameGrid";
 import Keyboard from "@/components/Keyboard/Keyboard";
+import { useSendGameResultMutation } from "@/store/slices/userApiSlice";
 
 export default function Page() {
   const [soundOn, setSoundOn] = useState(true);
   const { code } = useParams();
   const dispatch = useDispatch();
+  const [sendGameResult] = useSendGameResultMutation();
   const grid = useSelector((state: RootState) => state.game.grid);
   const [currentChar, setCurrentChar] = useState<number | null>(null);
   const keyboard = useSelector((state: RootState) => state.game.keyboard);
@@ -79,7 +81,7 @@ export default function Page() {
   });
   const [level, setLevel] = useState<Difficulty>("easy");
   const [hintUsed, setHintUsed] = useState(false);
-  
+
   const [gameTargetWords, setGameTargetWords] = useState<string[]>([]);
   const handleHint = () => {
     dispatch(revealLettersInGrid(gameTargetWords));
@@ -104,12 +106,24 @@ export default function Page() {
     fetchGame();
   }, [code]);
   useEffect(() => {
+    const sendResultToServer = async (won: boolean) => {
+      const device_id = localStorage.getItem("device_id");
+      if (!device_id) return;
+
+      try {
+        await sendGameResult({ device_id, won, difficulty: level }).unwrap();
+      } catch (error) {
+        console.error("Failed to send game result:", error);
+      }
+    };
     if (gameStatus === "won") {
       playSoundSafe("/sounds/you-win.mp3");
+      sendResultToServer(true);
     } else if (gameStatus === "lost") {
       playSoundSafe("/sounds/lose.wav");
+      sendResultToServer(false);
     }
-  }, [gameStatus, playSoundSafe]);
+  }, [gameStatus, playSoundSafe, level, sendGameResult]);
   useEffect(() => {
     const sounds = [
       "/sounds/click.mp3",
