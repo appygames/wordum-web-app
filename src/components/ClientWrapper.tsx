@@ -35,6 +35,7 @@ export default function ClientWrapper({
       .then((data) => {
         if (data && data.avatar) {
           dispatch(setAvatar(data.avatar));
+          dispatch(setCoins(data.coins));
           localStorage.setItem("avatar", data.avatar);
         }
         if (data.stats) {

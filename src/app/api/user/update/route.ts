@@ -9,7 +9,7 @@ import {
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
-  const { device_id, avatar } = await req.json();
+  const { device_id, avatar, coins } = await req.json();
 
   const userRef = collection(db, "users");
   const q = query(userRef, where("device_id", "==", device_id));
@@ -18,7 +18,12 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
 
   const docRef = snapshot.docs[0].ref;
-  await updateDoc(docRef, { avatar });
+
+  const updateData: { avatar?: string; coins?: number } = {};
+  if (avatar !== undefined) updateData.avatar = avatar;
+  if (coins !== undefined) updateData.coins = coins;
+
+  await updateDoc(docRef, updateData);
 
   return NextResponse.json({ success: true });
 }

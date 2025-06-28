@@ -1,11 +1,7 @@
 "use client";
 import "./globals.css";
 import { Nunito } from "next/font/google";
-import { useEffect } from "react";
-import { setAvatar } from "@/store/userSlice";
-import { setCoins } from "@/features/game/gameSlice";
 import { store } from "@/store";
-import { useRouter } from "next/navigation";
 import { Provider } from "react-redux";
 import ClientWrapper from "@/components/ClientWrapper";
 
@@ -20,18 +16,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
-  useEffect(() => {
-    const coins = localStorage.getItem("coins") || "0";
-    const avatar = localStorage.getItem("avatar") || null;
-
-    store.dispatch(setCoins(Number(coins)));
-    if (avatar) {
-      store.dispatch(setAvatar(String(avatar)));
-    } else {
-      router.push("/avatar");
-    }
-  }, [router]);
 
   return (
     <html lang="en" className={nunito.variable}>
