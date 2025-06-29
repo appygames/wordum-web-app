@@ -26,10 +26,10 @@ export async function POST(req: NextRequest) {
   // If won, update user's coin count
   if (won) {
     const coinMap: Record<string, number> = {
-      easy: 10,
-      medium: 20,
-      hard: 30,
-      expert: 40,
+      easy: 5,
+      medium: 10,
+      hard: 15,
+      expert: 25,
     };
     const coinsToAdd = coinMap[difficulty] ?? 0;
 
