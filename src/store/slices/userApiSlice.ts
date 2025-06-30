@@ -4,10 +4,6 @@ export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "/api/user",
-    prepareHeaders: (headers) => {
-      headers.set("x-api-key", "appykan-wordum-1234");
-      return headers;
-    },
   }),
   endpoints: (builder) => ({
     createUser: builder.mutation({

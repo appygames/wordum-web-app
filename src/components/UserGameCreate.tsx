@@ -5,10 +5,9 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { CoinIcon } from "../../public/icons";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import CopyGameCode from "./CopyGameCode";
 import { cn } from "@/utils/utils";
+import { useCreateGameMutation } from "@/store/slices/gameApiSlice";
 
 export default function UserGameCreatePage() {
   const searchParams = useSearchParams();
@@ -20,6 +19,7 @@ export default function UserGameCreatePage() {
       .fill(null)
       .map(() => Array(length).fill(""))
   );
+  const [createGame] = useCreateGameMutation();
 
   const [gameCode, setGameCode] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -37,18 +37,17 @@ export default function UserGameCreatePage() {
     const level =
       length === 4 ? (reveal ? "easy" : "medium") : reveal ? "medium" : "hard";
     const targetWords = grid.map((row) => row.join(""));
-    const gameData = {
-      targetWords,
-      coins,
-      length,
-      level,
-      createdAt: Timestamp.now(),
-    };
 
     try {
       setIsSubmitting(true);
-      const docRef = await addDoc(collection(db, "userGames"), gameData);
-      setGameCode(docRef.id);
+      const { gameCode } = await createGame({
+        targetWords,
+        coins,
+        length,
+        level,
+      }).unwrap();
+
+      setGameCode(gameCode);
       setShowModal(false);
       setShowGameCodeCopyModal(true);
       setSubmissionMessage("Submitted!");
@@ -56,7 +55,7 @@ export default function UserGameCreatePage() {
         setSubmissionMessage("");
       }, 3000);
     } catch (error) {
-      console.error("Error saving game to Firestore:", error);
+      console.error("Error creating game:", error);
       alert("Something went wrong while saving the game.");
     } finally {
       setIsSubmitting(false);

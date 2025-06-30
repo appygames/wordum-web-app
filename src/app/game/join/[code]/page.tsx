@@ -18,16 +18,17 @@ import { RootState } from "@/store";
 import Resume from "@/components/Modals/Resume";
 import HowToPlay from "@/components/HowToPlay";
 import GameModal from "@/components/Modals/GameModal";
-import { getGameById } from "@/lib/firebase";
 import Hint from "@/components/Modals/Hint";
 import GameHeader from "@/components/Header/GameHeader";
 import GameGrid from "@/components/Grid/GameGrid";
 import Keyboard from "@/components/Keyboard/Keyboard";
 import { useSendGameResultMutation } from "@/store/slices/userApiSlice";
+import { useGetGameByIdQuery } from "@/store/slices/gameApiSlice";
 
 export default function Page() {
   const [soundOn, setSoundOn] = useState(true);
   const { code } = useParams();
+  const gameId = code as string;
   const dispatch = useDispatch();
   const [sendGameResult] = useSendGameResultMutation();
   const grid = useSelector((state: RootState) => state.game.grid);
@@ -96,15 +97,15 @@ export default function Page() {
       dispatch(revealLettersInGrid(gameTargetWords));
     }
   }, [level, gameTargetWords, dispatch]);
+
+  const { data: gameData } = useGetGameByIdQuery(gameId);
+
   useEffect(() => {
-    const fetchGame = async () => {
-      const inputCode = code || "";
-      const res = await getGameById(inputCode as string);
-      setLevel(res.level as Difficulty);
-      setGameTargetWords(res.targetWords);
-    };
-    fetchGame();
-  }, [code]);
+    if (gameData) {
+      setLevel(gameData.level);
+      setGameTargetWords(gameData.targetWords);
+    }
+  }, [gameData]);
   useEffect(() => {
     const sendResultToServer = async (won: boolean) => {
       const device_id = localStorage.getItem("device_id");
