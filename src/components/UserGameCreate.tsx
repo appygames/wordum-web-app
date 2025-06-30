@@ -90,7 +90,7 @@ export default function UserGameCreatePage() {
       </div>
 
       {/* Grid */}
-      <div className="w-full px-2 flex flex-col items-center gap-6">
+      <div className="w-full px-2 flex flex-col items-center gap-6 md:justify-center md:items-center md:h-[calc(100vh-232px)]">
         <div className="flex flex-col gap-3 items-center">
           {grid.map((row, rowIndex) => (
             <div
@@ -153,7 +153,7 @@ export default function UserGameCreatePage() {
         ) : (
           // Modal overlay
           <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-transparent rounded-xl px-6 py-8 w-[90%] max-w-md text-center">
+            <div className="bg-transparent rounded-xl px-6 py-8 w-[90%] max-w-md text-center mt-[489px]">
               {isSubmitting ? (
                 <>
                   <div className="flex flex-col items-center gap-4">

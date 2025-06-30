@@ -51,11 +51,12 @@ const CopyGameCode = ({
       </div>
 
       {/* Main Card */}
-      <div className="bg-[#2258B9] text-white rounded-xl px-6 py-8 w-[85%] min-h-[450px] md:w-full md:max-w-xl md:min-h-[400px] text-center mt-20 md:mt-6">
+      < div className="flex-1 flex flex-col items-center justify-center gap-10 px-4">
+      <div className="bg-[#2258B9] text-white rounded-xl px-6 py-8 w-full max-w-xl text-center">
         <h2 className="text-3xl font-extrabold mb-7 tracking-wide">
           CONGRATULATIONS!
         </h2>
-        <p className="text-xl md:text-lg font-semibold mt-11">
+        <p className="text-xl md:text-lg font-semibold mt-6">
           You&apos;ve successfully created your own wordum
         </p>
 
@@ -73,7 +74,7 @@ const CopyGameCode = ({
           )}
         </div>
 
-        <p className="text-xl md:text-lg font-bold mt-13">
+        <p className="text-xl md:text-lg font-bold mt-10">
           Double tap on code to copy and share code
           <br />
           <span className="font-semibold">OR</span>
@@ -83,7 +84,7 @@ const CopyGameCode = ({
       </div>
 
       {/* Share and Home Buttons */}
-      <div className="flex justify-center gap-8 mt-6">
+      <div className="flex justify-center gap-8">
         <button
           onClick={handleShare}
           className="bg-[#2258b9] text-white rounded-full p-7 shadow-md hover:scale-105 transition"
@@ -98,6 +99,7 @@ const CopyGameCode = ({
         </button>
       </div>
     </div>
+  </div>
   );
 };
 
