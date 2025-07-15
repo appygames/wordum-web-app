@@ -3,7 +3,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const gameApi = createApi({
   reducerPath: "gameApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api/game",
+    baseUrl: "https://api.wordum.app/api/game",
+    prepareHeaders: (headers) => {
+      headers.set("X-Api-key", "appykan-wordum-1234");
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     createGame: builder.mutation<

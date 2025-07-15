@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api/user",
+    baseUrl: "https://api.wordum.app/api/user",
     prepareHeaders: (headers) => {
       headers.set("X-Api-key", "appykan-wordum-1234");
       return headers;
