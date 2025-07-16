@@ -25,7 +25,7 @@ export default function Hint({
 
   const handleUseCoins = async () => {
     const device_id = localStorage.getItem("device_id");
-    if (!device_id || coins < 0) return;
+    if (!device_id || coins < 100) return;
 
     try {
       const res = await hint({ device_id }).unwrap();
@@ -107,9 +107,9 @@ export default function Hint({
             </button>
             <button
               onClick={handleUseCoins}
-              // disabled={coins < 100}
+              disabled={coins < 100}
               className={`text-white text-lg font-bold py-3 rounded ${
-                coins < 0 ? "bg-[#B3B3B3] cursor-not-allowed" : "bg-[#EB598F]"
+                coins < 100 ? "bg-[#B3B3B3] cursor-not-allowed" : "bg-[#EB598F]"
               }`}
             >
               Use 100 coins to get a free hint
