@@ -14,4 +14,4 @@ export default function ClientLayout({
       <ClientWrapper>{children}</ClientWrapper>
     </Provider>
   );
-} 
+}

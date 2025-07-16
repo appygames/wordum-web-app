@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Nunito } from "next/font/google";
-import ClientLayout from "@/components/ClientWrapper";
+import ClientLayout from "@/components/ClientLayout";
 
 const nunito = Nunito({
   subsets: ["latin"],
