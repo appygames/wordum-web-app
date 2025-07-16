@@ -1,9 +1,6 @@
-"use client";
 import "./globals.css";
 import { Nunito } from "next/font/google";
-import { store } from "@/store";
-import { Provider } from "react-redux";
-import ClientWrapper from "@/components/ClientWrapper";
+import ClientLayout from "@/components/ClientWrapper";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -16,7 +13,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html lang="en" className={nunito.variable}>
       <head>
@@ -27,9 +23,7 @@ export default function RootLayout({
         ></script>
       </head>
       <body className="font-nunito">
-        <Provider store={store}>
-          <ClientWrapper>{children}</ClientWrapper>
-        </Provider>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
