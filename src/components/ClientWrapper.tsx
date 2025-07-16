@@ -32,14 +32,26 @@ export default function ClientWrapper({
 
     triggerGetUserByDeviceId(device_id)
       .unwrap()
-      .then((data) => {
+      .then((res) => {
+        const data = res.data;
         if (data && data.avatar) {
-          dispatch(setAvatar(data.avatar));
+          // Convert relative path to absolute if needed
+          const avatarPath = data.avatar.startsWith("http")
+            ? data.avatar
+            : `${window.location.origin}${data.avatar}`;
+          dispatch(setAvatar(avatarPath));
           dispatch(setCoins(data.coins));
-          localStorage.setItem("avatar", data.avatar);
+          localStorage.setItem("avatar", avatarPath);
         }
-        if (data.stats) {
-          dispatch(setStats(data.stats));
+        if (data.game_stats) {
+          // Convert stats to lowercase keys
+          const formattedStats = {
+            easy: data.game_stats.Easy || { wins: 0, losses: 0 },
+            medium: data.game_stats.Medium || { wins: 0, losses: 0 },
+            hard: data.game_stats.Hard || { wins: 0, losses: 0 },
+            expert: data.game_stats.Expert || { wins: 0, losses: 0 },
+          };
+          dispatch(setStats(formattedStats));
         } else {
           // No user found, create a new one
           const defaultAvatar =
@@ -58,8 +70,8 @@ export default function ClientWrapper({
           router.push("/avatar");
         }
       })
-      .catch(() => {
-        console.error("User not found");
+      .catch((err) => {
+        console.error(err);
       });
   }, [dispatch, createUser, triggerGetUserByDeviceId, router]);
 
