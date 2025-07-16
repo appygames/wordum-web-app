@@ -14,15 +14,18 @@ export default function CodeInput() {
   const coins = useSelector((state: RootState) => state.game.coins);
   const avatar = useSelector((state: RootState) => state.user.avatar);
   const [triggerGetGameById, { isFetching }] = useLazyGetGameByIdQuery();
+
   const handlePlay = async () => {
     setError("");
     if (code.trim() === "") return;
 
     try {
-      const res = await triggerGetGameById(code.trim()).unwrap();
-      if (!res || !res.id) {
+      const result = await triggerGetGameById(code.trim()).unwrap();
+      if (!result?.data || !result.data.code) {
+        console.log(result);
         setError("Invalid code or game not found.");
       } else {
+        // The data will be automatically cached by RTK Query
         router.push(`/game/join/${code.trim()}`);
       }
     } catch (err) {

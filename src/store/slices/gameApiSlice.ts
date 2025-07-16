@@ -18,12 +18,18 @@ interface CreateGameResponse {
   };
 }
 
-interface Game {
-  id: string;
-  targetWords: string[];
-  reveal_letters: boolean;
-  device_id: string;
-  length: number;
+interface GameResponse {
+  data: {
+    code: string;
+    created_at: string;
+    creator: string;
+    expires_at: string;
+    game_id: string;
+    losses: number;
+    reveal_letters: boolean;
+    wins: number;
+    words: Word[];
+  };
 }
 
 export const gameApi = createApi({
@@ -43,8 +49,10 @@ export const gameApi = createApi({
         body,
       }),
     }),
-    getGameById: builder.query<Game, string>({
+    getGameById: builder.query<GameResponse, string>({
       query: (id) => `/${id}`,
+      // Keep the data in cache for 5 minutes
+      keepUnusedDataFor: 300,
     }),
   }),
 });

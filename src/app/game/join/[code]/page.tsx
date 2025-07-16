@@ -1,11 +1,9 @@
 "use client";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setSelectedLetter,
-  setDifficulty,
-  Difficulty,
   revealLettersInGrid,
   checkGameWon,
   evaluateLetter,
@@ -26,6 +24,7 @@ import { useSendGameResultMutation } from "@/store/slices/userApiSlice";
 import { useGetGameByIdQuery } from "@/store/slices/gameApiSlice";
 
 export default function Page() {
+  const router = useRouter();
   const [soundOn, setSoundOn] = useState(true);
   const { code } = useParams();
   const gameId = code as string;
@@ -47,12 +46,15 @@ export default function Page() {
   const [showHintModal, setShowHintModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showResume, setShowResume] = useState(false);
+  const [isExpired, setIsExpired] = useState(false);
+
   const playSoundSafe = useCallback(
     (sound: string) => {
       if (soundOn) playSound(sound);
     },
     [soundOn]
   );
+
   const handleKeyClick = (char: string, index: number) => {
     playSoundSafe("/sounds/click.mp3");
     setCurrentChar(index);
@@ -80,43 +82,62 @@ export default function Page() {
       letterUsage[letter] = (letterUsage[letter] || 0) + 1;
     }
   });
-  const [level, setLevel] = useState<Difficulty>("easy");
-  const [hintUsed, setHintUsed] = useState(false);
 
+  const [hintUsed, setHintUsed] = useState(false);
   const [gameTargetWords, setGameTargetWords] = useState<string[]>([]);
+
   const handleHint = () => {
     dispatch(revealLettersInGrid(gameTargetWords));
     setShowHintModal(false);
     setHintUsed(true);
   };
-  useEffect(() => {
-    dispatch(resetFeedback());
-    dispatch(setDifficulty(level as Difficulty));
-    dispatch(setTargetWords(gameTargetWords));
-    if (level === "easy" || level === "hard") {
-      dispatch(revealLettersInGrid(gameTargetWords));
-    }
-  }, [level, gameTargetWords, dispatch]);
 
   const { data: gameData } = useGetGameByIdQuery(gameId);
 
+  // Check game expiration
   useEffect(() => {
-    if (gameData) {
-      setLevel(gameData.level);
-      setGameTargetWords(gameData.targetWords);
+    if (gameData?.data) {
+      const expiresAt = new Date(gameData.data.expires_at);
+      if (expiresAt < new Date()) {
+        setIsExpired(true);
+        // Redirect to home after 3 seconds if game is expired
+        setTimeout(() => {
+          router.push('/');
+        }, 3000);
+      }
     }
-  }, [gameData]);
+  }, [gameData, router]);
+
+  useEffect(() => {
+    dispatch(resetFeedback());
+    if (gameData?.data) {
+      const targetWords = gameData.data.words.map(w => w.text);
+      setGameTargetWords(targetWords);
+      dispatch(setTargetWords(targetWords));
+      
+      // If reveal_letters is true, reveal letters immediately
+      if (gameData.data.reveal_letters) {
+        dispatch(revealLettersInGrid(targetWords));
+      }
+    }
+  }, [gameData, dispatch]);
+
   useEffect(() => {
     const sendResultToServer = async (won: boolean) => {
       const device_id = localStorage.getItem("device_id");
       if (!device_id) return;
 
       try {
-        await sendGameResult({ device_id, won, difficulty: level }).unwrap();
+        await sendGameResult({ 
+          device_id, 
+          won,
+          game_id: gameData?.data?.game_id 
+        }).unwrap();
       } catch (error) {
         console.error("Failed to send game result:", error);
       }
     };
+
     if (gameStatus === "won") {
       playSoundSafe("/sounds/you-win.mp3");
       sendResultToServer(true);
@@ -124,7 +145,8 @@ export default function Page() {
       playSoundSafe("/sounds/lose.wav");
       sendResultToServer(false);
     }
-  }, [gameStatus, playSoundSafe, level, sendGameResult]);
+  }, [gameStatus, playSoundSafe, sendGameResult, gameData]);
+
   useEffect(() => {
     const sounds = [
       "/sounds/click.mp3",
@@ -150,11 +172,22 @@ export default function Page() {
     localStorage.setItem("sound", String(soundOn));
   }, [soundOn]);
 
+  if (isExpired) {
+    return (
+      <div className="h-[100dvh] w-full flex flex-col items-center justify-center bg-[#F4C9EC]">
+        <div className="bg-[#2258B9] text-white p-6 rounded-xl text-center">
+          <h2 className="text-2xl font-bold mb-4">Game Expired</h2>
+          <p>This game has expired. Redirecting to home...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="h-[100dvh] w-full flex flex-col justify-between items-center bg-[#F4C9EC]">
       {/* Header Section */}
       <GameHeader
-        level={level}
+        level="easy"
         showlevel={false}
         attempts={attempts}
         coins={coins}
@@ -197,7 +230,7 @@ export default function Page() {
         <Hint
           onClose={() => setShowHintModal(false)}
           handleHint={handleHint}
-          level={level}
+          level="easy"
           freeHintUsed={hintUsed}
         />
       )}

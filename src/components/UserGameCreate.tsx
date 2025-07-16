@@ -13,12 +13,6 @@ interface Word {
   text: string;
 }
 
-interface GameResponse {
-  code: string;
-  game_id: string;
-  share_link: string;
-}
-
 export default function UserGameCreatePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
