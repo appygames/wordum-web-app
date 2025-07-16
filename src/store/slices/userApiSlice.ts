@@ -27,16 +27,20 @@ export const userApi = createApi({
         body,
       }),
     }),
-    sendHint: builder.mutation({
+
+    sendGameResult: builder.mutation({
       query: (body) => ({
-        url: "hint",
+        url: "game-result",
         method: "POST",
         body,
       }),
     }),
-    sendGameResult: builder.mutation({
+    hint: builder.mutation<
+      { success: boolean; remaining_coins: number },
+      { device_id: string }
+    >({
       query: (body) => ({
-        url: "game-result",
+        url: "/hint",
         method: "POST",
         body,
       }),
@@ -48,7 +52,7 @@ export const {
   useCreateUserMutation,
   useGetUserByDeviceIdQuery,
   useUpdateUserMutation,
-  useSendHintMutation,
   useSendGameResultMutation,
   useLazyGetUserByDeviceIdQuery,
+  useHintMutation,
 } = userApi;

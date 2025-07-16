@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setCoins } from "@/features/game/gameSlice";
 import { CrossIcon } from "../../../public/icons";
-import { useUpdateUserMutation } from "@/store/slices/userApiSlice";
+import { useHintMutation } from "@/store/slices/userApiSlice";
 type Difficulty = "easy" | "medium" | "hard" | "expert";
 
 export default function Hint({
@@ -21,16 +21,18 @@ export default function Hint({
   const coins = useSelector((state: RootState) => state.game.coins);
   const [showAdModal, setShowAdModal] = useState(false);
 
-  const [updateUser] = useUpdateUserMutation();
+  const [hint] = useHintMutation();
 
   const handleUseCoins = async () => {
     const device_id = localStorage.getItem("device_id");
-    if (!device_id || coins < 100) return;
+    if (!device_id || coins < 0) return;
 
     try {
-      await updateUser({ device_id, coins: coins - 100 }).unwrap();
-      dispatch(setCoins(coins - 100));
-      handleHint();
+      const res = await hint({ device_id }).unwrap();
+      if (res.success) {
+        dispatch(setCoins(coins - 100));
+        handleHint();
+      }
     } catch (error) {
       console.error("Failed to deduct coins:", error);
     }
@@ -105,9 +107,9 @@ export default function Hint({
             </button>
             <button
               onClick={handleUseCoins}
-              disabled={coins < 100}
+              // disabled={coins < 100}
               className={`text-white text-lg font-bold py-3 rounded ${
-                coins < 100 ? "bg-[#B3B3B3] cursor-not-allowed" : "bg-[#EB598F]"
+                coins < 0 ? "bg-[#B3B3B3] cursor-not-allowed" : "bg-[#EB598F]"
               }`}
             >
               Use 100 coins to get a free hint
