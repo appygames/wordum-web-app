@@ -9,6 +9,16 @@ import CopyGameCode from "./CopyGameCode";
 import { cn } from "@/utils/utils";
 import { useCreateGameMutation } from "@/store/slices/gameApiSlice";
 
+interface Word {
+  text: string;
+}
+
+interface GameResponse {
+  code: string;
+  game_id: string;
+  share_link: string;
+}
+
 export default function UserGameCreatePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -22,6 +32,7 @@ export default function UserGameCreatePage() {
   const [createGame] = useCreateGameMutation();
 
   const [gameCode, setGameCode] = useState("");
+  const [shareLink, setShareLink] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showGameCodeCopyModal, setShowGameCodeCopyModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,20 +45,25 @@ export default function UserGameCreatePage() {
   const handleSubmit = async () => {
     setYesClicked(true);
     setNoClicked(false);
-    const level =
-      length === 4 ? (reveal ? "easy" : "medium") : reveal ? "medium" : "hard";
-    const targetWords = grid.map((row) => row.join(""));
+
+    // Convert grid rows to Word objects
+    const words: Word[] = grid.map((row) => ({
+      text: row.join(""),
+    }));
 
     try {
       setIsSubmitting(true);
-      const { gameCode } = await createGame({
-        targetWords,
-        coins,
-        length,
-        level,
+      // Get device_id from localStorage
+      const device_id = localStorage.getItem("device_id") || "";
+
+      const { data } = await createGame({
+        device_id,
+        words,
+        reveal_letters: reveal,
       }).unwrap();
 
-      setGameCode(gameCode);
+      setGameCode(data?.code);
+      setShareLink(data?.share_link);
       setShowModal(false);
       setShowGameCodeCopyModal(true);
       setSubmissionMessage("Submitted!");
@@ -56,7 +72,7 @@ export default function UserGameCreatePage() {
       }, 3000);
     } catch (error) {
       console.error("Error creating game:", error);
-      alert("Something went wrong while saving the game.");
+      // alert("Something went wrong while saving the game.");
     } finally {
       setIsSubmitting(false);
     }
@@ -209,7 +225,11 @@ export default function UserGameCreatePage() {
 
       {/* Game Code Modal */}
       {showGameCodeCopyModal && (
-        <CopyGameCode onClose={() => router.push("/")} code={gameCode} />
+        <CopyGameCode
+          onClose={() => router.push("/")}
+          code={gameCode}
+          shareLink={shareLink}
+        />
       )}
     </div>
   );

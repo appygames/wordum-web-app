@@ -1,5 +1,31 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+interface Word {
+  text: string;
+}
+
+interface CreateGameRequest {
+  device_id: string;
+  words: Word[];
+  reveal_letters: boolean;
+}
+
+interface CreateGameResponse {
+  data: {
+    code: string;
+    game_id: string;
+    share_link: string;
+  };
+}
+
+interface Game {
+  id: string;
+  targetWords: string[];
+  reveal_letters: boolean;
+  device_id: string;
+  length: number;
+}
+
 export const gameApi = createApi({
   reducerPath: "gameApi",
   baseQuery: fetchBaseQuery({
@@ -10,31 +36,14 @@ export const gameApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    createGame: builder.mutation<
-      { gameCode: string },
-      {
-        targetWords: string[];
-        coins: number;
-        length: number;
-        level: string;
-      }
-    >({
+    createGame: builder.mutation<CreateGameResponse, CreateGameRequest>({
       query: (body) => ({
         url: "create",
         method: "POST",
         body,
       }),
     }),
-    getGameById: builder.query<
-      {
-        id: string;
-        targetWords: string[];
-        level: "easy" | "medium" | "hard";
-        coins: number;
-        length: number;
-      },
-      string
-    >({
+    getGameById: builder.query<Game, string>({
       query: (id) => `/${id}`,
     }),
   }),

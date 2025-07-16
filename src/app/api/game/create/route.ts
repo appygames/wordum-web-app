@@ -2,16 +2,29 @@ import { db } from "@/lib/firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
 
+interface Word {
+  text: string;
+}
+
+interface CreateGameRequest {
+  device_id: string;
+  words: Word[];
+  reveal_letters: boolean;
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { targetWords, coins, length, level } = body;
+    const body: CreateGameRequest = await req.json();
+    const { device_id, words, reveal_letters } = body;
+
+    // Extract just the text from the words array
+    const targetWords = words.map(word => word.text);
 
     const docRef = await addDoc(collection(db, "userGames"), {
+      device_id,
       targetWords,
-      coins,
-      length,
-      level,
+      reveal_letters,
+      length: targetWords.length,
       createdAt: Timestamp.now(),
     });
 
