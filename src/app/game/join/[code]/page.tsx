@@ -102,7 +102,7 @@ export default function Page() {
         setIsExpired(true);
         // Redirect to home after 3 seconds if game is expired
         setTimeout(() => {
-          router.push('/');
+          router.push("/");
         }, 3000);
       }
     }
@@ -111,10 +111,10 @@ export default function Page() {
   useEffect(() => {
     dispatch(resetFeedback());
     if (gameData?.data) {
-      const targetWords = gameData.data.words.map(w => w.text);
+      const targetWords = gameData.data.words.map((w) => w.text);
       setGameTargetWords(targetWords);
       dispatch(setTargetWords(targetWords));
-      
+
       // If reveal_letters is true, reveal letters immediately
       if (gameData.data.reveal_letters) {
         dispatch(revealLettersInGrid(targetWords));
@@ -126,12 +126,19 @@ export default function Page() {
     const sendResultToServer = async (won: boolean) => {
       const device_id = localStorage.getItem("device_id");
       if (!device_id) return;
-
+      const level = gameData?.data?.reveal_letters
+        ? gameData?.data?.words.length === 4
+          ? "easy"
+          : "medium"
+        : gameData?.data?.words.length === 5
+        ? "hard"
+        : "expert";
       try {
-        await sendGameResult({ 
-          device_id, 
+        await sendGameResult({
+          device_id,
           won,
-          game_id: gameData?.data?.game_id 
+          game_id: gameData?.data?.game_id,
+          difficulty: level,
         }).unwrap();
       } catch (error) {
         console.error("Failed to send game result:", error);

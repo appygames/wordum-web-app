@@ -29,6 +29,7 @@ export default function ProfileCard() {
 
   const { data, isLoading, isError } = useGetUserByDeviceIdQuery(device_id!, {
     skip: !device_id,
+    refetchOnMountOrArgChange: true,
   });
   useEffect(() => {
     if (data?.stats) {
