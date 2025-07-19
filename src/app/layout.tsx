@@ -1,16 +1,10 @@
-"use client";
 import "./globals.css";
-import { Providers } from "./provider";
 import { Nunito } from "next/font/google";
-import { useEffect } from "react";
-import { setAvatar } from "@/store/userSlice";
-import { setCoins } from "@/features/game/gameSlice";
-import { store } from "@/store";
-import { useRouter } from "next/navigation";
+import ClientLayout from "@/components/ClientLayout";
 
 const nunito = Nunito({
   subsets: ["latin"],
-  weight: ["400", "700"], // Add more weights if needed
+  weight: ["400", "700"],
   variable: "--font-nunito",
 });
 
@@ -19,19 +13,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
-  useEffect(() => {
-    const coins = localStorage.getItem("coins") || "0";
-    const avatar = localStorage.getItem("avatar") || null;
-
-    store.dispatch(setCoins(Number(coins)));
-    if (avatar) {
-      store.dispatch(setAvatar(String(avatar)));
-    } else {
-      router.push("/avatar");
-    }
-  }, [router]);
-
   return (
     <html lang="en" className={nunito.variable}>
       <head>
@@ -42,7 +23,7 @@ export default function RootLayout({
         ></script>
       </head>
       <body className="font-nunito">
-        <Providers>{children}</Providers>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

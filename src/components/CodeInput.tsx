@@ -5,33 +5,32 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { CrossIcon, CoinIcon } from "../../public/icons";
-import { getGameById } from "@/lib/firebase";
+import { useLazyGetGameByIdQuery } from "@/store/slices/gameApiSlice";
 
 export default function CodeInput() {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const coins = useSelector((state: RootState) => state.game.coins);
   const avatar = useSelector((state: RootState) => state.user.avatar);
+  const [triggerGetGameById, { isFetching }] = useLazyGetGameByIdQuery();
 
   const handlePlay = async () => {
     setError("");
     if (code.trim() === "") return;
 
-    setLoading(true);
     try {
-      const game = await getGameById(code.trim());
-      if (!game) {
+      const result = await triggerGetGameById(code.trim()).unwrap();
+      if (!result?.data || !result.data.code) {
+        console.log(result);
         setError("Invalid code or game not found.");
       } else {
+        // The data will be automatically cached by RTK Query
         router.push(`/game/join/${code.trim()}`);
       }
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
       setError("Invalid code or game not found.");
-    } finally {
-      setLoading(false);
+      console.error(err);
     }
   };
 
@@ -91,15 +90,15 @@ export default function CodeInput() {
         )}
 
         <button
-          disabled={code.trim() === "" || loading}
+          disabled={code.trim() === "" || isFetching}
           onClick={handlePlay}
           className={`w-44 md:w-96 p-5 md:p-4 rounded-lg text-white text-2xl font-extrabold transition mt-6 ${
-            code.trim() === "" || loading
+            code.trim() === "" || isFetching
               ? "bg-[#B3B3B3] cursor-not-allowed"
               : "bg-[#EB598F] hover:bg-pink-700"
           }`}
         >
-          {loading ? "Checking..." : "PLAY"}
+          {isFetching ? "Checking..." : "PLAY"}
         </button>
       </div>
     </div>

@@ -5,10 +5,13 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { CoinIcon } from "../../public/icons";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import CopyGameCode from "./CopyGameCode";
 import { cn } from "@/utils/utils";
+import { useCreateGameMutation } from "@/store/slices/gameApiSlice";
+
+interface Word {
+  text: string;
+}
 
 export default function UserGameCreatePage() {
   const searchParams = useSearchParams();
@@ -20,8 +23,10 @@ export default function UserGameCreatePage() {
       .fill(null)
       .map(() => Array(length).fill(""))
   );
+  const [createGame] = useCreateGameMutation();
 
   const [gameCode, setGameCode] = useState("");
+  const [shareLink, setShareLink] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showGameCodeCopyModal, setShowGameCodeCopyModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,21 +39,25 @@ export default function UserGameCreatePage() {
   const handleSubmit = async () => {
     setYesClicked(true);
     setNoClicked(false);
-    const level =
-      length === 4 ? (reveal ? "easy" : "medium") : reveal ? "medium" : "hard";
-    const targetWords = grid.map((row) => row.join(""));
-    const gameData = {
-      targetWords,
-      coins,
-      length,
-      level,
-      createdAt: Timestamp.now(),
-    };
+
+    // Convert grid rows to Word objects
+    const words: Word[] = grid.map((row) => ({
+      text: row.join(""),
+    }));
 
     try {
       setIsSubmitting(true);
-      const docRef = await addDoc(collection(db, "userGames"), gameData);
-      setGameCode(docRef.id);
+      // Get device_id from localStorage
+      const device_id = localStorage.getItem("device_id") || "";
+
+      const { data } = await createGame({
+        device_id,
+        words,
+        reveal_letters: reveal,
+      }).unwrap();
+
+      setGameCode(data?.code);
+      setShareLink(data?.share_link);
       setShowModal(false);
       setShowGameCodeCopyModal(true);
       setSubmissionMessage("Submitted!");
@@ -56,8 +65,8 @@ export default function UserGameCreatePage() {
         setSubmissionMessage("");
       }, 3000);
     } catch (error) {
-      console.error("Error saving game to Firestore:", error);
-      alert("Something went wrong while saving the game.");
+      console.error("Error creating game:", error);
+      // alert("Something went wrong while saving the game.");
     } finally {
       setIsSubmitting(false);
     }
@@ -91,7 +100,7 @@ export default function UserGameCreatePage() {
       </div>
 
       {/* Grid */}
-      <div className="w-full px-2 flex flex-col items-center gap-6">
+      <div className="w-full px-2 flex flex-col items-center gap-6 md:justify-center md:items-center md:h-[calc(100vh-232px)]">
         <div className="flex flex-col gap-3 items-center">
           {grid.map((row, rowIndex) => (
             <div
@@ -154,7 +163,7 @@ export default function UserGameCreatePage() {
         ) : (
           // Modal overlay
           <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-transparent rounded-xl px-6 py-8 w-[90%] max-w-md text-center">
+            <div className="bg-transparent rounded-xl px-6 py-8 w-[90%] max-w-md text-center mt-[489px]">
               {isSubmitting ? (
                 <>
                   <div className="flex flex-col items-center gap-4">
@@ -210,7 +219,11 @@ export default function UserGameCreatePage() {
 
       {/* Game Code Modal */}
       {showGameCodeCopyModal && (
-        <CopyGameCode onClose={() => router.push("/")} code={gameCode} />
+        <CopyGameCode
+          onClose={() => router.push("/")}
+          code={gameCode}
+          shareLink={shareLink}
+        />
       )}
     </div>
   );

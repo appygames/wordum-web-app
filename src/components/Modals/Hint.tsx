@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setCoins } from "@/features/game/gameSlice";
 import { CrossIcon } from "../../../public/icons";
+import { useHintMutation } from "@/store/slices/userApiSlice";
 type Difficulty = "easy" | "medium" | "hard" | "expert";
 
 export default function Hint({
@@ -20,9 +21,21 @@ export default function Hint({
   const coins = useSelector((state: RootState) => state.game.coins);
   const [showAdModal, setShowAdModal] = useState(false);
 
-  const handleUseCoins = () => {
-    dispatch(setCoins(coins - 100));
-    handleHint();
+  const [hint] = useHintMutation();
+
+  const handleUseCoins = async () => {
+    const device_id = localStorage.getItem("device_id");
+    if (!device_id || coins < 100) return;
+
+    try {
+      const res = await hint({ device_id }).unwrap();
+      if (res.success) {
+        dispatch(setCoins(coins - 100));
+        handleHint();
+      }
+    } catch (error) {
+      console.error("Failed to deduct coins:", error);
+    }
   };
   useEffect(() => {
     if (showAdModal) {

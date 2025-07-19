@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Image from "next/image";
 
 export default function DailyWordumCard() {
   const [word, setWord] = useState("");
@@ -51,10 +50,9 @@ export default function DailyWordumCard() {
         {/* Card Container */}
         <div className="relative w-[334px] md:w-[224px] h-[587px] md:h-[400px]">
           {/* Card Image */}
-           <Image
+           <img
             src="/images/Card.png"
             alt="Card Background"
-            fill
             className="object-cover rounded-xl bg-transparent"
           />
 

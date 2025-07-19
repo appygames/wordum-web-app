@@ -27,9 +27,11 @@ import GameHeader from "./Header/GameHeader";
 import GameGrid from "./Grid/GameGrid";
 import Keyboard from "./Keyboard/Keyboard";
 import Hint from "./Modals/Hint";
+import { useSendGameResultMutation } from "@/store/slices/userApiSlice";
 
 export default function GameBoard({ level }: { level: Difficulty }) {
   const [soundOn, setSoundOn] = useState(true);
+  const [sendGameResult] = useSendGameResultMutation();
 
   const dispatch = useDispatch();
   const grid = useSelector((state: RootState) => state.game.grid);
@@ -103,15 +105,29 @@ export default function GameBoard({ level }: { level: Difficulty }) {
     setShowHintModal(false);
     setHintUsed(true);
   };
+
   useEffect(() => {
+    const sendResultToServer = async (won: boolean) => {
+      const device_id = localStorage.getItem("device_id");
+      if (!device_id) return;
+
+      try {
+        await sendGameResult({ device_id, won, difficulty: level }).unwrap();
+      } catch (error) {
+        console.error("Failed to send game result:", error);
+      }
+    };
+
     if (gameStatus === "won") {
       updateGameStats(level, "win");
       playSoundSafe("/sounds/you-win.mp3");
+      sendResultToServer(true);
     } else if (gameStatus === "lost") {
       updateGameStats(level, "loss");
       playSoundSafe("/sounds/lose.wav");
+      sendResultToServer(false);
     }
-  }, [gameStatus, playSoundSafe, attempts, level]);
+  }, [gameStatus, playSoundSafe, level, sendGameResult]);
   useEffect(() => {
     const sounds = [
       "/sounds/click.mp3",
