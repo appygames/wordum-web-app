@@ -65,7 +65,7 @@ export default function DailyWordumCard() {
                 <h2 className="text-2xl font-bold text-black mb-[5rem]">
                   {word}
                 </h2>
-                <p className="mt-2 text-lg text-black mb-[8rem]">
+                <p className="mt-2 text-lg text-black mb-[3rem]">
                   {definition}
                 </p>
               </>
