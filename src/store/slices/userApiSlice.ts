@@ -5,7 +5,7 @@ export const userApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://api.wordum.app/api/user",
     prepareHeaders: (headers) => {
-      headers.set("X-Api-key", "appykan-wordum-1234");
+      headers.set("X-Api-Key", "appykan-wordum-1234");
       return headers;
     },
   }),

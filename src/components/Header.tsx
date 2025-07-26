@@ -31,26 +31,40 @@ export default function Header() {
       </div>
 
       {/* Desktop Header */}
-      <img
-        src="/Logo/Logo.png"
-        alt="Logo"
-        className="hidden md:inline absolute top-4 left-7 h-12 w-auto"
-      />
+     <div className="hidden sm:flex items-center justify-between w-full h-full px-4">
+        {/* Left: Logo */}
+        <img
+          src="/Logo/Logo.png"
+          alt="Logo"
+          className="h-10 lg:h-14 md:h-12 w-auto"
+        />
 
-      <nav className="hidden md:flex font-nunito max-w-2xl mx-auto gap-12 items-center h-full text-white justify-center">
-        <Link className="text-xl font-bold hover:underline" href="/">HOME</Link>
-        <Link className="text-xl font-bold hover:underline" href="/game-info">HOW TO PLAY?</Link>
-        <Link className="text-xl font-bold hover:underline" href="/settings">SETTINGS</Link>
-        <Link className="text-xl font-bold hover:underline" href="/daily-wordum">DAILY WORDUM</Link>
-      </nav>
+        {/* Center: Navigation Links */}
+        <nav className="flex font-nunito items-center justify-center gap-6 md:gap-10 lg:gap-14 xl:gap-20  h-full text-white flex-wrap">
+          <Link className="text-sm md:text-base lg:text-lg  font-bold hover:underline whitespace-nowrap" href="/">
+            HOME
+          </Link>
+          <Link className="text-sm md:text-base lg:text-lg  font-bold hover:underline whitespace-nowrap" href="/game-info">
+            HOW TO PLAY?
+          </Link>
+          <Link className="text-sm md:text-base lg:text-lg  font-bold hover:underline whitespace-nowrap" href="/settings">
+            SETTINGS
+          </Link>
+          <Link className="text-sm md:text-base lg:text-lg  font-bold hover:underline whitespace-nowrap" href="/daily-wordum">
+            DAILY WORDUM
+          </Link>
+        </nav>
 
-      {/* Desktop Avatar */}
-      <img
-        src={avatar ?? undefined}
-        alt="Avatar"
-        className="hidden md:inline-block absolute top-4 right-7 w-10 h-10 rounded-full cursor-pointer border-2 border-white"
-        onClick={() => router.push("/profile")}
-      />
+        {/* Right: Avatar */}
+        {avatar && (
+          <img
+            src={avatar}
+            alt="Avatar"
+            className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12  rounded-full cursor-pointer border-2 border-white"
+            onClick={() => router.push("/profile")}
+          />
+        )}
+      </div>
     </header>
   );
 }
