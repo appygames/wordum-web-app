@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
+import CustomImage from "./Custom/CustomImage";
 
 export default function DailyWordumCard() {
   const [word, setWord] = useState("");
@@ -50,9 +51,11 @@ export default function DailyWordumCard() {
         {/* Card Container */}
         <div className="relative w-[334px] md:w-[224px] h-[587px] md:h-[400px]">
           {/* Card Image */}
-           <img
+           <CustomImage
             src="/images/Card.png"
             alt="Card Background"
+            width={240}
+            height={240}
             className="object-cover rounded-xl bg-transparent"
           />
 

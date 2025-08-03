@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { CrossIcon } from "../../public/icons";
 import { CoinIcon } from "../../public/icons";
+import CustomImage from "./Custom/CustomImage";
 
 export default function CreateGamePage() {
   const [selected, setSelected] = useState<number | null>(null);
@@ -27,11 +28,13 @@ export default function CreateGamePage() {
       {/* Mobile-only top bar */}
       <div className="flex justify-between items-center w-full px-4 py-4 md:hidden">
         {/* Avatar */}
-        <img
-          src={avatar ?? undefined}
+        <CustomImage
+          src={avatar ?? ''}
+          width={80}
+          height={80}
           alt="Avatar"
           className="w-9 h-9 rounded-full cursor-pointer"
-          onClick={() => router.push("/avatar")}
+          onClick={() => router.push("/profile/avatar")}
         />
 
         {/* Right section: Settings then Coin */}
