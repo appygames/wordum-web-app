@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { CrossIcon, CoinIcon } from "../../public/icons";
 import { useLazyGetGameByIdQuery } from "@/store/slices/gameApiSlice";
+import CustomImage from "./Custom/CustomImage";
 
 export default function CodeInput() {
   const [code, setCode] = useState("");
@@ -38,8 +39,10 @@ export default function CodeInput() {
     <div className="min-h-screen bg-pink-200 flex items-center justify-center relative">
       {/* Mobile Top Bar */}
       <div className="flex justify-between items-center w-full px-4 py-4 absolute top-0 md:hidden">
-        <img
-          src={avatar ?? undefined}
+        <CustomImage
+          src={avatar ?? ''}
+          width={80}
+          height={80}
           alt="Avatar"
           className="w-9 h-9 rounded-full cursor-pointer"
           onClick={() => router.push("/avatar")}

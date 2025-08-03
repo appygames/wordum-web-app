@@ -1,5 +1,10 @@
 import UserGameCreatePage from "@/components/UserGameCreate";
+import { Suspense } from "react";
 
 export default function GridPage(){
-    return <UserGameCreatePage />
+    return (
+    <Suspense>
+        <UserGameCreatePage />
+    </Suspense>
+    )
 }

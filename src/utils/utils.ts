@@ -29,6 +29,7 @@ export function cn(...inputs: ClassNameValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Sound On/Off
 export const playSound = (soundPath: string) => {
   if (localStorage.getItem("sound") === "false") return;
   const audio = new Audio(soundPath);

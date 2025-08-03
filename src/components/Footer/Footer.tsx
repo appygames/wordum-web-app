@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CustomImage from "../Custom/CustomImage";
 
 export default function Footer() {
   return (
@@ -23,9 +24,11 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img
+          <CustomImage
             src="/icons/dicord-icon.svg"
             alt="Discord"
+            width={60}
+            height={60}
             className="h-5 w-5 hover:opacity-70 transition-opacity"
           />
         </a>
@@ -34,9 +37,11 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img
+          <CustomImage
             src="/icons/insta-icon.svg"
             alt="Instagram"
+            width={60}
+            height={60}
             className="h-5 w-5 hover:opacity-70 transition-opacity"
           />
         </a>
@@ -45,9 +50,11 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img
+          <CustomImage
             src="/icons/twitter.svg"
             alt="Twitter"
+            width={60}
+            height={60}
             className="h-5 w-5 hover:opacity-70 transition-opacity"
           />
         </a>
@@ -56,9 +63,11 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img
+          <CustomImage
             src="/icons/facebook.svg"
             alt="Facebook"
+            width={60}
+            height={60}
             className="h-5 w-5 hover:opacity-70 transition-opacity"
           />
         </a>
@@ -67,9 +76,11 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img
+          <CustomImage
             src="/icons/telegram.svg"
             alt="Telegram"
+            width={60}
+            height={60}
             className="h-5 w-5 hover:opacity-70 transition-opacity"
           />
         </a>

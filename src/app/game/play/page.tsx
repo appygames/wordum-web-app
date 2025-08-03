@@ -1,12 +1,15 @@
-import GameBoard from "@/components/GameBoard";
+import GameBoard from "@/components/Playground/GameBoard";
 import { Difficulty } from "@/features/game/gameSlice";
 
-export default function PlayPage({
-  searchParams,
-}: {
-  searchParams: { level?: Difficulty };
-}) {
-  const level = searchParams.level || "easy";
+type PageProps = {
+  searchParams?: Promise<{
+    level?: Difficulty;
+  }>;
+};
+
+export default async function PlayPage({ searchParams }: PageProps) {
+  const resolvedParams = await searchParams;
+  const level: Difficulty = resolvedParams?.level ?? "easy";
 
   return <GameBoard level={level} />;
 }

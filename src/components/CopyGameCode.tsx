@@ -38,6 +38,7 @@ const CopyGameCode = ({ onClose, code, shareLink }: CopyGameCodeProps) => {
         setShareMessage("Shared successfully!");
       } catch (error) {
         // Fallback to copying the link
+        console.log("error: ", error)
         navigator.clipboard.writeText(shareUrl);
         setShareMessage("Share link copied!");
       }
