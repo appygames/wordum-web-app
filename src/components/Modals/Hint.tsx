@@ -5,6 +5,7 @@ import { RootState } from "@/store";
 import { setCoins } from "@/features/game/gameSlice";
 import { CrossIcon } from "../../../public/icons";
 import { useHintMutation } from "@/store/slices/userApiSlice";
+import CustomImage from "../Custom/CustomImage";
 type Difficulty = "easy" | "medium" | "hard" | "expert";
 
 export default function Hint({
@@ -72,9 +73,11 @@ export default function Hint({
         <div className="p-4 w-full max-w-md md:max-w-xl flex flex-col items-center text-center">
           <div className="relative px-4 py-2 mb-6">
             <div className="relative w-25 h-15">
-              <img
+              <CustomImage
                 src="/icons/coins.png"
                 alt="Coins"
+                width={80}
+                height={80}
                 className="w-full h-full"
               />
               <span className="absolute inset-0 flex items-center justify-center text-[#2258B9] font-extrabold text-sm">

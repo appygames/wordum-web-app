@@ -1,30 +1,24 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { ArrowLeftIcon } from "../../public/icons";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { ArrowLeftIcon } from "../../../public/icons";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setAvatar } from "@/store/userSlice";
 import { useUpdateUserMutation } from "@/store/slices/userApiSlice";
 import { useState } from "react";
 import { useEffect } from "react";
+import { avatarData } from "@/constants/assets";
+import CustomImage from "../Custom/CustomImage";
 
-const avatars = [
-  "/avatars/profile-1.png",
-  "/avatars/profile-2.png",
-  "/avatars/profile-3.png",
-  "/avatars/profile-4.png",
-  "/avatars/profile-5.png",
-  "/avatars/profile-6.png",
-];
-
-export default function AvatarPage() {
+export default function ChangeAvatar() {
   const router = useRouter();
   const dispatch = useDispatch();
   const avatar = useSelector((state: RootState) => state.user.avatar);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
+  
   useEffect(() => {
     if (avatar) setSelectedAvatar(avatar);
   }, [avatar]);
@@ -44,27 +38,12 @@ export default function AvatarPage() {
 
     try {
       await updateUser({ device_id, avatar: selectedAvatar }).unwrap();
-    } catch (err: any) {
-      if (err?.status === 404) {
-        // User not found, create the user first
-        try {
-          await fetch("/api/user/create", {
-            method: "POST",
-            body: JSON.stringify({ device_id, avatar: selectedAvatar }),
-            headers: { "Content-Type": "application/json" },
-          });
-        } catch (createErr) {
-          console.error("Failed to create user automatically:", createErr);
-          return;
-        }
-      } else {
-        console.error("Failed to update avatar:", err);
-        return;
-      }
+    } catch (err) {
+      console.log(err)
     }
 
     // Update Redux + LocalStorage + Redirect
-    localStorage.setItem("avatar", selectedAvatar);
+    // localStorage.setItem("avatar", selectedAvatar);
     dispatch(setAvatar(selectedAvatar));
     router.push("/profile");
   };
@@ -88,6 +67,11 @@ export default function AvatarPage() {
       </div>
 
       <div className="flex-1 w-full flex flex-col items-center justify-start md:justify-center p-4 md:p-10 relative">
+        
+        <div className="hidden sm:block text-2xl font-bold text-black mb-10">
+          {avatar ? "Change Avatar" : "Choose Avatar"}
+        </div>
+        
         <div className="md:hidden flex items-center gap-4 w-full mb-6">
           <div onClick={() => router.back()}>
             <ArrowLeftIcon />
@@ -109,22 +93,26 @@ export default function AvatarPage() {
         </div>
 
         <div className="mb-10">
-          <img
-            src={selectedAvatar ?? undefined}
+          <CustomImage
+            src={selectedAvatar ?? ''}
+            width={120}
+            height={120}
             alt="Selected Avatar"
             className="w-36 h-36 rounded-full border-4 border-[#2258B9] object-cover"
           />
         </div>
 
         <div className="grid grid-cols-3 md:grid-cols-6 gap-4 md:gap-6">
-          {avatars.map((src, index) => (
-            <img
+          {avatarData.map((avatar, index) => (
+            <CustomImage
               key={index}
-              src={src}
+              src={avatar.uri}
+              width={80}
+              height={80}
               alt={`avatar-${index}`}
-              onClick={() => handleAvatarSelect(src)}
+              onClick={() => handleAvatarSelect(avatar.uri)}
               className={`w-24 h-24 rounded-full border-4 cursor-pointer object-cover ${
-                selectedAvatar === src
+                selectedAvatar === avatar.uri
                   ? "border-[#2258B9]"
                   : "border-transparent"
               } hover:border-[#2258B9]`}

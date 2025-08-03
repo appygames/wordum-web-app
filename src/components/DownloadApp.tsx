@@ -1,8 +1,9 @@
 "use client";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
 import { IoIosArrowBack } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import CustomImage from "./Custom/CustomImage";
 
 export default function DownloadApp() {
   const router = useRouter();
@@ -29,17 +30,21 @@ export default function DownloadApp() {
 
           <div className="flex flex-col md:flex-row flex-wrap gap-4">
             <button className="flex items-center border border-black gap-4 md:gap-5 bg-white rounded-2xl md:rounded-xl py-4 px-21 md:py-3 md:px-8 font-bold shadow-lg transition-all duration-300 hover:scale-105 text-black text-xl md:text-base">
-              <img
+              <CustomImage
                 src="/icons/PlayStore.svg"
                 alt="playstore"
+                width={120}
+                height={120}
                 className="h-13 md:h-9"
               />
               Play Store
             </button>
             <button className="flex items-center border border-black gap-4 md:gap-5 bg-white rounded-2xl md:rounded-xl py-4 px-21 md:py-3 md:px-8 font-bold shadow-lg transition-all duration-300 hover:scale-105 text-black text-xl md:text-base">
-              <img
+              <CustomImage
                 src="/icons/AppStore.svg"
                 alt="appstore"
+                width={120}
+                height={120}
                 className="h-13 md:h-9"
               />
               App Store

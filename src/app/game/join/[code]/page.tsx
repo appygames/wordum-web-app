@@ -14,12 +14,12 @@ import {
 import { playSound } from "@/utils/utils";
 import { RootState } from "@/store";
 import Resume from "@/components/Modals/Resume";
-import HowToPlay from "@/components/HowToPlay";
+import HowToPlay from "@/components/HowToPlay/HowToPlay";
 import GameModal from "@/components/Modals/GameModal";
 import Hint from "@/components/Modals/Hint";
 import GameHeader from "@/components/Header/GameHeader";
-import GameGrid from "@/components/Grid/GameGrid";
-import Keyboard from "@/components/Keyboard/Keyboard";
+import GameGrid from "@/components/Playground/GameGrid";
+import Keyboard from "@/components/Playground/Keyboard";
 import { useSendGameResultMutation } from "@/store/slices/userApiSlice";
 import { useGetGameByIdQuery } from "@/store/slices/gameApiSlice";
 

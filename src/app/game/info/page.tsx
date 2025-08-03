@@ -1,6 +1,5 @@
-// app/game-info/page.tsx
 "use client";
-import HowToPlay from "@/components/HowToPlay";
+import HowToPlay from "@/components/HowToPlay/HowToPlay";
 import { useRouter } from "next/navigation";
 
 export default function GameInfo() {

@@ -1,9 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { FaInstagram, FaFacebook, FaTelegram, FaDiscord } from "react-icons/fa";
 import { ArrowLeftIcon } from "../../public/icons";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
 
 export default function StorePage() {
   const router = useRouter();

@@ -16,6 +16,6 @@ export default function ConfirmationPage() {
   };
 
   return (
-    <ConfirmationModal onClose={handleClose} onConfirm={handleConfirm} />
+    <ConfirmationModal onClose={handleClose} onConfirm={handleConfirm} grid={[]} />
   );
 }
