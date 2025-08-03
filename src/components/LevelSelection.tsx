@@ -6,6 +6,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { CrossIcon } from "../../public/icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import CustomImage from "./Custom/CustomImage";
 
 export default function LevelSelection({ onClose }: { onClose: () => void }) {
   const router = useRouter();
@@ -21,8 +22,10 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
             style={{ cursor: "pointer", color: "#000" }}
             onClick={() => router.push("/")}
           />
-          <img
-            src={avatar ?? undefined}
+          <CustomImage
+            src={avatar ?? ''}
+            width={80}
+            height={80}
             alt="Avatar"
             className="w-9 h-9 rounded-full cursor-pointer"
             onClick={() => router.push("/profile")}

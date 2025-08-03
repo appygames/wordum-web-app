@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaInstagram, FaFacebook, FaTelegram, FaDiscord } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { ArrowLeftIcon } from "../../public/icons";
+import { ArrowLeftIcon } from "../../../public/icons";
 import { cn } from "@/utils/utils";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
 
 export default function SettingsPage() {
   const router = useRouter();

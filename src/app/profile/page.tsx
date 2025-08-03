@@ -1,8 +1,5 @@
-// app/profile/page.tsx
-'use client';
-
-import ProfileCard from '@/components/ProfileCard';
+import Profile from '@/components/Profile/Profile';
 
 export default function ProfilePage() {
-  return <ProfileCard />;
+  return <Profile />;
 }

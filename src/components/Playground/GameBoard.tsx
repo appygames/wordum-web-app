@@ -1,8 +1,8 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import Resume from "./Modals/Resume";
+import Resume from "../Modals/Resume";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store";
+import { RootState } from "../../store";
 import {
   setSelectedLetter,
   setDifficulty,
@@ -20,14 +20,15 @@ import {
   updateGameStats,
   wordPool,
 } from "@/utils/utils";
-import GameModal from "./Modals/GameModal";
-import HowToPlay from "./HowToPlay";
-import Reset from "./Modals/Reset";
-import GameHeader from "./Header/GameHeader";
-import GameGrid from "./Grid/GameGrid";
-import Keyboard from "./Keyboard/Keyboard";
-import Hint from "./Modals/Hint";
+import GameModal from "../Modals/GameModal";
+import HowToPlay from "../HowToPlay/HowToPlay";
+import Reset from "../Modals/Reset";
+import GameHeader from "../Header/GameHeader";
+import GameGrid from "./GameGrid";
+import Keyboard from "./Keyboard";
+import Hint from "../Modals/Hint";
 import { useSendGameResultMutation } from "@/store/slices/userApiSlice";
+import { game_complete_sound, transfer_sound } from "@/constants/assets";
 
 export default function GameBoard({ level }: { level: Difficulty }) {
   const [soundOn, setSoundOn] = useState(true);
@@ -53,14 +54,16 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   const [showModal, setShowModal] = useState(false);
   const [showResume, setShowResume] = useState(false);
   const [hintUsed, setHintUsed] = useState(false);
+  
   const playSoundSafe = useCallback(
     (sound: string) => {
       if (soundOn) playSound(sound);
     },
     [soundOn]
   );
+
   const handleKeyClick = (char: string, index: number) => {
-    playSoundSafe("/sounds/click.mp3");
+    playSoundSafe(transfer_sound);
     setCurrentChar(index);
     dispatch(setSelectedLetter({ char, index }));
   };
@@ -68,7 +71,7 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   const handleCircleClick = (row: number, col: number) => {
     if (!selectedLetter) return;
 
-    playSoundSafe("/sounds/place.mp3");
+    playSoundSafe(transfer_sound);
     dispatch(
       evaluateLetter({
         selectedLetter: selectedLetter,
@@ -120,27 +123,14 @@ export default function GameBoard({ level }: { level: Difficulty }) {
 
     if (gameStatus === "won") {
       updateGameStats(level, "win");
-      playSoundSafe("/sounds/you-win.mp3");
+      playSoundSafe(game_complete_sound);
       sendResultToServer(true);
     } else if (gameStatus === "lost") {
       updateGameStats(level, "loss");
-      playSoundSafe("/sounds/lose.wav");
+      playSoundSafe(game_complete_sound);
       sendResultToServer(false);
     }
-  }, [gameStatus, playSoundSafe, level, sendGameResult]);
-  useEffect(() => {
-    const sounds = [
-      "/sounds/click.mp3",
-      "/sounds/place.mp3",
-      "/sounds/you-win.mp3",
-      "/sounds/lose.wav",
-      "/sounds/error.mp3",
-    ];
-    sounds.forEach((src) => {
-      const audio = new Audio(src);
-      audio.load();
-    });
-  }, []);
+  }, [gameStatus, level, playSoundSafe, sendGameResult]);
 
   useEffect(() => {
     const storedSound = localStorage.getItem("sound");
@@ -150,9 +140,10 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   }, []);
 
   // Save sound state on change
-  useEffect(() => {
-    localStorage.setItem("sound", String(soundOn));
-  }, [soundOn]);
+  // useEffect(() => {
+  //   localStorage.setItem("sound", String(soundOn));
+  // }, [soundOn]);
+  
   return (
     <div className="h-[100dvh] w-full flex flex-col justify-between items-center bg-[#F4C9EC]">
       {/* Header Section */}
