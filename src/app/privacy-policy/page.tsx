@@ -1,8 +1,8 @@
-import TermAndConditions from "@/components/TermAndConditions";
+import PrivacyPolicy from "@/components/Footer/PrivacyPolicy";
 import React from "react";
 
 function page() {
-  return <TermAndConditions />;
+  return <PrivacyPolicy />;
 }
 
 export default page;

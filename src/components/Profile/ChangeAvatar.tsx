@@ -106,7 +106,7 @@ export default function ChangeAvatar() {
           {avatarData.map((avatar, index) => (
             <CustomImage
               key={index}
-              src={avatar.uri}
+              src={avatar?.uri}
               width={80}
               height={80}
               alt={`avatar-${index}`}

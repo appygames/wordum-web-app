@@ -10,7 +10,7 @@ export default function Footer() {
           PRIVACY POLICY
         </a>
         <Link
-          href="#"
+          href="/terms-conditions"
           className="font-bold text-sm hover:underline"
         >
           TERMS OF SERVICE

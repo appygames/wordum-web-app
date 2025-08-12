@@ -2,12 +2,13 @@ import { playSound } from "@/utils/utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type Difficulty = "easy" | "medium" | "hard" | "expert";
+export type NullDifficulty = Difficulty | null;
 export type LetterFeedback = "green" | "yellow" | "red" | "";
 export type GameStatus = "playing" | "won" | "lost";
 interface GameState {
   grid: string[][];
   selectedLetter: { char: string; index: number } | null;
-  difficulty: Difficulty;
+  difficulty: NullDifficulty;
   targetWords: string[];
   gameStatus: GameStatus;
   attempts: number;
@@ -18,17 +19,17 @@ interface GameState {
   coins: number;
 }
 
-const getInitialGrid = (difficulty: Difficulty): string[][] => {
+const getInitialGrid = (difficulty: NullDifficulty): string[][] => {
   const size = difficulty === "easy" || difficulty === "medium" ? 4 : 5;
   return Array.from({ length: 4 }, () => Array(size).fill(""));
 };
-const getInitialPlacedIndexes = (difficulty: Difficulty): number[][] =>
+const getInitialPlacedIndexes = (difficulty: NullDifficulty): number[][] =>
   Array.from({ length: 4 }, () =>
     Array(difficulty === "easy" || difficulty === "medium" ? 4 : 5).fill(null)
   );
 
 const initialState: GameState = {
-  difficulty: "easy",
+  difficulty: null,
   grid: getInitialGrid("easy"),
   selectedLetter: null,
   targetWords: [],
