@@ -1,17 +1,18 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";
-import { CrossIcon } from "../../public/icons";
+import { CrossIcon } from "../../../public/icons";
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
-import CustomImage from "./Custom/CustomImage";
+import { RootState } from "../../store";
+import CustomImage from "../Custom/CustomImage";
+import SelectLevelButton from "../Custom/SelectLevelButton";
 
 export default function LevelSelection({ onClose }: { onClose: () => void }) {
   const router = useRouter();
-  const [level, setLevel] = useState("");
+  // const [level, setLevel] = useState("");
   const avatar = useSelector((state: RootState) => state.user.avatar);
+  const level = useSelector((state: RootState) => state.game.difficulty);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-[#F4C9EC] flex flex-col items-center justify-center">
@@ -48,47 +49,12 @@ export default function LevelSelection({ onClose }: { onClose: () => void }) {
           <h2 className="text-black font-bold text-2xl mb-9 md:text-3xl md:mb-10">
             Choose your preferred level
           </h2>
-          <button
-            className={`h-12 w-full max-w-72 md:h-14 md:w-[58%] text-xl rounded-lg font-bold cursor-pointer transition-all ${
-              level === "easy"
-                ? "bg-[#ffffff] text-[#2258B9] border-2 border-[#2258B9]"
-                : "bg-[#2258B9] text-white "
-            }`}
-            onClick={() => setLevel("easy")}
-          >
-            EASY
-          </button>
 
-          <button
-            className={`h-12 w-full max-w-72 md:h-14 md:w-[58%] text-xl rounded-lg  cursor-pointer font-bold translate-0.5 ${
-              level === "medium"
-                ? "bg-[#ffffff] text-[#2258B9] border-2 border-[#2258B9]"
-                : "bg-[#2258B9] text-white "
-            }`}
-            onClick={() => setLevel("medium")}
-          >
-            MEDIUM
-          </button>
-          <button
-            className={`h-12 w-full max-w-72 md:h-14 md:w-[58%] text-xl rounded-lg  cursor-pointer font-bold translate-0.5 ${
-              level === "hard"
-                ? "bg-[#ffffff] text-[#2258B9] border-2 border-[#2258B9]"
-                : "bg-[#2258B9] text-white "
-            }`}
-            onClick={() => setLevel("hard")}
-          >
-            HARD
-          </button>
-          <button
-            className={`h-12 w-full max-w-72 md:h-14 md:w-[58%] text-xl rounded-lg cursor-pointer font-bold translate-0.5 ${
-              level === "expert"
-                ? "bg-[#ffffff] text-[#2258B9] border-2 border-[#2258B9]"
-                : "bg-[#2258B9] text-white "
-            }`}
-            onClick={() => setLevel("expert")}
-          >
-            EXPERT
-          </button>
+          <SelectLevelButton level="easy" />
+          <SelectLevelButton level="medium" />
+          <SelectLevelButton level="hard" />
+          <SelectLevelButton level="expert" />
+
           <button
             className={`h-16 w-full mt-5 max-w-80 text-xl rounded-lg font-bold cursor-pointer transition-all ${
               level

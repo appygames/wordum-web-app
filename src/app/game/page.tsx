@@ -1,5 +1,5 @@
 "use client";
-import LevelSelection from "@/components/LevelSelection";
+import LevelSelection from "@/components/Playground/LevelSelection";
 import { useRouter } from "next/navigation";
 
 export default function PlayPage() {

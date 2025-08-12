@@ -57,7 +57,8 @@ export default function UserGameCreatePage() {
       }).unwrap();
 
       setGameCode(data?.code);
-      setShareLink(data?.share_link);
+      // setShareLink(data?.share_link);
+      setShareLink(`${window.location.origin}/game/join/${data?.code}`);
       setShowModal(false);
       setShowGameCodeCopyModal(true);
       setSubmissionMessage("Submitted!");
