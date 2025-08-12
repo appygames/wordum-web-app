@@ -17,8 +17,7 @@ import {
 import {
   getRandomWords,
   playSound,
-  updateGameStats,
-  wordPool,
+  updateGameStats
 } from "@/utils/utils";
 import GameModal from "../Modals/GameModal";
 import HowToPlay from "../HowToPlay/HowToPlay";
@@ -29,6 +28,7 @@ import Keyboard from "./Keyboard";
 import Hint from "../Modals/Hint";
 import { useSendGameResultMutation } from "@/store/slices/userApiSlice";
 import { game_complete_sound, transfer_sound } from "@/constants/assets";
+import wordsData from '../../constants/json/words.json'
 
 export default function GameBoard({ level }: { level: Difficulty }) {
   const [soundOn, setSoundOn] = useState(true);
@@ -92,7 +92,8 @@ export default function GameBoard({ level }: { level: Difficulty }) {
   const resetGame = useCallback(() => {
     dispatch(resetFeedback());
     dispatch(setDifficulty(level as Difficulty));
-    const selectedWords = getRandomWords(wordPool[level as Difficulty]);
+    const words = level === "easy" || level === "medium" ? wordsData.fourWords : wordsData.fiveWords
+    const selectedWords = getRandomWords(words);
     setWords(selectedWords);
     dispatch(setTargetWords(selectedWords));
     if (level === "easy" || level === "hard") {
